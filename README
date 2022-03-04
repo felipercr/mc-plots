@@ -1,0 +1,33 @@
+Segue as instruções para os próximos passos.
+
+O input do Serpent muda um pouco, então as strings para as mudanças envolvendo a densidade e a temperatura provavelmente vão estar em posições diferentes.
+
+No arquivo res.m a medida que o Serpent faz a queima do combustível, ele escreve para cada ciclo de queima as grandezas que você já tinha ajeitado para armazenar. São elas:
+
+ANA_KEFF                  (idx, [1:   6]) = [  9.82507E-01 8.3E-05  1.53031E-02 8.0E-05  4.87127E-05 0.00177 ];
+
+FWD_ANA_BETA_ZERO         (idx, [1:  14]) = [  3.31792E-03 0.00112  2.71087E-04 0.00394  8.13454E-04 0.00229  6.05717E-04 0.00264  1.29963E-03 0.00176  2.75761E-04 0.00394  5.22685E-05 0.00878 ];
+
+ADJ_IFP_GEN_TIME          (idx, [1:   6]) = [  1.10890E-06 0.00062  1.10851E-06 0.00062  1.23128E-06 0.00980 ];
+
+ADJ_IFP_ANA_BETA_EFF      (idx, [1:  14]) = [  3.17636E-03 0.00703  2.69605E-04 0.02475  7.75192E-04 0.01431  5.69395E-04 0.01657  1.24437E-03 0.01102  2.66428E-04 0.02388  5.13728E-05 0.05702 ];
+
+O arquivo logserpent muda um pouco, uma vez que ele avalia os ciclos de queima, mas não precisamos de nada do arquivo logserpent dessa vez, é só uma curiosidade.
+
+Nessa parte o mais importante é o arquivo dep.m, pois é nesse arquivo que vamos avaliar o inventário dos materiais sensíveis dentro do reator. Conforme você vai conseguir avaliar com o manual e a wiki do Serpent (links enviados na nossa conversa do meet), precisamos armazenar alguns dos valores desse arquivo dep.m. São eles, os volumes do fuel e do blanket, os seguintes isótopos dos MDENS do fuel:
+
+Th232, Pa231, Pa232, Pa233, U232, U233, U234, U235, U236, U237, U238, U239, U240, U241, Np235, Np236, Np237, Np238, Np239, Pu236, Pu237, Pu238, Pu239, Pu240, Pu241, Pu242, Pu243, Pu244, Am241, Am242, Am242m, Am243, Am244, Am244m, Cm240, Cm241, Cm242, Cm243, Cm244, Cm245, Cm246, Cm247, Cm248, Cm249, Cm250.
+
+Depois de armazenar essas variáveis (não pode ser variável temporária, vamos usar esses valores depois), precisamos somar as quantidades dos isótopos, por exemplo, somar tudo que é Pa (Pa231, Pa232, Pa233) e armazenar esses valores. Precisamos multiplicar os valores do MDENS e da soma pelo volume do fuel, aí vamos obter as massas em g desses materiais. Precisamos passar pra kg.
+
+Lembrando que cada coluna do dep.m corresponde a um momento no passo temporal da simulação e pra avaliarmos a evolução da composição dentro do reator, precisamos de todas as colunas dessas variáveis que eu expliquei acima. Inclusive, o código precisa ficar genérico com relação ao número de colunas, pois talvez tenhamos que variar o passo temporal, variando assim o número de colunas...
+
+Do blanket, precisamos fazer o mesmo procedimento, mas somente para o Pa233, U233, U235, Np237, Np239, Pu239, Am241, Cm244. Nesse caso, não é necessário agrupar por material, ou seja, não precisa somar o U233 e U235, só vamos precisar dos isótopos separados nesse caso.
+
+1. Usar o NP para extrair as matrizes: np.loadtxt(nome, skiprows, max_rows, data_types = "str")
+
+https://numpy.org/doc/stable/reference/generated/numpy.loadtxt.html
+https://pandas.pydata.org/docs/reference/api/pandas.read_table.html
+https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html
+https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.add.html
+https://stackoverflow.com/questions/37947479/pandas-sum-two-rows-of-dataframe-without-rearranging-dataframe

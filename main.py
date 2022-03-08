@@ -1,13 +1,11 @@
-from get_values import *
+from get_data import *
+from plot import *
+
+#('msfr_mix1_benchmark_burn_dep.m', 'msfr_mix1_benchmark_burn')
 
 def main():
-    f_mass = fuel_mass(14)
-    print('\n\n')
-    print(f_mass)
-    print('\n\n')
-    b_mass = blanket_mass(14)
-    print(b_mass)
-
+    print(resm_values('msfr_mix1_benchmark_burn_res.m', 'msfr_mix1_benchmark_burn'))
+    pass
 
 if __name__ == "__main__":
     main()

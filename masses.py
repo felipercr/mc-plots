@@ -1,6 +1,6 @@
+from io_data import timesteps
 import numpy as np
 import pandas as pd
-import re
 
 #intervals = number of time intervals
 #row = row where the element is located -> find it automatically?
@@ -108,67 +108,3 @@ def blanket_mass(out_file, inp_file, intervals):
 
     return mass
 
-
-def timesteps(file):
-    with open(file, 'r') as f:
-        for line in f:
-            if re.search("\Adaystep", line):
-                daystep = line.split()
-    
-    daystep = daystep[1:len(daystep)]
-
-    years = []
-    for x in range(len(daystep)+1):
-        sum = 0
-        for y in range(x):
-            sum = sum + int(daystep[y])
-        sum = sum / 365
-        years.append(sum)
-
-    return years
-
-
-def resm_values(out_file, inp_file):
-    f = open(out_file, 'r')
-
-    keff         = []
-    keff_sd      = []
-    beta_zero    = []
-    beta_zero_sd = []
-    gen_time     = []
-    gen_time_sd  = []
-    beta_eff     = []
-    beta_eff_sd  = []
-
-    for line in f:
-        if re.search("ANA_KEFF", line):
-            keff.append(float(line.split()[6]))
-            keff_sd.append(float(line.split()[7]))
-
-        if re.search("FWD_ANA_BETA_ZERO", line):
-            beta_zero.append(float(line.split()[6]))
-            beta_zero_sd.append(float(line.split()[7]))
-
-        if re.search("ADJ_IFP_GEN_TIME", line):
-            gen_time.append(float(line.split()[6]))
-            gen_time_sd.append(float(line.split()[7]))
-        
-        if re.search("ADJ_IFP_ANA_BETA_EFF", line):
-            beta_eff.append(float(line.split()[6]))
-            beta_eff_sd.append(float(line.split()[7]))
-
-    f.close()
-
-    data = [keff, beta_zero, gen_time, beta_eff, 
-            keff_sd, beta_zero_sd, gen_time_sd, beta_eff_sd]
-
-    df = pd.DataFrame(
-            data, 
-            index=['keff', 'beta_zero', 'gen_time', 'beta_eff', 
-                'keff_sd', 'beta_zero_sd', 'gen_time_sd', 'beta_eff_sd'],
-            columns=timesteps(inp_file)
-        )
-    
-    df.transpose()
-
-    return df

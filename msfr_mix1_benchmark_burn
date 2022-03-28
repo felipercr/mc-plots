@@ -26,7 +26,7 @@ cell 8 0 outside  7 % Outside world
 
 %-----Materials------
 %-----Table 7 from Benchmark-----
-mat fuel  -4.1249 burn 1 tmp 900.0 vol 1.8E07 rgb 250 250 50
+mat fuel -4.1249 burn 1 tmp 900.0 vol 1.8E07 rgb 250 250 50
 Li-7.09c        77.499225
 Li-6.09c        0.000775
 F-19.09c       167.50

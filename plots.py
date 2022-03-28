@@ -1,5 +1,7 @@
-from get_data import *
+from masses import *
+from io_data import *
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 def flow_rate(out_file, inp_file):
@@ -85,11 +87,11 @@ def u233total(out_file, inp_file):
     plt.plot(bench_time, 
             [5237.78, 5238.88, 5380, 5573.34, 5575.56, 6091.11, 6098.33, 6713.33, 
             7566.67, 8491.11, 8704.26, 8704.44],
-            'o', label = 'U Total (Benchmark)')
+            'x', label = 'U Total (Benchmark)', color = 'k')
     plt.plot(bench_time, 
             [5104.01, 5104.44, 5157.78, 5184.44, 5184.52, 5176.03, 5175.56, 5104.44,
             4988.89, 4855.56, 4811.11, 4810.94],
-            'o', label = '233U (Benchmark)')
+            '+', label = '233U (Benchmark)', color = 'k')
     plt.xscale('log')
     plt.xlim(0.5, 100)
 
@@ -130,15 +132,14 @@ def u232pa231(out_file, inp_file):
             10.0476, 19.9143, 20.0056, 49.731, 49.959, 99.245, 99.928]
 
     plt.plot(mass, 'o-', label = mass.columns)
-    plt.gca().set_prop_cycle(None)
     plt.plot(bench_time, 
             [0.1252, 0.1269, 0.3805, 0.3822, 1.3832, 5.5554, 5.5972, 10.5539, 10.5871, 
             13.9668, 13.9783, 14.9387, 14.9401, 15.009, 15.0087], 
-            'o', label = '232U ENDF-B6 (Benchmark)')
+            'x', label = '232U ENDF-B6 (Benchmark)', color = 'black')
     plt.plot(bench_time, 
             [1.3903, 1.3998, 2.8883, 2.8996, 5.36, 10.5654, 10.6093, 15.1649, 15.1935, 
             18.1, 18.1094, 18.8133, 18.814, 18.8615, 18.8616], 
-            'o', label = '231Pa ENDF-B7 (Benchmark)')
+            '+', label = '231Pa ENDF-B7 (Benchmark)', color = 'black')
 
     plt.xscale('log')
     plt.xlim(0.5, 100)
@@ -171,27 +172,26 @@ def pu(out_file, inp_file):
             49.8258, 49.9757, 50.0395, 50.1359, 100.0164, 100.0354, 100.0403, 100.093]
 
     plt.plot(mass, 'o-', label = mass.columns)
-    plt.gca().set_prop_cycle(None)
     plt.plot(bench_time, 
             [0.575, 0.575, 0.585, 0.585, 0.974, 0.974, 0.974, 1.021, 1.437, 1.437, 1.456, 1.456, 
             3.174, 3.204, 3.322, 3.437, 16.942, 17.099, 17.223, 17.228, 107.462, 107.661, 107.746, 
             107.874, 174.25, 174.275, 174.282, 174.352],
-            'o', label = '238Pu (Benchmark)')
+            's', label = '238Pu (Benchmark)', color = 'k')
     plt.plot(bench_time, 
             [0.417, 0.417, 0.439, 0.439, 1.314, 1.314, 1.314, 1.344, 1.731, 1.731, 1.748, 1.748, 
             2.436, 2.448, 2.46, 2.472, 4.487, 4.498, 4.506, 4.508, 37.583, 37.749, 37.82, 37.882, 
             69.919, 69.931, 69.934, 69.968], 
-            'o', label = '239Pu (Benchmark)')
+            '^', label = '239Pu (Benchmark)', color = 'k')
     plt.plot(bench_time, 
             [0.439, 0.439, 0.446, 0.446, 0.729, 0.729, 0.729, 0.749, 1.017, 1.017, 1.031, 1.031, 
             1.576, 1.585, 1.595, 1.6, 2.162, 2.165, 2.189, 2.19, 19.208, 19.294, 19.33, 19.385, 
             53.495, 53.508, 53.512, 53.548],
-            'o', label = '240Pu (Benchmark)')
+            '+', label = '240Pu (Benchmark)', color = 'k')
     plt.plot(bench_time, 
             [0.585, 0.585, 0.585, 0.585, 0.582, 0.582, 0.582, 0.582, 0.578, 0.578, 0.578, 0.578, 
             0.717, 0.723, 0.729, 0.735, 1.717, 1.722, 1.726, 1.726, 4.884, 4.901, 4.909, 4.92, 
             10.971, 10.973, 10.973, 10.98],
-            'o', label = '241Pu (Benchmark)')
+            '*', label = '241Pu (Benchmark)', color = 'k')
 
     plt.xlim(0, 100)
 
@@ -435,6 +435,38 @@ def u322_tru(out_file, inp_file):
     plt.clf()
 
 
+def FIR_keff(out_file, inp_file):
+    out = neutronic_output(out_file, inp_file)
+    keff = out.plt_data[['keff']]
+    plt.plot(keff, '.-')
+    x = keff.index.to_numpy()
+    y = keff['keff'].to_numpy()
+    plt.errorbar(x, y, out.keff_sd, linestyle = 'None', 
+                color = 'black', capsize = 3)
+
+    plt.xlim(0, 200)
+    plt.xlabel('Tempo de Operação (Anos)')
+    plt.ylabel('Fator de Multiplicação')
+    plt.savefig('FIR_keff.png', bbox_inches='tight')
+    plt.clf()
+
+
+def FIR_keff_tru(out_file, inp_file):
+    out = neutronic_output(out_file, inp_file)
+    keff = out.plt_data[['keff']]
+    plt.plot(keff, '.-')
+    x = keff.index.to_numpy()
+    y = keff['keff'].to_numpy()
+    plt.errorbar(x, y, out.keff_sd, linestyle = 'None', 
+                color = 'black', capsize = 3)
+
+    plt.xlim(0, 200)
+    plt.xlabel('Tempo de Operação (Anos)')
+    plt.ylabel('Fator de Multiplicação')
+    plt.savefig('FIR_keff_tru.png', bbox_inches='tight')
+    plt.clf()
+
+
 def plot_values(out_file, inp_file):
     flow_rate(out_file, inp_file)
     u233total(out_file, inp_file)
@@ -448,3 +480,13 @@ def plot_tru_values(out_file, inp_file):
     pu_tru(out_file, inp_file)
     u_tru(out_file, inp_file)
     u322_tru(out_file, inp_file)
+
+
+def main():
+    plot_values('msfr_mix1_benchmark_burn_dep.m', 'msfr_mix1_benchmark_burn')
+    plot_tru_values('msfr_mix2_benchmark_burn_dep.m', 'msfr_mix1_benchmark_burn')
+    FIR_keff('msfr_mix1_benchmark_burn_res.m', 'msfr_mix1_benchmark_burn')
+    #FIR_keff_tru()
+
+if __name__ == "__main__":
+    main()

@@ -83,7 +83,7 @@ def blanket_mass(out_file, inp_file, intervals):
     #1. get the blanket volume
     vol = volume(out_file, 'blanket', intervals)
 
-    #2. get the mass of the necessary elements/isotopes in Kg 
+    #2. get the density of the necessary elements/isotopes in kg/dm^3 
     Pa233 = isotopes_density(out_file, intervals, 16065, 1) * vol
     U233  = isotopes_density(out_file, intervals, 16067, 1) * vol
     U235  = isotopes_density(out_file, intervals, 16069, 1) * vol
@@ -108,3 +108,55 @@ def blanket_mass(out_file, inp_file, intervals):
 
     return mass
 
+def fir_values(out_file, inp_file, intervals):
+    #1. get the density of the necessary elements/isotopes
+    Pa233 = isotopes_density(out_file, intervals, 88583, 1) 
+    U233  = isotopes_density(out_file, intervals, 88585, 1) 
+    U235  = isotopes_density(out_file, intervals, 88587, 1) 
+    Np237 = isotopes_density(out_file, intervals, 88596, 1) 
+    Np239 = isotopes_density(out_file, intervals, 88598, 1) 
+    Pu239 = isotopes_density(out_file, intervals, 88602, 1) 
+    Am241 = isotopes_density(out_file, intervals, 88608, 1) 
+    Cm244 = isotopes_density(out_file, intervals, 88618, 1) 
+
+    #2. Get the first U233 value
+    first_U233 = U233[0]
+
+    #3. Sum all the values
+    sum = Pa233 + U233 + U235 + Np237 + Np239 + Pu239 + Am241 + Cm244
+
+    #4. Divide the sum by the first U233 value
+    fir_values = sum / first_U233
+    fir_values = np.vstack([fir_values])
+
+    #5. Transform in a dataframe
+    years = timesteps(inp_file)
+    fir = pd.DataFrame(
+            fir_values,
+            index = ['FIR'],
+            columns = years
+        )
+
+    fir = fir.transpose()
+
+    return fir
+
+
+def toxicity(out_file, inp_file, intervals):
+    #1. get the total toxicity
+    tox_ing = isotopes_density(out_file, intervals, 97565, 1) 
+    tox_inh = isotopes_density(out_file, intervals, 98883, 1) 
+
+    tox_values = np.vstack([tox_ing, tox_inh])
+
+    #5. Transform in a dataframe
+    years = timesteps(inp_file)
+    tox = pd.DataFrame(
+            tox_values,
+            index = ['Ing.', 'Inh.'],
+            columns = years
+        )
+
+    tox = tox.transpose()
+
+    return tox

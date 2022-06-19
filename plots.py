@@ -76,8 +76,8 @@ def flow_rate(out_files, inp_file):
     plt.clf()
 
     #Pa
-    for i in range(7):
-        var = fuel_mass(out_files[i], inp_file, len(years))[['Pa']]
+    for i, v in enumerate(out_files):
+        var = fuel_mass(v, inp_file, len(years))[['Pa']]
         if i == 0: plt.plot(var, label = 'No Mesh')
         else:      plt.plot(var, label = f'Mesh {i}')
 
@@ -98,8 +98,8 @@ def flow_rate(out_files, inp_file):
     plt.clf()
 
     #U
-    for i in range(7):
-        var = fuel_mass(out_files[i], inp_file, len(years))[['U']]
+    for i, v in enumerate(out_files):
+        var = fuel_mass(v, inp_file, len(years))[['U']]
         if i == 0: plt.plot(var, label = 'No Mesh')
         else:      plt.plot(var, label = f'Mesh {i}')
 
@@ -120,8 +120,8 @@ def flow_rate(out_files, inp_file):
     plt.clf()
 
     #Np
-    for i in range(7):
-        var = fuel_mass(out_files[i], inp_file, len(years))[['Np']]
+    for i, v in enumerate(out_files):
+        var = fuel_mass(v, inp_file, len(years))[['Np']]
         if i == 0: plt.plot(var, label = 'No Mesh')
         else:      plt.plot(var, label = f'Mesh {i}')
 
@@ -142,8 +142,8 @@ def flow_rate(out_files, inp_file):
     plt.clf()
 
     #Pu
-    for i in range(7):
-        var = fuel_mass(out_files[i], inp_file, len(years))[['Pu']]
+    for i, v in enumerate(out_files):
+        var = fuel_mass(v, inp_file, len(years))[['Pu']]
         if i == 0: plt.plot(var, label = 'No Mesh')
         else:      plt.plot(var, label = f'Mesh {i}')
 
@@ -164,8 +164,8 @@ def flow_rate(out_files, inp_file):
     plt.clf()
 
     #Am
-    for i in range(7):
-        var = fuel_mass(out_files[i], inp_file, len(years))[['Am']]
+    for i, v in enumerate(out_files):
+        var = fuel_mass(v, inp_file, len(years))[['Am']]
         if i == 0: plt.plot(var, label = 'No Mesh')
         else:      plt.plot(var, label = f'Mesh {i}')
 
@@ -186,8 +186,8 @@ def flow_rate(out_files, inp_file):
     plt.clf()
 
     #Cm
-    for i in range(7):
-        var = fuel_mass(out_files[i], inp_file, len(years))[['Cm']]
+    for i, v in enumerate(out_files):
+        var = fuel_mass(v, inp_file, len(years))[['Cm']]
         if i == 0: plt.plot(var, label = 'No Mesh')
         else:      plt.plot(var, label = f'Mesh {i}')
 
@@ -259,8 +259,8 @@ def u233total(out_files, inp_file):
     plt.clf()
 
     #U233 
-    for i in range(7):
-        var = fuel_mass(out_files[i], inp_file, len(years))[['233U']]
+    for i, v in enumerate(out_files):
+        var = fuel_mass(v, inp_file, len(years))[['233U']]
         if i == 0: plt.plot(var, 'o-', label = 'No Mesh')
         else:      plt.plot(var, 'o-', label = f'Mesh {i}')
 
@@ -281,8 +281,8 @@ def u233total(out_files, inp_file):
     plt.clf()
 
     #U 
-    for i in range(7):
-        var = fuel_mass(out_files[i], inp_file, len(years))[['U']]
+    for i, v in enumerate(out_files):
+        var = fuel_mass(v, inp_file, len(years))[['U']]
         if i == 0: plt.plot(var, 'o-', label = 'No Mesh')
         else:      plt.plot(var, 'o-', label = f'Mesh {i}')
 
@@ -343,8 +343,8 @@ def u232pa231(out_files, inp_file):
     plt.clf()
 
     #U232
-    for i in range(7):
-        var = fuel_mass(out_files[i], inp_file, len(years))[['232U']]
+    for i, v in enumerate(out_files):
+        var = fuel_mass(v, inp_file, len(years))[['232U']]
         if i == 0: plt.plot(var, 'o-', label = 'No Mesh')
         else:      plt.plot(var, 'o-', label = f'Mesh {i}')
 
@@ -363,8 +363,8 @@ def u232pa231(out_files, inp_file):
     plt.clf()
 
     #Pa231
-    for i in range(7):
-        var = fuel_mass(out_files[i], inp_file, len(years))[['231Pa']]
+    for i, v in enumerate(out_files):
+        var = fuel_mass(v, inp_file, len(years))[['231Pa']]
         if i == 0: plt.plot(var, 'o-', label = 'No Mesh')
         else:      plt.plot(var, 'o-', label = f'Mesh {i}')
 
@@ -434,8 +434,8 @@ def pu(out_files, inp_file):
     plt.clf()
 
     #238Pu
-    for i in range(7):
-        var = fuel_mass(out_files[i], inp_file, len(years))[['238Pu']]
+    for i, v in enumerate(out_files):
+        var = fuel_mass(v, inp_file, len(years))[['238Pu']]
         if i == 0: plt.plot(var, 'o-', label = 'No Mesh')
         else:      plt.plot(var, 'o-', label = f'Mesh {i}')
 
@@ -454,8 +454,8 @@ def pu(out_files, inp_file):
     plt.clf()
 
     #239Pu
-    for i in range(7):
-        var = fuel_mass(out_files[i], inp_file, len(years))[['239Pu']]
+    for i, v in enumerate(out_files):
+        var = fuel_mass(v, inp_file, len(years))[['239Pu']]
         if i == 0: plt.plot(var, 'o-', label = 'No Mesh')
         else:      plt.plot(var, 'o-', label = f'Mesh {i}')
 
@@ -474,8 +474,8 @@ def pu(out_files, inp_file):
     plt.clf()
 
     #240Pu
-    for i in range(7):
-        var = fuel_mass(out_files[i], inp_file, len(years))[['240Pu']]
+    for i, v in enumerate(out_files):
+        var = fuel_mass(v, inp_file, len(years))[['240Pu']]
         if i == 0: plt.plot(var, 'o-', label = 'No Mesh')
         else:      plt.plot(var, 'o-', label = f'Mesh {i}')
 
@@ -494,8 +494,8 @@ def pu(out_files, inp_file):
     plt.clf()
 
     #241Pu
-    for i in range(7):
-        var = fuel_mass(out_files[i], inp_file, len(years))[['241Pu']]
+    for i, v in enumerate(out_files):
+        var = fuel_mass(v, inp_file, len(years))[['241Pu']]
         if i == 0: plt.plot(var, 'o-', label = 'No Mesh')
         else:      plt.plot(var, 'o-', label = f'Mesh {i}')
 
@@ -577,8 +577,8 @@ def flow_rate_tru(out_files, inp_file):
     plt.clf()
 
     #Pa
-    for i in range(7):
-        var = fuel_mass(out_files[i], inp_file, len(years))[['Pa']]
+    for i, v in enumerate(out_files):
+        var = fuel_mass(v, inp_file, len(years))[['Pa']]
         if i == 0: plt.plot(var, label = 'No Mesh')
         else:      plt.plot(var, label = f'Mesh {i}')
 
@@ -596,8 +596,8 @@ def flow_rate_tru(out_files, inp_file):
     plt.clf()
 
     #U
-    for i in range(7):
-        var = fuel_mass(out_files[i], inp_file, len(years))[['U']]
+    for i, v in enumerate(out_files):
+        var = fuel_mass(v, inp_file, len(years))[['U']]
         if i == 0: plt.plot(var, label = 'No Mesh')
         else:      plt.plot(var, label = f'Mesh {i}')
 
@@ -616,8 +616,8 @@ def flow_rate_tru(out_files, inp_file):
     plt.clf()
 
     #Np
-    for i in range(7):
-        var = fuel_mass(out_files[i], inp_file, len(years))[['Np']]
+    for i, v in enumerate(out_files):
+        var = fuel_mass(v, inp_file, len(years))[['Np']]
         if i == 0: plt.plot(var, label = 'No Mesh')
         else:      plt.plot(var, label = f'Mesh {i}')
 
@@ -636,8 +636,8 @@ def flow_rate_tru(out_files, inp_file):
     plt.clf()
 
     #Pu
-    for i in range(7):
-        var = fuel_mass(out_files[i], inp_file, len(years))[['Pu']]
+    for i, v in enumerate(out_files):
+        var = fuel_mass(v, inp_file, len(years))[['Pu']]
         if i == 0: plt.plot(var, label = 'No Mesh')
         else:      plt.plot(var, label = f'Mesh {i}')
 
@@ -656,8 +656,8 @@ def flow_rate_tru(out_files, inp_file):
     plt.clf()
 
     #Am
-    for i in range(7):
-        var = fuel_mass(out_files[i], inp_file, len(years))[['Am']]
+    for i, v in enumerate(out_files):
+        var = fuel_mass(v, inp_file, len(years))[['Am']]
         if i == 0: plt.plot(var, label = 'No Mesh')
         else:      plt.plot(var, label = f'Mesh {i}')
     plt.gca().set_prop_cycle(None)
@@ -675,8 +675,8 @@ def flow_rate_tru(out_files, inp_file):
     plt.clf()
 
     #Cm
-    for i in range(7):
-        var = fuel_mass(out_files[i], inp_file, len(years))[['Cm']]
+    for i, v in enumerate(out_files):
+        var = fuel_mass(v, inp_file, len(years))[['Cm']]
         if i == 0: plt.plot(var, label = 'No Mesh')
         else:      plt.plot(var, label = f'Mesh {i}')
 
@@ -742,8 +742,8 @@ def tru(out_files, inp_file):
     plt.clf()
 
     #All meshes
-    for i in range(7):
-        var = fuel_mass(out_files[i], inp_file, len(years))[['Np', 'Pu', 'Am', 'Cm']]
+    for i, v in enumerate(out_files):
+        var = fuel_mass(v, inp_file, len(years))[['Np', 'Pu', 'Am', 'Cm']]
         var = var.sum(axis = 1)
         if i == 0: plt.plot(var, label = 'No Mesh')
         else:      plt.plot(var, label = f'Mesh {i}')
@@ -810,8 +810,8 @@ def pu_tru(out_files, inp_file):
     plt.clf()
 
     #All meshes
-    for i in range(7):
-        var = fuel_mass(out_files[i], inp_file, len(years))[['Pu']]
+    for i, v in enumerate(out_files):
+        var = fuel_mass(v, inp_file, len(years))[['Pu']]
         if i == 0: plt.plot(var, label = 'No Mesh')
         else:      plt.plot(var, label = f'Mesh {i}')
 
@@ -865,8 +865,8 @@ def u_tru(out_files, inp_file):
     plt.clf()
 
     #All meshes
-    for i in range(7):
-        var = fuel_mass(out_files[i], inp_file, len(years))[['U']]
+    for i, v in enumerate(out_files):
+        var = fuel_mass(v, inp_file, len(years))[['U']]
         if i == 0: plt.plot(var, label = 'No Mesh')
         else:      plt.plot(var, label = f'Mesh {i}')
 
@@ -920,8 +920,8 @@ def u233_tru(out_files, inp_file):
     plt.clf()
 
     #All meshes
-    for i in range(7):
-        var = fuel_mass(out_files[i], inp_file, len(years))[['233U']]
+    for i, v in enumerate(out_files):
+        var = fuel_mass(v, inp_file, len(years))[['233U']]
         if i == 0: plt.plot(var, label = 'No Mesh')
         else:      plt.plot(var, label = f'Mesh {i}')
 
@@ -954,8 +954,8 @@ def keff(out_files, inp_file):
     plt.clf()
 
     #All meshes
-    for i in range(7):
-        var = neutronic_output(out_files[i], inp_file).plt_data[['keff']]
+    for i, v in enumerate(out_files):
+        var = neutronic_output(v, inp_file).plt_data[['keff']]
         if i == 0: plt.plot(var, '.-', label = 'No Mesh')
         else:      plt.plot(var, '.-', label = f'Mesh {i}')
 
@@ -986,8 +986,8 @@ def keff_tru(out_files, inp_file):
     plt.clf()
 
     #All meshes
-    for i in range(7):
-        var = neutronic_output(out_files[i], inp_file).plt_data[['keff']]
+    for i, v in enumerate(out_files):
+        var = neutronic_output(v, inp_file).plt_data[['keff']]
         if i == 0: plt.plot(var, '.-', label = 'No Mesh')
         else:      plt.plot(var, '.-', label = f'Mesh {i}')
 
@@ -1039,8 +1039,8 @@ def fir(out_files, inp_file):
     plt.clf()
 
     #All meshes
-    for i in range(7):
-        var = fir_values(out_files[i], inp_file, len(years))
+    for i, v in enumerate(out_files):
+        var = fir_values(v, inp_file, len(years))
         if i == 0: plt.plot(var, '.-', label = 'No Mesh')
         else:      plt.plot(var, '.-', label = f'Mesh {i}')
 
@@ -1066,8 +1066,8 @@ def fir_tru(out_files, inp_file):
     plt.clf()
 
     #All meshes
-    for i in range(7):
-        var = fir_values(out_files[i], inp_file, len(years))
+    for i, v in enumerate(out_files):
+        var = fir_values(v, inp_file, len(years))
         if i == 0: plt.plot(var, '.-', label = 'No Mesh')
         else:      plt.plot(var, '.-', label = f'Mesh {i}')
 
@@ -1097,8 +1097,8 @@ def tox(out_files, inp_file):
     plt.clf()
 
     #All meshes
-    for i in range(7):
-        var = toxicity(out_files[i], inp_file, len(years))
+    for i, v in enumerate(out_files):
+        var = toxicity(v, inp_file, len(years))
         if i == 0: plt.plot(var, 'o-', label = tox.columns + ' No mesh')
         else:      plt.plot(var, 'o-', label = tox.columns + f' Mesh {i}')
 
@@ -1130,8 +1130,8 @@ def tox_tru(out_files, inp_file):
     plt.clf()
 
     #All meshes
-    for i in range(7):
-        var = toxicity(out_files[i], inp_file, len(years))
+    for i, v in enumerate(out_files):
+        var = toxicity(v, inp_file, len(years))
         if i == 0: plt.plot(var, 'o-', label = tox.columns + ' No mesh')
         else:      plt.plot(var, 'o-', label = tox.columns + f' Mesh {i}')
 
@@ -1313,9 +1313,9 @@ def keff_tmp_den(out_files, out_files_tmp, out_files_den, inp_file):
     #    err_res_m6.append(err_den_m6[item] + err_tmp_m6[item])
 
     #Feedback coef.
-    for i in range(7):
-        if i == 0: plt.plot(res[i], '.-', label = 'No Mesh')
-        else:      plt.plot(res[i], '.-', label = f'Mesh {i}')
+    for i, v in enumerate(res):
+        if i == 0: plt.plot(v, '.-', label = 'No Mesh')
+        else:      plt.plot(v, '.-', label = f'Mesh {i}')
     
     # plt.errorbar(x, y_res, err_res, linestyle = 'None', 
     #             color = 'black', capsize = 3)
@@ -1340,9 +1340,9 @@ def keff_tmp_den(out_files, out_files_tmp, out_files_den, inp_file):
     plt.clf()
 
     #Doppler Msh
-    for i in range(7):
-        if i == 0: plt.plot(doppler_coef[i], '.-', label = 'No Mesh')
-        else:      plt.plot(doppler_coef[i], '.-', label = f'Mesh {i}')
+    for i, v in enumerate(doppler_coef):
+        if i == 0: plt.plot(v, '.-', label = 'No Mesh')
+        else:      plt.plot(v, '.-', label = f'Mesh {i}')
 
     # plt.errorbar(x, doppler_coef['keff'], err_tmp, linestyle = 'None', 
     #             color = 'black', capsize = 3)
@@ -1368,9 +1368,9 @@ def keff_tmp_den(out_files, out_files_tmp, out_files_den, inp_file):
     plt.clf()
 
     #Density Msh
-    for i in range(7):
-        if i == 0: plt.plot(density_coef[i], '.-', label = 'No Mesh')
-        else:      plt.plot(density_coef[i], '.-', label = f'Mesh {i}')
+    for i, v in enumerate(density_coef):
+        if i == 0: plt.plot(v, '.-', label = 'No Mesh')
+        else:      plt.plot(v, '.-', label = f'Mesh {i}')
 
     #plt.errorbar(x, density_coef['keff'], err_den, linestyle = 'None', 
     #            color = 'black', capsize = 3)

@@ -60,6 +60,12 @@ class neutronic_output():
 
         self.keff = keff
         self.keff_sd = keff_sd
+        self.beta_zero = beta_zero
+        self.beta_zero_sd = beta_zero_sd
+        self.beta_eff = beta_eff
+        self.beta_eff_sd = beta_eff_sd
+        self.gen_time = gen_time
+        self.gen_time_sd = gen_time_sd
 
         values = [
                     f"ANA_KEFF = {keff[0]} {keff_sd[0]}\n", 

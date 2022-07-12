@@ -4,6 +4,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 
+h0 = 0
+h1 = 6.58e-2
+h2 = 8.42e-2
+h3 = 1.07e-1
+h4 = 1.36e-1
+h5 = 1.84e-1
+h6 = 2.69e-1
+h = [h0, h1, h2, h3, h4, h5, h6]
 
 def flow_rate(out_files, inp_file):
     #No mesh
@@ -1395,6 +1403,59 @@ def keff_tmp_den(out_files, out_files_tmp, out_files_den, inp_file):
     plt.savefig('keff_den_msh.png', bbox_inches='tight')
     plt.clf()
 
+###############################################
+# colocar gcis + incertezas
+# colocar gráficos de doppler, rho e time coef.
+###############################################
+def h_index(out_files):
+    
+    #Keff
+    keff = []
+    for item in out_files:
+        out = neutronic_output(item)
+        keff.append(out.keff[0])
+    plt.plot(h, keff, 'o-')
+    plt.xlim(0)
+    plt.xlabel('h')
+    plt.ylabel(r'Multiplication Factor ($K_{eff}$)')
+    plt.savefig('keff_h.png', bbox_inches = 'tight')
+    plt.clf()
+    
+    #Beta Zero
+    beta_zero = []
+    for item in out_files:
+        out = neutronic_output(item)
+        beta_zero.append(out.beta_zero[0])
+    plt.plot(h, beta_zero, 'o-')
+    plt.xlim(0)
+    plt.xlabel('h')
+    plt.ylabel('Beta Zero')
+    plt.savefig('beta_zero_h.png', bbox_inches = 'tight')
+    plt.clf()
+    
+    #Beta Eff
+    beta_eff = []
+    for item in out_files:
+        out = neutronic_output(item)
+        beta_eff.append(out.beta_eff[0])
+    plt.plot(h, beta_eff, 'o-')
+    plt.xlim(0)
+    plt.xlabel('h')
+    plt.ylabel('Beta Effective')
+    plt.savefig('beta_eff_h.png', bbox_inches = 'tight')
+    plt.clf()
+    
+    #Gen Time
+    gen_time = []
+    for item in out_files:
+        out = neutronic_output(item)
+        gen_time.append(out.gen_time[0])
+    plt.plot(h, gen_time, 'o-')
+    plt.xlim(0)
+    plt.xlabel('h')
+    plt.ylabel('Generation Time')
+    plt.savefig('gen_time_h.png', bbox_inches = 'tight')
+    plt.clf()
 
 
 def plot_values(out_files, inp_file):
@@ -1441,8 +1502,28 @@ def main():
     #    'dep/m5_msfr_mix1_benchmark_burn_dep.m',
     #    'dep/m6_msfr_mix1_benchmark_burn_dep.m',
     #]
-
+    
     res_files_mix1 = [
+        'res/msfr_mix1_benchmark_keff1_res.m',
+        'res/m1_msfr_mix1_benchmark_res.m',
+        'res/m2_msfr_mix1_benchmark_res.m',
+        'res/m3_msfr_mix1_benchmark_res.m',
+        'res/m4_msfr_mix1_benchmark_res.m',
+        'res/m5_msfr_mix1_benchmark_res.m',
+        'res/m6_msfr_mix1_benchmark_res.m',
+    ]
+
+    #res_files_mix2 = [
+    #    'res/msfr_mix2_benchmark_keff1_res.m',
+    #    'res/m1_msfr_mix2_benchmark_res.m',
+    #    'res/m2_msfr_mix2_benchmark_res.m',
+    #    'res/m3_msfr_mix2_benchmark_res.m',
+    #    'res/m4_msfr_mix2_benchmark_res.m',
+    #    'res/m5_msfr_mix2_benchmark_res.m',
+    #    'res/m6_msfr_mix2_benchmark_res.m',
+    #]
+
+    res_files_mix1_burn = [
         'res/msfr_mix1_benchmark_burn_res.m',
         'res/m1_msfr_mix1_benchmark_burn_res.m',
         'res/m2_msfr_mix1_benchmark_burn_res.m',
@@ -1452,17 +1533,17 @@ def main():
         'res/m6_msfr_mix1_benchmark_burn_res.m',
     ]
 
-    #res_files_mix2 = [
+    #res_files_mix2_burn = [
     #    'res/msfr_mix2_benchmark_burn_res.m',
     #    'res/m1_msfr_mix2_benchmark_burn_res.m',
     #    'res/m2_msfr_mix2_benchmark_burn_res.m',
     #    'res/m3_msfr_mix2_benchmark_burn_res.m',
     #    'res/m4_msfr_mix2_benchmark_burn_res.m',
     #    'res/m5_msfr_mix2_benchmark_burn_res.m',
-    #   'res/m6_msfr_mix2_benchmark_burn_res.m',
+    #    'res/m6_msfr_mix2_benchmark_burn_res.m',
     #]
 
-    res_files_mix1_tmp = [
+    res_files_mix1_tmp_burn = [
         'res/msfr_mix1_benchmark_burn_temperature_res.m',
         'res/m1_msfr_mix1_benchmark_burn_temperature_res.m',
         'res/m2_msfr_mix1_benchmark_burn_temperature_res.m',
@@ -1472,7 +1553,7 @@ def main():
         'res/m6_msfr_mix1_benchmark_burn_temperature_res.m',
     ]
 
-    res_files_mix1_den = [
+    res_files_mix1_den_burn = [
         'res/msfr_mix1_benchmark_burn_density_res.m',
         'res/m1_msfr_mix1_benchmark_burn_density_res.m',
         'res/m2_msfr_mix1_benchmark_burn_density_res.m',
@@ -1482,13 +1563,13 @@ def main():
         'res/m6_msfr_mix1_benchmark_burn_density_res.m',
     ]
 
-    plot_values(dep_files_mix1, inp_file)
+    #plot_values(dep_files_mix1, inp_file)
 
     #plot_tru_values(dep_files_mix2, inp_file)
 
-    keff(res_files_mix1, inp_file)
+    #keff(res_files_mix1_burn, inp_file)
 
-    #keff_tru(res_files_mix2, inp_file)
+    #keff_tru(res_files_mix2_burn, inp_file)
 
     #keff_sm_m6(
     #    'msfr_mix1_benchmark_burn_res.m',
@@ -1497,8 +1578,11 @@ def main():
     #    'msfr_mix1_benchmark_burn'
     #    )
 
-    keff_tmp_den(res_files_mix1, res_files_mix1_tmp, res_files_mix1_den, inp_file)
+    #keff_tmp_den(res_files_mix1_burn, res_files_mix1_tmp_burn, res_files_mix1_den_burn, inp_file)
+    
+    h_index(res_files_mix1)
 
+    
 
 if __name__ == "__main__":
     main()

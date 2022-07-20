@@ -1,0 +1,5 @@
+#!/bin/bash
+#SBATCH -o command_tiago.out
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=20
+python acopscript.py

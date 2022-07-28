@@ -1,5 +1,6 @@
 from masses import *
 from io_data import *
+from gci_calc import gci
 import matplotlib.pyplot as plt
 import numpy as np
 import os
@@ -597,6 +598,7 @@ def flow_rate_tru(out_files, inp_file):
             133.26, 131.9, 131.9, 131.9, 131.9], 
             '--', label = 'Benchmark', color = 'k')
     plt.yscale('log')
+    plt.xlim(0)
     plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
     plt.xlabel('Operation Time (Years)')
     plt.ylabel('Fuel Salt Inventory - Pa (Kg)')
@@ -617,6 +619,7 @@ def flow_rate_tru(out_files, inp_file):
             '--', label = 'Benchmark', color = 'k')
 
     plt.yscale('log')
+    plt.xlim(0)
     plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
     plt.xlabel('Operation Time (Years)')
     plt.ylabel('Fuel Salt Inventory - U (Kg)')
@@ -637,6 +640,7 @@ def flow_rate_tru(out_files, inp_file):
             '--', label = 'Benchmark', color = 'k')
 
     plt.yscale('log')
+    plt.xlim(0)
     plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
     plt.xlabel('Operation Time (Years)')
     plt.ylabel('Fuel Salt Inventory - Np (Kg)')
@@ -657,6 +661,7 @@ def flow_rate_tru(out_files, inp_file):
             '--', label = 'Benchmark', color = 'k')
 
     plt.yscale('log')
+    plt.xlim(0)
     plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
     plt.xlabel('Operation Time (Years)')
     plt.ylabel('Fuel Salt Inventory - Pu (Kg)')
@@ -676,6 +681,7 @@ def flow_rate_tru(out_files, inp_file):
             '--', label = 'Benchmark', color = 'k')
 
     plt.yscale('log')
+    plt.xlim(0)
     plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
     plt.xlabel('Operation Time (Years)')
     plt.ylabel('Fuel Salt Inventory - Am (Kg)')
@@ -696,6 +702,7 @@ def flow_rate_tru(out_files, inp_file):
             '--', label = 'Benchmark', color = 'k')
 
     plt.yscale('log')
+    plt.xlim(0)
     plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
     plt.xlabel('Operation Time (Years)')
     plt.ylabel('Fuel Salt Inventory - Cm (Kg)')
@@ -758,7 +765,7 @@ def tru(out_files, inp_file):
 
     plt.plot(bench_time, 
             [12148, 11806, 10987, 10107, 8178.1, 5966.2, 3573.9, 1067, 501.05], 
-            'D', label = 'Benchmark')
+            'D', label = 'Benchmark', color = 'k')
 
     plt.xscale('log')
     plt.yscale('log')
@@ -825,7 +832,7 @@ def pu_tru(out_files, inp_file):
 
     plt.plot(bench_time, 
             [10749.9, 10281.9, 9929.6, 9268.6, 7296.4, 5277, 2932, 707.73, 343.2], 
-            'D', label = 'Pu (Benchmark)')
+            'D', label = 'Pu (Benchmark)', color = 'k')
 
     plt.xscale('log')
     plt.yscale('log')
@@ -880,7 +887,7 @@ def u_tru(out_files, inp_file):
 
     plt.plot(bench_time, 
             [474.02, 896.22, 1590.9, 3007, 4511.2, 6135.2, 8110.9, 8631.1], 
-            'D', label = 'Benchmark')
+            'D', label = 'Benchmark', color = 'k')
 
     plt.xscale('log')
     plt.yscale('log')
@@ -935,7 +942,7 @@ def u233_tru(out_files, inp_file):
 
     plt.plot(bench_time, 
             [456.77, 851, 1499.01, 2767.4, 3752.1, 4442.3, 4881.5, 4976.7], 
-            'D', label = 'Benchmark')
+            'D', label = 'Benchmark', color = 'k')
 
     plt.xscale('log')
     plt.yscale('log')
@@ -1067,7 +1074,7 @@ def fir_tru(out_files, inp_file):
     fir = fir_values(out_files[0], inp_file, len(years))
 
     plt.plot(fir, 'o-')
-
+    plt.xlim(0)
     plt.xlabel('Operation Time (Years)')
     plt.ylabel('Fissile Inventory Ratio')
     plt.savefig('fir_tru.png')
@@ -1403,18 +1410,29 @@ def feedback(out_files, out_files_tmp, out_files_den, inp_file):
     plt.savefig('keff_den_msh.png', bbox_inches='tight')
     plt.clf()
 
-###############################################
-# colocar gcis + incertezas
-# colocar gráficos de doppler, rho e time coef.
-###############################################
+
 def h_index(out_files, out_files_tmp, out_files_den):
     
     #Keff
     keff = []
+    keff_sd = []
     for item in out_files:
         out = neutronic_output(item)
         keff.append(out.keff[0])
+        keff_sd.append(out.keff_sd[0])
     plt.plot(h, keff, 'o-')
+    
+    keff_gci = [0]
+    for item in range(1, 5):
+        var1 = neutronic_output(out_files[item]).keff
+        var2 = neutronic_output(out_files[item + 1]).keff
+        var3 = neutronic_output(out_files[item + 2]).keff
+        keff_gci.append(gci(var1, var2, var3, item)[0])
+    keff_gci = np.array(keff_gci)
+    keff_sd = np.array(keff_sd[0:5])
+    err = keff_gci + keff_sd
+    #plt.errorbar(h[0:5], keff[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
+    
     plt.xlim(0)
     plt.xlabel('h')
     plt.ylabel(r'Multiplication Factor ($K_{eff}$)')
@@ -1423,10 +1441,24 @@ def h_index(out_files, out_files_tmp, out_files_den):
     
     #Beta Zero
     beta_zero = []
+    beta_zero_sd = []
     for item in out_files:
         out = neutronic_output(item)
         beta_zero.append(out.beta_zero[0])
+        beta_zero_sd.append(out.beta_zero_sd[0])
     plt.plot(h, beta_zero, 'o-')
+        
+    beta_zero_gci = [0]
+    for item in range(1, 5):
+        var1 = neutronic_output(out_files[item]).beta_zero
+        var2 = neutronic_output(out_files[item + 1]).beta_zero
+        var3 = neutronic_output(out_files[item + 2]).beta_zero
+        beta_zero.append(gci(var1, var2, var3, item)[0])
+    beta_zero_gci = np.array(beta_zero_gci)
+    beta_zero_sd = np.array(keff_sd[0:5])
+    err = beta_zero_gci + beta_zero_sd
+    #plt.errorbar(h[0:5], beta_zero[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
+    
     plt.xlim(0)
     plt.xlabel('h')
     plt.ylabel('Beta Zero')
@@ -1435,10 +1467,24 @@ def h_index(out_files, out_files_tmp, out_files_den):
     
     #Beta Eff
     beta_eff = []
+    beta_eff_sd = []
     for item in out_files:
         out = neutronic_output(item)
         beta_eff.append(out.beta_eff[0])
+        beta_eff_sd.append(out.beta_eff_sd[0])
     plt.plot(h, beta_eff, 'o-')
+    
+    beta_eff_gci = [0]
+    for item in range(1, 5):
+        var1 = neutronic_output(out_files[item]).beta_eff
+        var2 = neutronic_output(out_files[item + 1]).beta_eff
+        var3 = neutronic_output(out_files[item + 2]).beta_eff
+        beta_eff_gci.append(gci(var1, var2, var3, item)[0])
+    beta_eff_gci = np.array(beta_eff_gci)
+    beta_eff_sd = np.array(beta_eff_sd[0:5])
+    err = beta_eff_gci + beta_eff_sd
+    #plt.errorbar(h[0:5], beta_eff[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
+    
     plt.xlim(0)
     plt.xlabel('h')
     plt.ylabel('Beta Effective')
@@ -1447,10 +1493,24 @@ def h_index(out_files, out_files_tmp, out_files_den):
     
     #Gen Time
     gen_time = []
+    gen_time_sd = []
     for item in out_files:
         out = neutronic_output(item)
         gen_time.append(out.gen_time[0])
+        gen_time_sd.append(out.gen_time_sd[0])
     plt.plot(h, gen_time, 'o-')
+    
+    gen_time_gci = [0]
+    for item in range(1, 5):
+        var1 = neutronic_output(out_files[item]).gen_time
+        var2 = neutronic_output(out_files[item + 1]).gen_time
+        var3 = neutronic_output(out_files[item + 2]).gen_time
+        gen_time_gci.append(gci(var1, var2, var3, item)[0])
+    gen_time_gci = np.array(gen_time_gci)
+    gen_time_sd = np.array(gen_time_sd[0:5])
+    err = gen_time_gci + gen_time_sd
+    #plt.errorbar(h[0:5], gen_time[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
+    
     plt.xlim(0)
     plt.xlabel('h')
     plt.ylabel('Generation Time')
@@ -1459,28 +1519,53 @@ def h_index(out_files, out_files_tmp, out_files_den):
 
     #Time coefficient
     keff = []
+    keff_sd = []
     for item in out_files:
         out = neutronic_output(item)
         keff.append(out.keff[0])
+        keff_sd.append(out.keff_sd[0])
     keff = np.array(keff)
+    keff_sd = np.array(keff_sd)
 
     keff_doppler = []
+    keff_doppler_sd = []
     for item in out_files_tmp:
         out = neutronic_output(item)
         keff_doppler.append(out.keff[0])
+        keff_doppler_sd.append(out.keff_sd[0])
     keff_doppler = np.array(keff_doppler)
+    keff_doppler_sd = np.array(keff_doppler_sd)
 
     keff_rho = []
+    keff_rho_sd = []
     for item in out_files_den:
         out = neutronic_output(item)
         keff_rho.append(out.keff[0])
+        keff_rho_sd.append(out.keff_sd[0])
     keff_rho = np.array(keff_rho)
+    keff_rho_sd = np.array(keff_rho_sd)
 
     doppler_coef = (abs((keff - keff_doppler))/300) * -1
     rho_coef = (abs((keff - keff_rho))/230) * -1
     feedback_coef = doppler_coef + rho_coef
+    
+    doppler_coef_sd = (abs((keff_sd - keff_doppler_sd))/300) * -1
+    rho_coef_sd = (abs((keff_sd - keff_rho_sd))/230) * -1
+    feedback_coef_sd = doppler_coef_sd + rho_coef_sd
 
     plt.plot(h, keff_doppler, 'o-')
+    
+    keff_doppler_gci = [0]
+    for item in range(1, 5):
+        var1 = neutronic_output(out_files_tmp[item]).keff
+        var2 = neutronic_output(out_files_tmp[item + 1]).keff
+        var3 = neutronic_output(out_files_tmp[item + 2]).keff
+        keff_doppler_gci.append(gci(var1, var2, var3, item)[0])
+    keff_doppler_gci = np.array(keff_doppler_gci)
+    keff_doppler_sd = np.array(keff_doppler_sd[0:5])
+    err = keff_doppler_gci + keff_doppler_sd
+    #plt.errorbar(h[0:5], keff_doppler[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
+    
     plt.xlim(0)
     plt.xlabel('h')
     plt.ylabel('Keff Doppler')
@@ -1488,6 +1573,18 @@ def h_index(out_files, out_files_tmp, out_files_den):
     plt.clf()
 
     plt.plot(h, keff_rho, 'o-')
+    
+    keff_rho_gci = [0]
+    for item in range(1, 5):
+        var1 = neutronic_output(out_files_den[item]).keff
+        var2 = neutronic_output(out_files_den[item + 1]).keff
+        var3 = neutronic_output(out_files_den[item + 2]).keff
+        keff_rho_gci.append(gci(var1, var2, var3, item)[0])
+    keff_rho_gci = np.array(keff_rho_gci)
+    keff_rho_sd = np.array(keff_rho_sd[0:5])
+    err = keff_rho_gci + keff_rho_sd
+    #plt.errorbar(h[0:5], keff_rho[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
+    
     plt.xlim(0)
     plt.xlabel('h')
     plt.ylabel('Keff Rho')
@@ -1495,6 +1592,18 @@ def h_index(out_files, out_files_tmp, out_files_den):
     plt.clf()
 
     plt.plot(h, doppler_coef, 'o-')
+
+    doppler_coef_gci = [0]
+    for item in range(1, 5):
+        var1 = [doppler_coef[item]]
+        var2 = [doppler_coef[item + 1]]
+        var3 = [doppler_coef[item + 2]]
+        doppler_coef_gci.append(gci(var1, var2, var3, item)[0])
+    doppler_coef_gci = np.array(doppler_coef_gci)
+    doppler_coef_sd = np.array(doppler_coef_sd[0:5])
+    err = doppler_coef_gci + doppler_coef_sd
+    #plt.errorbar(h[0:5], doppler_coef[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
+    
     plt.xlim(0)
     plt.xlabel('h')
     plt.ylabel('Doppler Coefficient')
@@ -1502,6 +1611,18 @@ def h_index(out_files, out_files_tmp, out_files_den):
     plt.clf()
 
     plt.plot(h, rho_coef, 'o-')
+    
+    rho_coef_gci = [0]
+    for item in range(1, 5):
+        var1 = [rho_coef[item]]
+        var2 = [rho_coef[item + 1]]
+        var3 = [rho_coef[item + 2]]
+        rho_coef_gci.append(gci(var1, var2, var3, item)[0])
+    rho_coef_gci = np.array(rho_coef_gci)
+    rho_coef_sd = np.array(rho_coef_sd[0:5])
+    err = rho_coef_gci + rho_coef_sd
+    #plt.errorbar(h[0:5], rho_coef[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
+    
     plt.xlim(0)
     plt.xlabel('h')
     plt.ylabel('Density Coefficient')
@@ -1509,6 +1630,18 @@ def h_index(out_files, out_files_tmp, out_files_den):
     plt.clf()
 
     plt.plot(h, feedback_coef, 'o-')
+    
+    feedback_coef_gci = [0]
+    for item in range(1, 5):
+        var1 = [feedback_coef[item]]
+        var2 = [feedback_coef[item + 1]]
+        var3 = [feedback_coef[item + 2]]
+        feedback_coef_gci.append(gci(var1, var2, var3, item)[0])
+    feedback_coef_gci = np.array(feedback_coef_gci)
+    feedback_coef_sd = np.array(feedback_coef_sd[0:5])
+    err = feedback_coef_gci + feedback_coef_sd
+    #plt.errorbar(h[0:5], feedback_coef[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
+    
     plt.xlim(0)
     plt.xlabel('h')
     plt.ylabel('Feedback Coefficient')
@@ -1644,15 +1777,15 @@ def main():
         'res/m6_msfr_mix1_benchmark_burn_density_res.m',
     ]
 
-    #plot_values(dep_files_mix1, inp_file)
+    plot_values(dep_files_mix1, inp_file)
 
     plot_tru_values(dep_files_mix2, inp_file)
 
-    #keff(res_files_mix1_burn, inp_file)
+    keff(res_files_mix1_burn, inp_file)
 
     keff_tru(res_files_mix2_burn, inp_file)
 
-    #feedback(res_files_mix1_burn, res_files_mix1_tmp_burn, res_files_mix1_den_burn, inp_file)
+    feedback(res_files_mix1_burn, res_files_mix1_tmp_burn, res_files_mix1_den_burn, inp_file)
     
     #Os valores de k_rho e k_feed não estão batendo com os do xlsx
     h_index(res_files_mix1, res_files_mix1_den, res_files_mix1_tmp)

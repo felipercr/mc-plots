@@ -14,6 +14,8 @@ h5 = 1.84e-1
 h6 = 2.69e-1
 h = [h0, h1, h2, h3, h4, h5, h6]
 
+err = []
+
 def flow_rate(out_files, inp_file):
     #No mesh
     years = timesteps(inp_file)
@@ -1428,9 +1430,13 @@ def h_index(out_files, out_files_tmp, out_files_den):
         var2 = neutronic_output(out_files[item + 1]).keff
         var3 = neutronic_output(out_files[item + 2]).keff
         keff_gci.append(gci(var1, var2, var3, item)[0])
-    keff_gci = np.array(keff_gci)
-    keff_sd = np.array(keff_sd[0:5])
-    err = keff_gci + keff_sd
+    keff_gci = pd.DataFrame(keff_gci, ['0', '1', '2', '3', '4'], ['keff_gci_mix1'])
+    keff_sd = pd.DataFrame(keff_sd[0:5], ['0', '1', '2', '3', '4'], ['keff_sd_mix1'])
+    err.append(keff_gci.transpose())
+    err.append(keff_sd.transpose())
+    #keff_gci = np.array(keff_gci)
+    #keff_sd = np.array(keff_sd[0:5])
+    #err = keff_gci + keff_sd
     #plt.errorbar(h[0:5], keff[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
@@ -1453,10 +1459,14 @@ def h_index(out_files, out_files_tmp, out_files_den):
         var1 = neutronic_output(out_files[item]).beta_zero
         var2 = neutronic_output(out_files[item + 1]).beta_zero
         var3 = neutronic_output(out_files[item + 2]).beta_zero
-        beta_zero.append(gci(var1, var2, var3, item)[0])
-    beta_zero_gci = np.array(beta_zero_gci)
-    beta_zero_sd = np.array(keff_sd[0:5])
-    err = beta_zero_gci + beta_zero_sd
+        beta_zero_gci.append(gci(var1, var2, var3, item)[0])
+    beta_zero_gci = pd.DataFrame(beta_zero_gci, ['0', '1', '2', '3', '4'], ['beta_zero_gci_mix1'])
+    beta_zero_sd = pd.DataFrame(beta_zero_sd[0:5], ['0', '1', '2', '3', '4'], ['beta_zero_sd_mix1'])
+    err.append(beta_zero_gci.transpose())
+    err.append(beta_zero_sd.transpose())
+    #beta_zero_gci = np.array(beta_zero_gci)
+    #beta_zero_sd = np.array(keff_sd[0:5])
+    #err = beta_zero_gci + beta_zero_sd
     #plt.errorbar(h[0:5], beta_zero[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
@@ -1480,9 +1490,13 @@ def h_index(out_files, out_files_tmp, out_files_den):
         var2 = neutronic_output(out_files[item + 1]).beta_eff
         var3 = neutronic_output(out_files[item + 2]).beta_eff
         beta_eff_gci.append(gci(var1, var2, var3, item)[0])
-    beta_eff_gci = np.array(beta_eff_gci)
-    beta_eff_sd = np.array(beta_eff_sd[0:5])
-    err = beta_eff_gci + beta_eff_sd
+    beta_eff_gci = pd.DataFrame(beta_eff_gci, ['0', '1', '2', '3', '4'], ['beta_eff_gci_mix1'])
+    beta_eff_sd = pd.DataFrame(beta_eff_sd[0:5], ['0', '1', '2', '3', '4'], ['beta_eff_sd_mix1'])
+    err.append(beta_eff_gci.transpose())
+    err.append(beta_eff_sd.transpose())
+    #beta_eff_gci = np.array(beta_eff_gci)
+    #beta_eff_sd = np.array(beta_eff_sd[0:5])
+    #err = beta_eff_gci + beta_eff_sd
     #plt.errorbar(h[0:5], beta_eff[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
@@ -1506,9 +1520,13 @@ def h_index(out_files, out_files_tmp, out_files_den):
         var2 = neutronic_output(out_files[item + 1]).gen_time
         var3 = neutronic_output(out_files[item + 2]).gen_time
         gen_time_gci.append(gci(var1, var2, var3, item)[0])
-    gen_time_gci = np.array(gen_time_gci)
-    gen_time_sd = np.array(gen_time_sd[0:5])
-    err = gen_time_gci + gen_time_sd
+    gen_time_gci = pd.DataFrame(gen_time_gci, ['0', '1', '2', '3', '4'], ['gen_time_gci_mix1'])
+    gen_time_sd = pd.DataFrame(gen_time_sd[0:5], ['0', '1', '2', '3', '4'], ['gen_time_sd_mix1'])
+    err.append(gen_time_gci.transpose())
+    err.append(gen_time_sd.transpose())
+    #gen_time_gci = np.array(gen_time_gci)
+    #gen_time_sd = np.array(gen_time_sd[0:5])
+    #err = gen_time_gci + gen_time_sd
     #plt.errorbar(h[0:5], gen_time[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
@@ -1561,9 +1579,13 @@ def h_index(out_files, out_files_tmp, out_files_den):
         var2 = neutronic_output(out_files_tmp[item + 1]).keff
         var3 = neutronic_output(out_files_tmp[item + 2]).keff
         keff_doppler_gci.append(gci(var1, var2, var3, item)[0])
-    keff_doppler_gci = np.array(keff_doppler_gci)
-    keff_doppler_sd = np.array(keff_doppler_sd[0:5])
-    err = keff_doppler_gci + keff_doppler_sd
+    keff_doppler_gci = pd.DataFrame(keff_doppler_gci, ['0', '1', '2', '3', '4'], ['keff_doppler_gci_mix1'])
+    keff_doppler_sd = pd.DataFrame(keff_doppler_sd[0:5], ['0', '1', '2', '3', '4'], ['keff_doppler_sd_mix1'])
+    err.append(keff_doppler_gci.transpose())
+    err.append(keff_doppler_sd.transpose())
+    #keff_doppler_gci = np.array(keff_doppler_gci)
+    #keff_doppler_sd = np.array(keff_doppler_sd[0:5])
+    #err = keff_doppler_gci + keff_doppler_sd
     #plt.errorbar(h[0:5], keff_doppler[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
@@ -1580,9 +1602,13 @@ def h_index(out_files, out_files_tmp, out_files_den):
         var2 = neutronic_output(out_files_den[item + 1]).keff
         var3 = neutronic_output(out_files_den[item + 2]).keff
         keff_rho_gci.append(gci(var1, var2, var3, item)[0])
-    keff_rho_gci = np.array(keff_rho_gci)
-    keff_rho_sd = np.array(keff_rho_sd[0:5])
-    err = keff_rho_gci + keff_rho_sd
+    keff_rho_gci = pd.DataFrame(keff_rho_gci, ['0', '1', '2', '3', '4'], ['keff_rho_gci_mix1'])
+    keff_rho_sd = pd.DataFrame(keff_rho_sd[0:5], ['0', '1', '2', '3', '4'], ['keff_rho_sd_mix1'])
+    err.append(keff_rho_gci.transpose())
+    err.append(keff_rho_sd.transpose())
+    #keff_rho_gci = np.array(keff_rho_gci)
+    #keff_rho_sd = np.array(keff_rho_sd[0:5])
+    #err = keff_rho_gci + keff_rho_sd
     #plt.errorbar(h[0:5], keff_rho[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
@@ -1599,9 +1625,13 @@ def h_index(out_files, out_files_tmp, out_files_den):
         var2 = [doppler_coef[item + 1]]
         var3 = [doppler_coef[item + 2]]
         doppler_coef_gci.append(gci(var1, var2, var3, item)[0])
-    doppler_coef_gci = np.array(doppler_coef_gci)
-    doppler_coef_sd = np.array(doppler_coef_sd[0:5])
-    err = doppler_coef_gci + doppler_coef_sd
+    doppler_coef_gci = pd.DataFrame(doppler_coef_gci, ['0', '1', '2', '3', '4'], ['doppler_coef_gci_mix1'])
+    doppler_coef_sd = pd.DataFrame(doppler_coef_sd[0:5], ['0', '1', '2', '3', '4'], ['doppler_coef_sd_mix1'])
+    err.append(doppler_coef_gci.transpose())
+    err.append(doppler_coef_sd.transpose())
+    #doppler_coef_gci = np.array(doppler_coef_gci)
+    #doppler_coef_sd = np.array(doppler_coef_sd[0:5])
+    #err = doppler_coef_gci + doppler_coef_sd
     #plt.errorbar(h[0:5], doppler_coef[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
@@ -1618,9 +1648,13 @@ def h_index(out_files, out_files_tmp, out_files_den):
         var2 = [rho_coef[item + 1]]
         var3 = [rho_coef[item + 2]]
         rho_coef_gci.append(gci(var1, var2, var3, item)[0])
-    rho_coef_gci = np.array(rho_coef_gci)
-    rho_coef_sd = np.array(rho_coef_sd[0:5])
-    err = rho_coef_gci + rho_coef_sd
+    rho_coef_gci = pd.DataFrame(rho_coef_gci, ['0', '1', '2', '3', '4'], ['rho_coef_gci_mix1'])
+    rho_coef_sd = pd.DataFrame(rho_coef_sd[0:5], ['0', '1', '2', '3', '4'], ['rho_coef_sd_mix1'])
+    err.append(rho_coef_gci.transpose())
+    err.append(rho_coef_sd.transpose())
+    #rho_coef_gci = np.array(rho_coef_gci)
+    #rho_coef_sd = np.array(rho_coef_sd[0:5])
+    #err = rho_coef_gci + rho_coef_sd
     #plt.errorbar(h[0:5], rho_coef[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
@@ -1637,9 +1671,13 @@ def h_index(out_files, out_files_tmp, out_files_den):
         var2 = [feedback_coef[item + 1]]
         var3 = [feedback_coef[item + 2]]
         feedback_coef_gci.append(gci(var1, var2, var3, item)[0])
-    feedback_coef_gci = np.array(feedback_coef_gci)
-    feedback_coef_sd = np.array(feedback_coef_sd[0:5])
-    err = feedback_coef_gci + feedback_coef_sd
+    feedback_coef_gci = pd.DataFrame(feedback_coef_gci, ['0', '1', '2', '3', '4'], ['feedback_coef_gci_mix1'])
+    feedback_coef_sd = pd.DataFrame(feedback_coef_sd[0:5], ['0', '1', '2', '3', '4'], ['feedback_coef_sd_mix1'])
+    err.append(feedback_coef_gci.transpose())
+    err.append(feedback_coef_sd.transpose())
+    #feedback_coef_gci = np.array(feedback_coef_gci)
+    #feedback_coef_sd = np.array(feedback_coef_sd[0:5])
+    #err = feedback_coef_gci + feedback_coef_sd
     #plt.errorbar(h[0:5], feedback_coef[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
@@ -1648,6 +1686,279 @@ def h_index(out_files, out_files_tmp, out_files_den):
     plt.savefig('feedback_h.png', bbox_inches = 'tight')
     plt.clf()
 
+
+def h_index_tru(out_files, out_files_tmp, out_files_den):
+    
+    #Keff
+    keff = []
+    keff_sd = []
+    for item in out_files:
+        out = neutronic_output(item)
+        keff.append(out.keff[0])
+        keff_sd.append(out.keff_sd[0])
+    plt.plot(h, keff, 'o-')
+    
+    keff_gci = [0]
+    for item in range(1, 5):
+        var1 = neutronic_output(out_files[item]).keff
+        var2 = neutronic_output(out_files[item + 1]).keff
+        var3 = neutronic_output(out_files[item + 2]).keff
+        keff_gci.append(gci(var1, var2, var3, item)[0])
+    keff_gci = pd.DataFrame(keff_gci, ['0', '1', '2', '3', '4'], ['keff_gci_mix2'])
+    keff_sd = pd.DataFrame(keff_sd[0:5], ['0', '1', '2', '3', '4'], ['keff_sd_mix2'])
+    err.append(keff_gci.transpose())
+    err.append(keff_sd.transpose())
+    #keff_gci = np.array(keff_gci)
+    #keff_sd = np.array(keff_sd[0:5])
+    #err = keff_gci + keff_sd
+    #plt.errorbar(h[0:5], keff[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
+    
+    plt.xlim(0)
+    plt.xlabel('h')
+    plt.ylabel(r'Multiplication Factor ($K_{eff}$)')
+    plt.savefig('keff_h_tru.png', bbox_inches = 'tight')
+    plt.clf()
+    
+    #Beta Zero
+    beta_zero = []
+    beta_zero_sd = []
+    for item in out_files:
+        out = neutronic_output(item)
+        beta_zero.append(out.beta_zero[0])
+        beta_zero_sd.append(out.beta_zero_sd[0])
+    plt.plot(h, beta_zero, 'o-')
+        
+    beta_zero_gci = [0]
+    for item in range(1, 5):
+        var1 = neutronic_output(out_files[item]).beta_zero
+        var2 = neutronic_output(out_files[item + 1]).beta_zero
+        var3 = neutronic_output(out_files[item + 2]).beta_zero
+        beta_zero_gci.append(gci(var1, var2, var3, item)[0])
+    beta_zero_gci = pd.DataFrame(beta_zero_gci, ['0', '1', '2', '3', '4'], ['beta_zero_gci_mix2'])
+    beta_zero_sd = pd.DataFrame(beta_zero_sd[0:5], ['0', '1', '2', '3', '4'], ['beta_zero_sd_mix2'])
+    err.append(beta_zero_gci.transpose())
+    err.append(beta_zero_sd.transpose())
+    #beta_zero_gci = np.array(beta_zero_gci)
+    #beta_zero_sd = np.array(keff_sd[0:5])
+    #err = beta_zero_gci + beta_zero_sd
+    #plt.errorbar(h[0:5], beta_zero[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
+    
+    plt.xlim(0)
+    plt.xlabel('h')
+    plt.ylabel('Beta Zero')
+    plt.savefig('beta_zero_h_tru.png', bbox_inches = 'tight')
+    plt.clf()
+    
+    #Beta Eff
+    beta_eff = []
+    beta_eff_sd = []
+    for item in out_files:
+        out = neutronic_output(item)
+        beta_eff.append(out.beta_eff[0])
+        beta_eff_sd.append(out.beta_eff_sd[0])
+    plt.plot(h, beta_eff, 'o-')
+    
+    beta_eff_gci = [0]
+    for item in range(1, 5):
+        var1 = neutronic_output(out_files[item]).beta_eff
+        var2 = neutronic_output(out_files[item + 1]).beta_eff
+        var3 = neutronic_output(out_files[item + 2]).beta_eff
+        beta_eff_gci.append(gci(var1, var2, var3, item)[0])
+    beta_eff_gci = pd.DataFrame(beta_eff_gci, ['0', '1', '2', '3', '4'], ['beta_eff_gci_mix2'])
+    beta_eff_sd = pd.DataFrame(beta_eff_sd[0:5], ['0', '1', '2', '3', '4'], ['beta_eff_sd_mix2'])
+    err.append(beta_eff_gci.transpose())
+    err.append(beta_eff_sd.transpose())
+    #beta_eff_gci = np.array(beta_eff_gci)
+    #beta_eff_sd = np.array(beta_eff_sd[0:5])
+    #err = beta_eff_gci + beta_eff_sd
+    #plt.errorbar(h[0:5], beta_eff[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
+    
+    plt.xlim(0)
+    plt.xlabel('h')
+    plt.ylabel('Beta Effective')
+    plt.savefig('beta_eff_h_tru.png', bbox_inches = 'tight')
+    plt.clf()
+    
+    #Gen Time
+    gen_time = []
+    gen_time_sd = []
+    for item in out_files:
+        out = neutronic_output(item)
+        gen_time.append(out.gen_time[0])
+        gen_time_sd.append(out.gen_time_sd[0])
+    plt.plot(h, gen_time, 'o-')
+    
+    gen_time_gci = [0]
+    for item in range(1, 5):
+        var1 = neutronic_output(out_files[item]).gen_time
+        var2 = neutronic_output(out_files[item + 1]).gen_time
+        var3 = neutronic_output(out_files[item + 2]).gen_time
+        gen_time_gci.append(gci(var1, var2, var3, item)[0])
+    gen_time_gci = pd.DataFrame(gen_time_gci, ['0', '1', '2', '3', '4'], ['gen_time_gci_mix2'])
+    gen_time_sd = pd.DataFrame(gen_time_sd[0:5], ['0', '1', '2', '3', '4'], ['gen_time_sd_mix2'])
+    err.append(gen_time_gci.transpose())
+    err.append(gen_time_sd.transpose())
+    #gen_time_gci = np.array(gen_time_gci)
+    #gen_time_sd = np.array(gen_time_sd[0:5])
+    #err = gen_time_gci + gen_time_sd
+    #plt.errorbar(h[0:5], gen_time[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
+    
+    plt.xlim(0)
+    plt.xlabel('h')
+    plt.ylabel('Generation Time')
+    plt.savefig('gen_time_h_tru.png', bbox_inches = 'tight')
+    plt.clf()
+
+    #Time coefficient
+    keff = []
+    keff_sd = []
+    for item in out_files:
+        out = neutronic_output(item)
+        keff.append(out.keff[0])
+        keff_sd.append(out.keff_sd[0])
+    keff = np.array(keff)
+    keff_sd = np.array(keff_sd)
+
+    keff_doppler = []
+    keff_doppler_sd = []
+    for item in out_files_tmp:
+        out = neutronic_output(item)
+        keff_doppler.append(out.keff[0])
+        keff_doppler_sd.append(out.keff_sd[0])
+    keff_doppler = np.array(keff_doppler)
+    keff_doppler_sd = np.array(keff_doppler_sd)
+
+    keff_rho = []
+    keff_rho_sd = []
+    for item in out_files_den:
+        out = neutronic_output(item)
+        keff_rho.append(out.keff[0])
+        keff_rho_sd.append(out.keff_sd[0])
+    keff_rho = np.array(keff_rho)
+    keff_rho_sd = np.array(keff_rho_sd)
+
+    doppler_coef = (abs((keff - keff_doppler))/300) * -1
+    rho_coef = (abs((keff - keff_rho))/230) * -1
+    feedback_coef = doppler_coef + rho_coef
+    
+    doppler_coef_sd = (abs((keff_sd - keff_doppler_sd))/300) * -1
+    rho_coef_sd = (abs((keff_sd - keff_rho_sd))/230) * -1
+    feedback_coef_sd = doppler_coef_sd + rho_coef_sd
+
+    plt.plot(h, keff_doppler, 'o-')
+    
+    keff_doppler_gci = [0]
+    for item in range(1, 5):
+        var1 = neutronic_output(out_files_tmp[item]).keff
+        var2 = neutronic_output(out_files_tmp[item + 1]).keff
+        var3 = neutronic_output(out_files_tmp[item + 2]).keff
+        keff_doppler_gci.append(gci(var1, var2, var3, item)[0])
+    keff_doppler_gci = pd.DataFrame(keff_doppler_gci, ['0', '1', '2', '3', '4'], ['keff_doppler_gci_mix2'])
+    keff_doppler_sd = pd.DataFrame(keff_doppler_sd[0:5], ['0', '1', '2', '3', '4'], ['keff_doppler_sd_mix2'])
+    err.append(keff_doppler_gci.transpose())
+    err.append(keff_doppler_sd.transpose())
+    #keff_doppler_gci = np.array(keff_doppler_gci)
+    #keff_doppler_sd = np.array(keff_doppler_sd[0:5])
+    #err = keff_doppler_gci + keff_doppler_sd
+    #plt.errorbar(h[0:5], keff_doppler[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
+    
+    plt.xlim(0)
+    plt.xlabel('h')
+    plt.ylabel('Keff Doppler')
+    plt.savefig('keff_doppler_h_tru.png', bbox_inches = 'tight')
+    plt.clf()
+
+    plt.plot(h, keff_rho, 'o-')
+    
+    keff_rho_gci = [0]
+    for item in range(1, 5):
+        var1 = neutronic_output(out_files_den[item]).keff
+        var2 = neutronic_output(out_files_den[item + 1]).keff
+        var3 = neutronic_output(out_files_den[item + 2]).keff
+        keff_rho_gci.append(gci(var1, var2, var3, item)[0])
+    keff_rho_gci = pd.DataFrame(keff_rho_gci, ['0', '1', '2', '3', '4'], ['keff_rho_gci_mix2'])
+    keff_rho_sd = pd.DataFrame(keff_rho_sd[0:5], ['0', '1', '2', '3', '4'], ['keff_rho_sd_mix2'])
+    err.append(keff_rho_gci.transpose())
+    err.append(keff_rho_sd.transpose())
+    #keff_rho_gci = np.array(keff_rho_gci)
+    #keff_rho_sd = np.array(keff_rho_sd[0:5])
+    #err = keff_rho_gci + keff_rho_sd
+    #plt.errorbar(h[0:5], keff_rho[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
+    
+    plt.xlim(0)
+    plt.xlabel('h')
+    plt.ylabel('Keff Rho')
+    plt.savefig('keff_rho_h_tru.png', bbox_inches = 'tight')
+    plt.clf()
+
+    plt.plot(h, doppler_coef, 'o-')
+
+    doppler_coef_gci = [0]
+    for item in range(1, 5):
+        var1 = [doppler_coef[item]]
+        var2 = [doppler_coef[item + 1]]
+        var3 = [doppler_coef[item + 2]]
+        doppler_coef_gci.append(gci(var1, var2, var3, item)[0])
+    doppler_coef_gci = pd.DataFrame(doppler_coef_gci, ['0', '1', '2', '3', '4'], ['doppler_coef_gci_mix2'])
+    doppler_coef_sd = pd.DataFrame(doppler_coef_sd[0:5], ['0', '1', '2', '3', '4'], ['doppler_coef_sd_mix2'])
+    err.append(doppler_coef_gci.transpose())
+    err.append(doppler_coef_sd.transpose())
+    #doppler_coef_gci = np.array(doppler_coef_gci)
+    #doppler_coef_sd = np.array(doppler_coef_sd[0:5])
+    #err = doppler_coef_gci + doppler_coef_sd
+    #plt.errorbar(h[0:5], doppler_coef[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
+    
+    plt.xlim(0)
+    plt.xlabel('h')
+    plt.ylabel('Doppler Coefficient')
+    plt.savefig('doppler_h_tru.png', bbox_inches = 'tight')
+    plt.clf()
+
+    plt.plot(h, rho_coef, 'o-')
+    
+    rho_coef_gci = [0]
+    for item in range(1, 5):
+        var1 = [rho_coef[item]]
+        var2 = [rho_coef[item + 1]]
+        var3 = [rho_coef[item + 2]]
+        rho_coef_gci.append(gci(var1, var2, var3, item)[0])
+    rho_coef_gci = pd.DataFrame(rho_coef_gci, ['0', '1', '2', '3', '4'], ['rho_coef_gci_mix2'])
+    rho_coef_sd = pd.DataFrame(rho_coef_sd[0:5], ['0', '1', '2', '3', '4'], ['rho_coef_sd_mix2'])
+    err.append(rho_coef_gci.transpose())
+    err.append(rho_coef_sd.transpose())
+    #rho_coef_gci = np.array(rho_coef_gci)
+    #rho_coef_sd = np.array(rho_coef_sd[0:5])
+    #err = rho_coef_gci + rho_coef_sd
+    #plt.errorbar(h[0:5], rho_coef[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
+    
+    plt.xlim(0)
+    plt.xlabel('h')
+    plt.ylabel('Density Coefficient')
+    plt.savefig('density_h_tru.png', bbox_inches = 'tight')
+    plt.clf()
+
+    plt.plot(h, feedback_coef, 'o-')
+    
+    feedback_coef_gci = [0]
+    for item in range(1, 5):
+        var1 = [feedback_coef[item]]
+        var2 = [feedback_coef[item + 1]]
+        var3 = [feedback_coef[item + 2]]
+        feedback_coef_gci.append(gci(var1, var2, var3, item)[0])
+    feedback_coef_gci = pd.DataFrame(feedback_coef_gci, ['0', '1', '2', '3', '4'], ['feedback_coef_gci_mix2'])
+    feedback_coef_sd = pd.DataFrame(feedback_coef_sd[0:5], ['0', '1', '2', '3', '4'], ['feedback_coef_sd_mix2'])
+    err.append(feedback_coef_gci.transpose())
+    err.append(feedback_coef_sd.transpose())
+    #feedback_coef_gci = np.array(feedback_coef_gci)
+    #feedback_coef_sd = np.array(feedback_coef_sd[0:5])
+    #err = feedback_coef_gci + feedback_coef_sd
+    #plt.errorbar(h[0:5], feedback_coef[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
+    
+    plt.xlim(0)
+    plt.xlabel('h')
+    plt.ylabel('Feedback Coefficient')
+    plt.savefig('feedback_h_tru.png', bbox_inches = 'tight')
+    plt.clf()
 
     
 
@@ -1757,6 +2068,26 @@ def main():
         'res/m6_msfr_mix1_benchmark_density_res.m',
     ]
 
+    res_files_mix2_tmp = [
+        'res/msfr_mix2_benchmark_temperature_res.m',
+        'res/m1_msfr_mix2_benchmark_temperature_res.m',
+        'res/m2_msfr_mix2_benchmark_temperature_res.m',
+        'res/m3_msfr_mix2_benchmark_temperature_res.m',
+        'res/m4_msfr_mix2_benchmark_temperature_res.m',
+        'res/m5_msfr_mix2_benchmark_temperature_res.m',
+        'res/m6_msfr_mix2_benchmark_temperature_res.m',
+    ]
+
+    res_files_mix2_den = [
+        'res/msfr_mix2_benchmark_density_res.m',
+        'res/m1_msfr_mix2_benchmark_density_res.m',
+        'res/m2_msfr_mix2_benchmark_density_res.m',
+        'res/m3_msfr_mix2_benchmark_density_res.m',
+        'res/m4_msfr_mix2_benchmark_density_res.m',
+        'res/m5_msfr_mix2_benchmark_density_res.m',
+        'res/m6_msfr_mix2_benchmark_density_res.m',
+    ]
+
     res_files_mix1_tmp_burn = [
         'res/msfr_mix1_benchmark_burn_temperature_res.m',
         'res/m1_msfr_mix1_benchmark_burn_temperature_res.m',
@@ -1777,18 +2108,19 @@ def main():
         'res/m6_msfr_mix1_benchmark_burn_density_res.m',
     ]
 
-    plot_values(dep_files_mix1, inp_file)
+    #plot_values(dep_files_mix1, inp_file)
 
-    plot_tru_values(dep_files_mix2, inp_file)
+    #plot_tru_values(dep_files_mix2, inp_file)
 
-    keff(res_files_mix1_burn, inp_file)
+    #keff(res_files_mix1_burn, inp_file)
 
-    keff_tru(res_files_mix2_burn, inp_file)
+    #keff_tru(res_files_mix2_burn, inp_file)
 
-    feedback(res_files_mix1_burn, res_files_mix1_tmp_burn, res_files_mix1_den_burn, inp_file)
+    #feedback(res_files_mix1_burn, res_files_mix1_tmp_burn, res_files_mix1_den_burn, inp_file)
     
-    #Os valores de k_rho e k_feed não estão batendo com os do xlsx
     h_index(res_files_mix1, res_files_mix1_den, res_files_mix1_tmp)
+
+    h_index_tru(res_files_mix2, res_files_mix2_den, res_files_mix2_tmp)
 
     
 
@@ -1798,3 +2130,9 @@ if __name__ == "__main__":
     for file in os.listdir(os.getcwd()):
         if file.endswith('.png'):
             os.replace(f'{file}', f'img/{file}')
+
+    err = pd.concat(err)
+
+    if os.path.exists('err.xlsx'):
+        os.remove('err.xlsx')
+    err.to_excel('err.xlsx')

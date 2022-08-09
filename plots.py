@@ -1185,6 +1185,7 @@ def tox_tru(out_files, inp_file):
 #    plt.clf()
 
 def feedback(out_files, out_files_tmp, out_files_den, inp_file):
+    years = timesteps(inp_file)
 
     out     = neutronic_output(out_files[0], inp_file)
     out_tmp = neutronic_output(out_files_tmp[0], inp_file)
@@ -1224,7 +1225,7 @@ def feedback(out_files, out_files_tmp, out_files_den, inp_file):
     plt.xscale('log')
     plt.xlabel('Operation Time (Years)')
     plt.ylabel('Feedback Coefficient (pcm/K)')
-    plt.savefig('keff_feedback.png', bbox_inches='tight')
+    plt.savefig('feedback.png', bbox_inches='tight')
     plt.clf()
 
     #Temp and Den
@@ -1240,8 +1241,8 @@ def feedback(out_files, out_files_tmp, out_files_den, inp_file):
     
     plt.xscale('log')
     plt.xlabel('Operation Time (Years)')
-    plt.ylabel('Density coefficient and Doppler coefficient')
-    plt.savefig('keff_dop_den.png', bbox_inches='tight')
+    #plt.ylabel('Density coefficient and Doppler coefficient')
+    plt.savefig('doppler_and_den.png', bbox_inches='tight')
     plt.clf()
 
     #Feedback msh:
@@ -1331,8 +1332,8 @@ def feedback(out_files, out_files_tmp, out_files_den, inp_file):
 
     #Feedback coef.
     for i, v in enumerate(res):
-        if i == 0: plt.plot(v, '.-', label = 'No Mesh')
-        else:      plt.plot(v, '.-', label = f'Mesh {i}')
+        if i == 0: plt.plot(years, v, '.-', label = 'No Mesh')
+        else:      plt.plot(years, v, '.-', label = f'Mesh {i}')
     
     # plt.errorbar(x, y_res, err_res, linestyle = 'None', 
     #             color = 'black', capsize = 3)
@@ -1353,13 +1354,13 @@ def feedback(out_files, out_files_tmp, out_files_den, inp_file):
     plt.xscale('log')
     plt.xlabel('Operation Time (Years)')
     plt.ylabel('Feedback Coefficient (pcm/K)')
-    plt.savefig('keff_feedback_msh.png', bbox_inches='tight')
+    plt.savefig('feedback_msh.png', bbox_inches='tight')
     plt.clf()
 
     #Doppler Msh
     for i, v in enumerate(doppler_coef):
-        if i == 0: plt.plot(v, '.-', label = 'No Mesh')
-        else:      plt.plot(v, '.-', label = f'Mesh {i}')
+        if i == 0: plt.plot(years, v, '.-', label = 'No Mesh')
+        else:      plt.plot(years, v, '.-', label = f'Mesh {i}')
 
     # plt.errorbar(x, doppler_coef['keff'], err_tmp, linestyle = 'None', 
     #             color = 'black', capsize = 3)
@@ -1380,14 +1381,14 @@ def feedback(out_files, out_files_tmp, out_files_den, inp_file):
     
     plt.xscale('log')
     plt.xlabel('Operation Time (Years)')
-    plt.ylabel('Doppler Coefficient')
-    plt.savefig('keff_dop_msh.png', bbox_inches='tight')
+    plt.ylabel('Doppler Coefficient (pcm/k)')
+    plt.savefig('doppler_msh.png', bbox_inches='tight')
     plt.clf()
 
     #Density Msh
     for i, v in enumerate(density_coef):
-        if i == 0: plt.plot(v, '.-', label = 'No Mesh')
-        else:      plt.plot(v, '.-', label = f'Mesh {i}')
+        if i == 0: plt.plot(years, v, '.-', label = 'No Mesh')
+        else:      plt.plot(years, v, '.-', label = f'Mesh {i}')
 
     #plt.errorbar(x, density_coef['keff'], err_den, linestyle = 'None', 
     #            color = 'black', capsize = 3)
@@ -1408,8 +1409,8 @@ def feedback(out_files, out_files_tmp, out_files_den, inp_file):
     
     plt.xscale('log')
     plt.xlabel('Operation Time (Years)')
-    plt.ylabel('Density Coefficient')
-    plt.savefig('keff_den_msh.png', bbox_inches='tight')
+    plt.ylabel('Density Coefficient (pcm/k)')
+    plt.savefig('density_msh.png', bbox_inches='tight')
     plt.clf()
 
 
@@ -1440,7 +1441,7 @@ def h_index(out_files, out_files_tmp, out_files_den):
     #plt.errorbar(h[0:5], keff[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
-    plt.xlabel('h')
+    plt.xlabel('h (m)')
     plt.ylabel(r'Multiplication Factor ($K_{eff}$)')
     plt.savefig('keff_h.png', bbox_inches = 'tight')
     plt.clf()
@@ -1470,8 +1471,8 @@ def h_index(out_files, out_files_tmp, out_files_den):
     #plt.errorbar(h[0:5], beta_zero[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
-    plt.xlabel('h')
-    plt.ylabel('Beta Zero')
+    plt.xlabel('h (m)')
+    plt.ylabel('Beta Zero (pcm)')
     plt.savefig('beta_zero_h.png', bbox_inches = 'tight')
     plt.clf()
     
@@ -1500,8 +1501,8 @@ def h_index(out_files, out_files_tmp, out_files_den):
     #plt.errorbar(h[0:5], beta_eff[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
-    plt.xlabel('h')
-    plt.ylabel('Beta Effective')
+    plt.xlabel('h (m)')
+    plt.ylabel('Beta Effective (pcm)')
     plt.savefig('beta_eff_h.png', bbox_inches = 'tight')
     plt.clf()
     
@@ -1530,7 +1531,7 @@ def h_index(out_files, out_files_tmp, out_files_den):
     #plt.errorbar(h[0:5], gen_time[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
-    plt.xlabel('h')
+    plt.xlabel('h (m)')
     plt.ylabel('Generation Time')
     plt.savefig('gen_time_h.png', bbox_inches = 'tight')
     plt.clf()
@@ -1589,8 +1590,8 @@ def h_index(out_files, out_files_tmp, out_files_den):
     #plt.errorbar(h[0:5], keff_doppler[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
-    plt.xlabel('h')
-    plt.ylabel('Keff Doppler')
+    plt.xlabel('h (m)')
+    plt.ylabel(r'Multiplication Factor ($K_{eff}$) - Doppler')
     plt.savefig('keff_doppler_h.png', bbox_inches = 'tight')
     plt.clf()
 
@@ -1612,8 +1613,8 @@ def h_index(out_files, out_files_tmp, out_files_den):
     #plt.errorbar(h[0:5], keff_rho[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
-    plt.xlabel('h')
-    plt.ylabel('Keff Rho')
+    plt.xlabel('h (m)')
+    plt.ylabel(r'Multiplication Factor ($K_{eff}$) - Density')
     plt.savefig('keff_rho_h.png', bbox_inches = 'tight')
     plt.clf()
 
@@ -1635,8 +1636,8 @@ def h_index(out_files, out_files_tmp, out_files_den):
     #plt.errorbar(h[0:5], doppler_coef[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
-    plt.xlabel('h')
-    plt.ylabel('Doppler Coefficient')
+    plt.xlabel('h (m)')
+    plt.ylabel('Doppler Coefficient (pcm/k)')
     plt.savefig('doppler_h.png', bbox_inches = 'tight')
     plt.clf()
 
@@ -1658,8 +1659,8 @@ def h_index(out_files, out_files_tmp, out_files_den):
     #plt.errorbar(h[0:5], rho_coef[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
-    plt.xlabel('h')
-    plt.ylabel('Density Coefficient')
+    plt.xlabel('h (m)')
+    plt.ylabel('Density Coefficient (pcm/k)')
     plt.savefig('density_h.png', bbox_inches = 'tight')
     plt.clf()
 
@@ -1681,8 +1682,8 @@ def h_index(out_files, out_files_tmp, out_files_den):
     #plt.errorbar(h[0:5], feedback_coef[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
-    plt.xlabel('h')
-    plt.ylabel('Feedback Coefficient')
+    plt.xlabel('h (m)')
+    plt.ylabel('Feedback Coefficient (pcm/k)')
     plt.savefig('feedback_h.png', bbox_inches = 'tight')
     plt.clf()
 
@@ -1714,7 +1715,7 @@ def h_index_tru(out_files, out_files_tmp, out_files_den):
     #plt.errorbar(h[0:5], keff[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
-    plt.xlabel('h')
+    plt.xlabel('h (m)')
     plt.ylabel(r'Multiplication Factor ($K_{eff}$)')
     plt.savefig('keff_h_tru.png', bbox_inches = 'tight')
     plt.clf()
@@ -1744,8 +1745,8 @@ def h_index_tru(out_files, out_files_tmp, out_files_den):
     #plt.errorbar(h[0:5], beta_zero[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
-    plt.xlabel('h')
-    plt.ylabel('Beta Zero')
+    plt.xlabel('h (m)')
+    plt.ylabel('Beta Zero (pcm)')
     plt.savefig('beta_zero_h_tru.png', bbox_inches = 'tight')
     plt.clf()
     
@@ -1774,8 +1775,8 @@ def h_index_tru(out_files, out_files_tmp, out_files_den):
     #plt.errorbar(h[0:5], beta_eff[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
-    plt.xlabel('h')
-    plt.ylabel('Beta Effective')
+    plt.xlabel('h (m)')
+    plt.ylabel('Beta Effective (pcm)')
     plt.savefig('beta_eff_h_tru.png', bbox_inches = 'tight')
     plt.clf()
     
@@ -1804,7 +1805,7 @@ def h_index_tru(out_files, out_files_tmp, out_files_den):
     #plt.errorbar(h[0:5], gen_time[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
-    plt.xlabel('h')
+    plt.xlabel('h (m)')
     plt.ylabel('Generation Time')
     plt.savefig('gen_time_h_tru.png', bbox_inches = 'tight')
     plt.clf()
@@ -1863,8 +1864,8 @@ def h_index_tru(out_files, out_files_tmp, out_files_den):
     #plt.errorbar(h[0:5], keff_doppler[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
-    plt.xlabel('h')
-    plt.ylabel('Keff Doppler')
+    plt.xlabel('h (m)')
+    plt.ylabel(r'Multiplication Factor ($K_{eff}$) - Doppler')
     plt.savefig('keff_doppler_h_tru.png', bbox_inches = 'tight')
     plt.clf()
 
@@ -1886,8 +1887,8 @@ def h_index_tru(out_files, out_files_tmp, out_files_den):
     #plt.errorbar(h[0:5], keff_rho[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
-    plt.xlabel('h')
-    plt.ylabel('Keff Rho')
+    plt.xlabel('h (m)')
+    plt.ylabel(r'Multiplication Factor ($K_{eff}$) -  Density')
     plt.savefig('keff_rho_h_tru.png', bbox_inches = 'tight')
     plt.clf()
 
@@ -1909,8 +1910,8 @@ def h_index_tru(out_files, out_files_tmp, out_files_den):
     #plt.errorbar(h[0:5], doppler_coef[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
-    plt.xlabel('h')
-    plt.ylabel('Doppler Coefficient')
+    plt.xlabel('h (m)')
+    plt.ylabel('Doppler Coefficient (pcm/k)')
     plt.savefig('doppler_h_tru.png', bbox_inches = 'tight')
     plt.clf()
 
@@ -1932,8 +1933,8 @@ def h_index_tru(out_files, out_files_tmp, out_files_den):
     #plt.errorbar(h[0:5], rho_coef[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
-    plt.xlabel('h')
-    plt.ylabel('Density Coefficient')
+    plt.xlabel('h (m)')
+    plt.ylabel('Density Coefficient (pcm/k)')
     plt.savefig('density_h_tru.png', bbox_inches = 'tight')
     plt.clf()
 
@@ -1955,8 +1956,8 @@ def h_index_tru(out_files, out_files_tmp, out_files_den):
     #plt.errorbar(h[0:5], feedback_coef[0:5], err, linestyle = 'None', color = 'black', capsize = 3)
     
     plt.xlim(0)
-    plt.xlabel('h')
-    plt.ylabel('Feedback Coefficient')
+    plt.xlabel('h (m)')
+    plt.ylabel('Feedback Coefficient (pcm/k)')
     plt.savefig('feedback_h_tru.png', bbox_inches = 'tight')
     plt.clf()
 
@@ -2108,15 +2109,15 @@ def main():
         'res/m6_msfr_mix1_benchmark_burn_density_res.m',
     ]
 
-    #plot_values(dep_files_mix1, inp_file)
+    plot_values(dep_files_mix1, inp_file)
 
-    #plot_tru_values(dep_files_mix2, inp_file)
+    plot_tru_values(dep_files_mix2, inp_file)
 
-    #keff(res_files_mix1_burn, inp_file)
+    keff(res_files_mix1_burn, inp_file)
 
-    #keff_tru(res_files_mix2_burn, inp_file)
+    keff_tru(res_files_mix2_burn, inp_file)
 
-    #feedback(res_files_mix1_burn, res_files_mix1_tmp_burn, res_files_mix1_den_burn, inp_file)
+    feedback(res_files_mix1_burn, res_files_mix1_tmp_burn, res_files_mix1_den_burn, inp_file)
     
     h_index(res_files_mix1, res_files_mix1_den, res_files_mix1_tmp)
 

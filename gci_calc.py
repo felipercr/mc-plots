@@ -159,7 +159,7 @@ class gci_values():
         return gci_var
 
 
-def main():
+def gci_calc():
 
     variables = [
         'keff',
@@ -188,12 +188,18 @@ def main():
     for item in variables:
         if item == 'keff' or item == 'feedback' or item == 'doppler' or item == 'density':
             gci.append(gci_values('res', item, 1).gci_var)
-            pass
+            gci.append(gci_values('res', item, 2).gci_var)
         else:
             gci.append(gci_values('dep', item, 1).gci_var)
-            pass
-
+            gci.append(gci_values('dep', item, 2).gci_var)
+    
     gci = pd.concat(gci)
+
+    return gci
+
+def main():
+
+    gci = gci_calc()
 
     if os.path.exists('gci.xlsx'):
         os.remove('gci.xlsx')

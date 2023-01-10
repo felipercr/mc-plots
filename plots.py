@@ -1,6 +1,6 @@
 from masses import *
 from io_data import *
-from gci_calc import gci, gci_values
+import gci_calc as g
 import matplotlib.pyplot as plt
 import numpy as np
 import os
@@ -12,7 +12,7 @@ h3 = 1.07e-1
 h4 = 1.36e-1
 h5 = 1.84e-1
 h6 = 2.69e-1
-h = [h0, h1, h2, h3, h4, h5, h6]
+h = [h0, h1, h3, h5]
 
 err = []
 
@@ -92,21 +92,21 @@ def flow_rate(out_files, inp_file):
     for i, v in enumerate(out_files):
         var = fuel_mass(v, inp_file, len(years))[['Pa']]
         if i == 0: plt.plot(var, label = 'No Mesh')
-        else:      plt.plot(var, label = f'Mesh {i}')
+        elif i == 1: 
+            plt.plot(var, label = f'Mesh {i}')
+            var1 = np.array(var.transpose())[0]
+        elif i == 2: 
+            plt.plot(var, label = f'Mesh {i}')
+            var2 = np.array(var.transpose())[0]
+        elif i == 3: 
+            plt.plot(var, label = f'Mesh {i}')
+            var3 = np.array(var.transpose())[0]
+        
+    err_bar = g.gci(var1, var2, var3, 1)
 
-    gci = gci_values('dep', 'Pa', 1).gci_var
-    gci = np.array(gci)
-    err_bar = gci
+    plt.gca().set_prop_cycle(color = ['tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 
-    plt.gca().set_prop_cycle(None)
-
-    for i, v in enumerate(out_files):
-        var = fuel_mass(v, inp_file, len(years))[['Pa']]
-        if i < 5:
-            y = var.transpose()
-            y = np.array(y)[0]
-            plt.errorbar(years, y, err_bar[i], 
-            linestyle = 'None', capsize = 3)
+    plt.errorbar(years, var1, err_bar, linestyle = 'None', capsize = 3)
 
     plt.gca().set_prop_cycle(None)
     plt.plot(bench_time, 
@@ -116,9 +116,9 @@ def flow_rate(out_files, inp_file):
             130.01, 128.93, 128.93, 128.92, 128.92, 128.92, 128.92], 
             '--', label = 'Benchmark', color = 'k')
 
-    plt.xlim(175, 200)
-    plt.ylim(123.25, 123.55)
-    #plt.yscale('log')
+    plt.xlim(0)
+    #plt.ylim(123.25, 123.55)
+    plt.yscale('log')
     plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
     plt.xlabel('Operation Time (Years)')
     plt.ylabel('Fuel Salt Inventory - Pa (Kg)')
@@ -129,21 +129,21 @@ def flow_rate(out_files, inp_file):
     for i, v in enumerate(out_files):
         var = fuel_mass(v, inp_file, len(years))[['U']]
         if i == 0: plt.plot(var, label = 'No Mesh')
-        else:      plt.plot(var, label = f'Mesh {i}')
+        elif i == 1: 
+            plt.plot(var, label = f'Mesh {i}')
+            var1 = np.array(var.transpose())[0]
+        elif i == 2: 
+            plt.plot(var, label = f'Mesh {i}')
+            var2 = np.array(var.transpose())[0]
+        elif i == 3: 
+            plt.plot(var, label = f'Mesh {i}')
+            var3 = np.array(var.transpose())[0]
+        
+    err_bar = g.gci(var1, var2, var3, 1)
 
-    gci = gci_values('dep', 'U', 1).gci_var
-    gci = np.array(gci)
-    err_bar = gci
+    plt.gca().set_prop_cycle(color = ['tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 
-    plt.gca().set_prop_cycle(None)
-
-    for i, v in enumerate(out_files):
-        var = fuel_mass(v, inp_file, len(years))[['U']]
-        if i < 5:
-            y = var.transpose()
-            y = np.array(y)[0]
-            plt.errorbar(years, y, err_bar[i], 
-            linestyle = 'None', capsize = 3)
+    plt.errorbar(years, var1, err_bar, linestyle = 'None', capsize = 3)
 
     plt.gca().set_prop_cycle(None)
     plt.plot(bench_time, 
@@ -153,9 +153,9 @@ def flow_rate(out_files, inp_file):
             8808.9, 8883, 8883, 8883.1, 8883.1, 8883.2, 8883.5], 
             '--', label = 'Benchmark', color = 'k')
 
-    plt.xlim(175, 200)
-    plt.ylim(8750, 8790)
-    #plt.yscale('log')
+    plt.xlim(0)
+    #plt.ylim(8750, 8790)
+    plt.yscale('log')
     plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
     plt.xlabel('Operation Time (Years)')
     plt.ylabel('Fuel Salt Inventory - U (Kg)')
@@ -166,21 +166,21 @@ def flow_rate(out_files, inp_file):
     for i, v in enumerate(out_files):
         var = fuel_mass(v, inp_file, len(years))[['Np']]
         if i == 0: plt.plot(var, label = 'No Mesh')
-        else:      plt.plot(var, label = f'Mesh {i}')
+        elif i == 1: 
+            plt.plot(var, label = f'Mesh {i}')
+            var1 = np.array(var.transpose())[0]
+        elif i == 2: 
+            plt.plot(var, label = f'Mesh {i}')
+            var2 = np.array(var.transpose())[0]
+        elif i == 3: 
+            plt.plot(var, label = f'Mesh {i}')
+            var3 = np.array(var.transpose())[0]
+        
+    err_bar = g.gci(var1, var2, var3, 1)
 
-    gci = gci_values('dep', 'Np', 1).gci_var
-    gci = np.array(gci)
-    err_bar = gci
+    plt.gca().set_prop_cycle(color = ['tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 
-    plt.gca().set_prop_cycle(None)
-
-    for i, v in enumerate(out_files):
-        var = fuel_mass(v, inp_file, len(years))[['Np']]
-        if i < 5:
-            y = var.transpose()
-            y = np.array(y)[0]
-            plt.errorbar(years, y, err_bar[i], 
-            linestyle = 'None', capsize = 3)
+    plt.errorbar(years, var1, err_bar, linestyle = 'None', capsize = 3)
 
     plt.gca().set_prop_cycle(None)
     plt.plot(bench_time, 
@@ -190,9 +190,9 @@ def flow_rate(out_files, inp_file):
             159.32, 159.34, 169.02, 169.02, 169.04, 169.04, 169.05, 169.08], 
             '--', label = 'Benchmark', color = 'k')
 
-    plt.xlim(175, 200)
-    plt.ylim(158.4, 158.75)
-    #plt.yscale('log')
+    plt.xlim(0)
+    #plt.ylim(158.4, 158.75)
+    plt.yscale('log')
     plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
     plt.xlabel('Operation Time (Years)')
     plt.ylabel('Fuel Salt Inventory - Np (Kg)')
@@ -203,21 +203,21 @@ def flow_rate(out_files, inp_file):
     for i, v in enumerate(out_files):
         var = fuel_mass(v, inp_file, len(years))[['Pu']]
         if i == 0: plt.plot(var, label = 'No Mesh')
-        else:      plt.plot(var, label = f'Mesh {i}')
+        elif i == 1: 
+            plt.plot(var, label = f'Mesh {i}')
+            var1 = np.array(var.transpose())[0]
+        elif i == 2: 
+            plt.plot(var, label = f'Mesh {i}')
+            var2 = np.array(var.transpose())[0]
+        elif i == 3: 
+            plt.plot(var, label = f'Mesh {i}')
+            var3 = np.array(var.transpose())[0]
+        
+    err_bar = g.gci(var1, var2, var3, 1)
 
-    gci = gci_values('dep', 'Pu', 1).gci_var
-    gci = np.array(gci)
-    err_bar = gci
+    plt.gca().set_prop_cycle(color = ['tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 
-    plt.gca().set_prop_cycle(None)
-
-    for i, v in enumerate(out_files):
-        var = fuel_mass(v, inp_file, len(years))[['Pu']]
-        if i < 5:
-            y = var.transpose()
-            y = np.array(y)[0]
-            plt.errorbar(years, y, err_bar[i], 
-            linestyle = 'None', capsize = 3)
+    plt.errorbar(years, var1, err_bar, linestyle = 'None', capsize = 3)
 
     plt.gca().set_prop_cycle(None)
     plt.plot(bench_time, 
@@ -227,9 +227,9 @@ def flow_rate(out_files, inp_file):
             321.74, 321.8, 353.34, 353.36, 353.41, 353.41, 353.45, 353.56],
             '--', label = 'Benchmark', color = 'k')
 
-    plt.xlim(175, 200)
-    plt.ylim(314, 316)
-    #plt.yscale('log')
+    plt.xlim(0)
+    #plt.ylim(314, 316)
+    plt.yscale('log')
     plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
     plt.xlabel('Operation Time (Years)')
     plt.ylabel('Fuel Salt Inventory - Pu (Kg)')
@@ -240,21 +240,21 @@ def flow_rate(out_files, inp_file):
     for i, v in enumerate(out_files):
         var = fuel_mass(v, inp_file, len(years))[['Am']]
         if i == 0: plt.plot(var, label = 'No Mesh')
-        else:      plt.plot(var, label = f'Mesh {i}')
+        elif i == 1: 
+            plt.plot(var, label = f'Mesh {i}')
+            var1 = np.array(var.transpose())[0]
+        elif i == 2: 
+            plt.plot(var, label = f'Mesh {i}')
+            var2 = np.array(var.transpose())[0]
+        elif i == 3: 
+            plt.plot(var, label = f'Mesh {i}')
+            var3 = np.array(var.transpose())[0]
+        
+    err_bar = g.gci(var1, var2, var3, 1)
 
-    gci = gci_values('dep', 'Am', 1).gci_var
-    gci = np.array(gci)
-    err_bar = gci
+    plt.gca().set_prop_cycle(color = ['tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 
-    plt.gca().set_prop_cycle(None)
-
-    for i, v in enumerate(out_files):
-        var = fuel_mass(v, inp_file, len(years))[['Am']]
-        if i < 5:
-            y = var.transpose()
-            y = np.array(y)[0]
-            plt.errorbar(years, y, err_bar[i], 
-            linestyle = 'None', capsize = 3)
+    plt.errorbar(years, var1, err_bar, linestyle = 'None', capsize = 3)
 
     plt.gca().set_prop_cycle(None)
     plt.plot(bench_time, 
@@ -264,9 +264,9 @@ def flow_rate(out_files, inp_file):
             6.3997, 6.4014, 6.405, 6.405, 6.4074, 6.4152], 
             '--', label = 'Benchmark', color = 'k')
 
-    plt.xlim(175, 200)
-    plt.ylim(5.25, 5.44)
-    #plt.yscale('log')
+    plt.xlim(0)
+    #plt.ylim(5.25, 5.44)
+    plt.yscale('log')
     plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
     plt.xlabel('Operation Time (Years)')
     plt.ylabel('Fuel Salt Inventory - Am (Kg)')
@@ -277,21 +277,21 @@ def flow_rate(out_files, inp_file):
     for i, v in enumerate(out_files):
         var = fuel_mass(v, inp_file, len(years))[['Cm']]
         if i == 0: plt.plot(var, label = 'No Mesh')
-        else:      plt.plot(var, label = f'Mesh {i}')
+        elif i == 1: 
+            plt.plot(var, label = f'Mesh {i}')
+            var1 = np.array(var.transpose())[0]
+        elif i == 2: 
+            plt.plot(var, label = f'Mesh {i}')
+            var2 = np.array(var.transpose())[0]
+        elif i == 3: 
+            plt.plot(var, label = f'Mesh {i}')
+            var3 = np.array(var.transpose())[0]
+        
+    err_bar = g.gci(var1, var2, var3, 1)
 
-    gci = gci_values('dep', 'Cm', 1).gci_var
-    gci = np.array(gci)
-    err_bar = gci
+    plt.gca().set_prop_cycle(color = ['tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 
-    plt.gca().set_prop_cycle(None)
-
-    for i, v in enumerate(out_files):
-        var = fuel_mass(v, inp_file, len(years))[['Cm']]
-        if i < 5:
-            y = var.transpose()
-            y = np.array(y)[0]
-            plt.errorbar(years, y, err_bar[i], 
-            linestyle = 'None', capsize = 3)
+    plt.errorbar(years, var1, err_bar, linestyle = 'None', capsize = 3)
 
     plt.gca().set_prop_cycle(None)
     plt.plot(bench_time, 
@@ -301,9 +301,9 @@ def flow_rate(out_files, inp_file):
             2.7384, 5.6867, 5.6896, 5.6959, 5.6959, 5.7001, 5.7138], 
             '--', label = 'Benchmark', color = 'k')
 
-    plt.xlim(175, 200)
-    plt.ylim(4.20, 4.55)
-    #plt.yscale('log')
+    plt.xlim(0)
+    #plt.ylim(4.20, 4.55)
+    plt.yscale('log')
     plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
     plt.xlabel('Operation Time (Years)')
     plt.ylabel('Fuel Salt Inventory - Cm (Kg)')
@@ -364,22 +364,22 @@ def u233total(out_files, inp_file):
     #U233 
     for i, v in enumerate(out_files):
         var = fuel_mass(v, inp_file, len(years))[['233U']]
-        if i == 0: plt.plot(var, 'o-', label = 'No Mesh')
-        else:      plt.plot(var, 'o-', label = f'Mesh {i}')
+        if i == 0: plt.plot(var, label = 'No Mesh')
+        elif i == 1: 
+            plt.plot(var, label = f'Mesh {i}')
+            var1 = np.array(var.transpose())[0]
+        elif i == 2: 
+            plt.plot(var, label = f'Mesh {i}')
+            var2 = np.array(var.transpose())[0]
+        elif i == 3: 
+            plt.plot(var, label = f'Mesh {i}')
+            var3 = np.array(var.transpose())[0]
+        
+    err_bar = g.gci(var1, var2, var3, 1)
 
-    gci = gci_values('dep', '233U', 1).gci_var
-    gci = np.array(gci)
-    err_bar = gci
+    plt.gca().set_prop_cycle(color = ['tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 
-    plt.gca().set_prop_cycle(None)
-
-    for i, v in enumerate(out_files):
-        var = fuel_mass(v, inp_file, len(years))[['233U']]
-        if i < 5:
-            y = var.transpose()
-            y = np.array(y)[0]
-            plt.errorbar(years, y, err_bar[i], 
-            linestyle = 'None', capsize = 3)
+    plt.errorbar(years, var1, err_bar, linestyle = 'None', capsize = 3)
 
     plt.gca().set_prop_cycle(None)
 
@@ -400,22 +400,22 @@ def u233total(out_files, inp_file):
     #U 
     for i, v in enumerate(out_files):
         var = fuel_mass(v, inp_file, len(years))[['U']]
-        if i == 0: plt.plot(var, 'o-', label = 'No Mesh')
-        else:      plt.plot(var, 'o-', label = f'Mesh {i}')
+        if i == 0: plt.plot(var, label = 'No Mesh')
+        elif i == 1: 
+            plt.plot(var, label = f'Mesh {i}')
+            var1 = np.array(var.transpose())[0]
+        elif i == 2: 
+            plt.plot(var, label = f'Mesh {i}')
+            var2 = np.array(var.transpose())[0]
+        elif i == 3: 
+            plt.plot(var, label = f'Mesh {i}')
+            var3 = np.array(var.transpose())[0]
+        
+    err_bar = g.gci(var1, var2, var3, 1)
 
-    gci = gci_values('dep', 'U', 2).gci_var
-    gci = np.array(gci)
-    err_bar = gci
+    plt.gca().set_prop_cycle(color = ['tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 
-    plt.gca().set_prop_cycle(None)
-
-    for i, v in enumerate(out_files):
-        var = fuel_mass(v, inp_file, len(years))[['U']]
-        if i < 5:
-            y = var.transpose()
-            y = np.array(y)[0]
-            plt.errorbar(years, y, err_bar[i], 
-            linestyle = 'None', capsize = 3)
+    plt.errorbar(years, var1, err_bar, linestyle = 'None', capsize = 3)
 
     plt.gca().set_prop_cycle(None)
     plt.plot(bench_time, 
@@ -473,22 +473,22 @@ def u232pa231(out_files, inp_file):
     #U232
     for i, v in enumerate(out_files):
         var = fuel_mass(v, inp_file, len(years))[['232U']]
-        if i == 0: plt.plot(var, 'o-', label = 'No Mesh')
-        else:      plt.plot(var, 'o-', label = f'Mesh {i}')
+        if i == 0: plt.plot(var, label = 'No Mesh')
+        elif i == 1: 
+            plt.plot(var, label = f'Mesh {i}')
+            var1 = np.array(var.transpose())[0]
+        elif i == 2: 
+            plt.plot(var, label = f'Mesh {i}')
+            var2 = np.array(var.transpose())[0]
+        elif i == 3: 
+            plt.plot(var, label = f'Mesh {i}')
+            var3 = np.array(var.transpose())[0]
+        
+    err_bar = g.gci(var1, var2, var3, 1)
 
-    gci = gci_values('dep', '232U', 1).gci_var
-    gci = np.array(gci)
-    err_bar = gci
+    plt.gca().set_prop_cycle(color = ['tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 
-    plt.gca().set_prop_cycle(None)
-
-    for i, v in enumerate(out_files):
-        var = fuel_mass(v, inp_file, len(years))[['232U']]
-        if i < 5:
-            y = var.transpose()
-            y = np.array(y)[0]
-            plt.errorbar(years, y, err_bar[i], 
-            linestyle = 'None', capsize = 3)
+    plt.errorbar(years, var1, err_bar, linestyle = 'None', capsize = 3)
 
     plt.plot(bench_time, 
             [0.1252, 0.1269, 0.3805, 0.3822, 1.3832, 5.5554, 5.5972, 10.5539, 10.5871, 
@@ -496,7 +496,7 @@ def u232pa231(out_files, inp_file):
             'x', label = '232U ENDF-B6 (Benchmark)', color = 'black')
 
     plt.xscale('log')
-    plt.xlim(0.5, 100)
+    plt.xlim(0.5, 105)
     #plt.ylim(0, y_upper_lim)
     plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
     plt.xlabel('Operation Time (Years)')
@@ -507,8 +507,22 @@ def u232pa231(out_files, inp_file):
     #Pa231
     for i, v in enumerate(out_files):
         var = fuel_mass(v, inp_file, len(years))[['231Pa']]
-        if i == 0: plt.plot(var, 'o-', label = 'No Mesh')
-        else:      plt.plot(var, 'o-', label = f'Mesh {i}')
+        if i == 0: plt.plot(var, label = 'No Mesh')
+        elif i == 1: 
+            plt.plot(var, label = f'Mesh {i}')
+            var1 = np.array(var.transpose())[0]
+        elif i == 2: 
+            plt.plot(var, label = f'Mesh {i}')
+            var2 = np.array(var.transpose())[0]
+        elif i == 3: 
+            plt.plot(var, label = f'Mesh {i}')
+            var3 = np.array(var.transpose())[0]
+
+    err_bar = g.gci(var1, var2, var3, 1)
+
+    plt.gca().set_prop_cycle(color = ['tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
+
+    plt.errorbar(years, var1, err_bar, linestyle = 'None', capsize = 3)
 
     plt.plot(bench_time, 
             [1.3903, 1.3998, 2.8883, 2.8996, 5.36, 10.5654, 10.6093, 15.1649, 15.1935, 
@@ -578,22 +592,22 @@ def pu(out_files, inp_file):
     #238Pu
     for i, v in enumerate(out_files):
         var = fuel_mass(v, inp_file, len(years))[['238Pu']]
-        if i == 0: plt.plot(var, 'o-', label = 'No Mesh')
-        else:      plt.plot(var, 'o-', label = f'Mesh {i}')
+        if i == 0: plt.plot(var, label = 'No Mesh')
+        elif i == 1: 
+            plt.plot(var, label = f'Mesh {i}')
+            var1 = np.array(var.transpose())[0]
+        elif i == 2: 
+            plt.plot(var, label = f'Mesh {i}')
+            var2 = np.array(var.transpose())[0]
+        elif i == 3: 
+            plt.plot(var, label = f'Mesh {i}')
+            var3 = np.array(var.transpose())[0]
+        
+    err_bar = g.gci(var1, var2, var3, 1)
 
-    gci = gci_values('dep', '238Pu', 1).gci_var
-    gci = np.array(gci)
-    err_bar = gci
+    plt.gca().set_prop_cycle(color = ['tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 
-    plt.gca().set_prop_cycle(None)
-
-    for i, v in enumerate(out_files):
-        var = fuel_mass(v, inp_file, len(years))[['238Pu']]
-        if i < 5:
-            y = var.transpose()
-            y = np.array(y)[0]
-            plt.errorbar(years, y, err_bar[i], 
-            linestyle = 'None', capsize = 3)
+    plt.errorbar(years, var1, err_bar, linestyle = 'None', capsize = 3)
 
     plt.plot(bench_time, 
             [0.575, 0.575, 0.585, 0.585, 0.974, 0.974, 0.974, 1.021, 1.437, 1.437, 1.456, 1.456, 
@@ -601,7 +615,7 @@ def pu(out_files, inp_file):
             107.874, 174.25, 174.275, 174.282, 174.352],
             's', label = '238Pu (Benchmark)', color = 'k')
 
-    plt.xlim(0, 100)
+    plt.xlim(0, 105)
     plt.ylim(bottom=0)
     plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
     plt.xlabel('Operation Time (Years)')
@@ -612,22 +626,22 @@ def pu(out_files, inp_file):
     #239Pu
     for i, v in enumerate(out_files):
         var = fuel_mass(v, inp_file, len(years))[['239Pu']]
-        if i == 0: plt.plot(var, 'o-', label = 'No Mesh')
-        else:      plt.plot(var, 'o-', label = f'Mesh {i}')
+        if i == 0: plt.plot(var, label = 'No Mesh')
+        elif i == 1: 
+            plt.plot(var, label = f'Mesh {i}')
+            var1 = np.array(var.transpose())[0]
+        elif i == 2: 
+            plt.plot(var, label = f'Mesh {i}')
+            var2 = np.array(var.transpose())[0]
+        elif i == 3: 
+            plt.plot(var, label = f'Mesh {i}')
+            var3 = np.array(var.transpose())[0]
+        
+    err_bar = g.gci(var1, var2, var3, 1)
 
-    gci = gci_values('dep', '239Pu', 1).gci_var
-    gci = np.array(gci)
-    err_bar = gci
+    plt.gca().set_prop_cycle(color = ['tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 
-    plt.gca().set_prop_cycle(None)
-
-    for i, v in enumerate(out_files):
-        var = fuel_mass(v, inp_file, len(years))[['239Pu']]
-        if i < 5:
-            y = var.transpose()
-            y = np.array(y)[0]
-            plt.errorbar(years, y, err_bar[i], 
-            linestyle = 'None', capsize = 3)
+    plt.errorbar(years, var1, err_bar, linestyle = 'None', capsize = 3)
 
     plt.plot(bench_time, 
             [0.417, 0.417, 0.439, 0.439, 1.314, 1.314, 1.314, 1.344, 1.731, 1.731, 1.748, 1.748, 
@@ -635,7 +649,7 @@ def pu(out_files, inp_file):
             69.919, 69.931, 69.934, 69.968], 
             '^', label = '239Pu (Benchmark)', color = 'k')
 
-    plt.xlim(0, 100)
+    plt.xlim(0, 105)
     plt.ylim(bottom=0)
     plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
     plt.xlabel('Operation Time (Years)')
@@ -646,22 +660,22 @@ def pu(out_files, inp_file):
     #240Pu
     for i, v in enumerate(out_files):
         var = fuel_mass(v, inp_file, len(years))[['240Pu']]
-        if i == 0: plt.plot(var, 'o-', label = 'No Mesh')
-        else:      plt.plot(var, 'o-', label = f'Mesh {i}')
+        if i == 0: plt.plot(var, label = 'No Mesh')
+        elif i == 1: 
+            plt.plot(var, label = f'Mesh {i}')
+            var1 = np.array(var.transpose())[0]
+        elif i == 2: 
+            plt.plot(var, label = f'Mesh {i}')
+            var2 = np.array(var.transpose())[0]
+        elif i == 3: 
+            plt.plot(var, label = f'Mesh {i}')
+            var3 = np.array(var.transpose())[0]
+        
+    err_bar = g.gci(var1, var2, var3, 1)
 
-    gci = gci_values('dep', '240Pu', 1).gci_var
-    gci = np.array(gci)
-    err_bar = gci
+    plt.gca().set_prop_cycle(color = ['tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 
-    plt.gca().set_prop_cycle(None)
-
-    for i, v in enumerate(out_files):
-        var = fuel_mass(v, inp_file, len(years))[['240Pu']]
-        if i < 5:
-            y = var.transpose()
-            y = np.array(y)[0]
-            plt.errorbar(years, y, err_bar[i], 
-            linestyle = 'None', capsize = 3)
+    plt.errorbar(years, var1, err_bar, linestyle = 'None', capsize = 3)
 
     plt.plot(bench_time, 
             [0.439, 0.439, 0.446, 0.446, 0.729, 0.729, 0.729, 0.749, 1.017, 1.017, 1.031, 1.031, 
@@ -669,7 +683,7 @@ def pu(out_files, inp_file):
             53.495, 53.508, 53.512, 53.548],
             '+', label = '240Pu (Benchmark)', color = 'k')
 
-    plt.xlim(0, 100)
+    plt.xlim(0, 105)
     plt.ylim(bottom=0)
     plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
     plt.xlabel('Operation Time (Years)')
@@ -680,22 +694,22 @@ def pu(out_files, inp_file):
     #241Pu
     for i, v in enumerate(out_files):
         var = fuel_mass(v, inp_file, len(years))[['241Pu']]
-        if i == 0: plt.plot(var, 'o-', label = 'No Mesh')
-        else:      plt.plot(var, 'o-', label = f'Mesh {i}')
+        if i == 0: plt.plot(var, label = 'No Mesh')
+        elif i == 1: 
+            plt.plot(var, label = f'Mesh {i}')
+            var1 = np.array(var.transpose())[0]
+        elif i == 2: 
+            plt.plot(var, label = f'Mesh {i}')
+            var2 = np.array(var.transpose())[0]
+        elif i == 3: 
+            plt.plot(var, label = f'Mesh {i}')
+            var3 = np.array(var.transpose())[0]
+        
+    err_bar = g.gci(var1, var2, var3, 1)
 
-    gci = gci_values('dep', '241Pu', 1).gci_var
-    gci = np.array(gci)
-    err_bar = gci
+    plt.gca().set_prop_cycle(color = ['tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 
-    plt.gca().set_prop_cycle(None)
-
-    for i, v in enumerate(out_files):
-        var = fuel_mass(v, inp_file, len(years))[['241Pu']]
-        if i < 5:
-            y = var.transpose()
-            y = np.array(y)[0]
-            plt.errorbar(years, y, err_bar[i], 
-            linestyle = 'None', capsize = 3)
+    plt.errorbar(years, var1, err_bar, linestyle = 'None', capsize = 3)
 
     plt.plot(bench_time, 
             [0.585, 0.585, 0.585, 0.585, 0.582, 0.582, 0.582, 0.582, 0.578, 0.578, 0.578, 0.578, 
@@ -703,8 +717,8 @@ def pu(out_files, inp_file):
             10.971, 10.973, 10.973, 10.98],
             '*', label = '241Pu (Benchmark)', color = 'k')
 
-    plt.xlim(0, 100)
-    plt.ylim(0, 30)
+    plt.xlim(0, 105)
+    plt.ylim(bottom = 0)
     plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
     plt.xlabel('Operation Time (Years)')
     plt.ylabel('Fuel Salt Inventory - 241Pu (Kg)')
@@ -778,22 +792,21 @@ def flow_rate_tru(out_files, inp_file):
     for i, v in enumerate(out_files):
         var = fuel_mass(v, inp_file, len(years))[['Pa']]
         if i == 0: plt.plot(var, label = 'No Mesh')
-        else:      plt.plot(var, label = f'Mesh {i}')
+        elif i == 1: 
+            plt.plot(var, label = f'Mesh {i}')
+            var1 = np.array(var.transpose())[0]
+        elif i == 2: 
+            plt.plot(var, label = f'Mesh {i}')
+            var2 = np.array(var.transpose())[0]
+        elif i == 3: 
+            plt.plot(var, label = f'Mesh {i}')
+            var3 = np.array(var.transpose())[0]
+        
+    err_bar = g.gci(var1, var2, var3, 1)
 
-    gci = gci_values('dep', 'Pa', 2).gci_var
-    gci = np.array(gci)
-    err_bar = gci
+    plt.gca().set_prop_cycle(color = ['tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 
-    plt.gca().set_prop_cycle(None)
-
-    for i, v in enumerate(out_files):
-        var = fuel_mass(v, inp_file, len(years))[['Pa']]
-        if i < 5:
-            y = var.transpose()
-            y = np.array(y)[0]
-            err_bar[i] = err_bar[i] * y
-            plt.errorbar(years, y, err_bar[i], 
-            linestyle = 'None', capsize = 3)
+    plt.errorbar(years, var1, err_bar, linestyle = 'None', capsize = 3)
 
     plt.gca().set_prop_cycle(None)
     plt.plot(bench_time, 
@@ -813,22 +826,21 @@ def flow_rate_tru(out_files, inp_file):
     for i, v in enumerate(out_files):
         var = fuel_mass(v, inp_file, len(years))[['U']]
         if i == 0: plt.plot(var, label = 'No Mesh')
-        else:      plt.plot(var, label = f'Mesh {i}')
+        elif i == 1: 
+            plt.plot(var, label = f'Mesh {i}')
+            var1 = np.array(var.transpose())[0]
+        elif i == 2: 
+            plt.plot(var, label = f'Mesh {i}')
+            var2 = np.array(var.transpose())[0]
+        elif i == 3: 
+            plt.plot(var, label = f'Mesh {i}')
+            var3 = np.array(var.transpose())[0]
+        
+    err_bar = g.gci(var1, var2, var3, 1)
 
-    gci = gci_values('dep', 'U', 2).gci_var
-    gci = np.array(gci)
-    err_bar = gci
+    plt.gca().set_prop_cycle(color = ['tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 
-    plt.gca().set_prop_cycle(None)
-
-    for i, v in enumerate(out_files):
-        var = fuel_mass(v, inp_file, len(years))[['U']]
-        if i < 5:
-            y = var.transpose()
-            y = np.array(y)[0]
-            err_bar[i] = err_bar[i] * y
-            plt.errorbar(years, y, err_bar[i], 
-            linestyle = 'None', capsize = 3)
+    plt.errorbar(years, var1, err_bar, linestyle = 'None', capsize = 3)
 
     plt.gca().set_prop_cycle(None)
     plt.plot(bench_time, 
@@ -849,22 +861,21 @@ def flow_rate_tru(out_files, inp_file):
     for i, v in enumerate(out_files):
         var = fuel_mass(v, inp_file, len(years))[['Np']]
         if i == 0: plt.plot(var, label = 'No Mesh')
-        else:      plt.plot(var, label = f'Mesh {i}')
+        elif i == 1: 
+            plt.plot(var, label = f'Mesh {i}')
+            var1 = np.array(var.transpose())[0]
+        elif i == 2: 
+            plt.plot(var, label = f'Mesh {i}')
+            var2 = np.array(var.transpose())[0]
+        elif i == 3: 
+            plt.plot(var, label = f'Mesh {i}')
+            var3 = np.array(var.transpose())[0]
+        
+    err_bar = g.gci(var1, var2, var3, 1)
 
-    gci = gci_values('dep', 'Np', 2).gci_var
-    gci = np.array(gci)
-    err_bar = gci
+    plt.gca().set_prop_cycle(color = ['tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 
-    plt.gca().set_prop_cycle(None)
-
-    for i, v in enumerate(out_files):
-        var = fuel_mass(v, inp_file, len(years))[['Np']]
-        if i < 5:
-            y = var.transpose()
-            y = np.array(y)[0]
-            err_bar[i] = err_bar[i] * y
-            plt.errorbar(years, y, err_bar[i], 
-            linestyle = 'None', capsize = 3)
+    plt.errorbar(years, var1, err_bar, linestyle = 'None', capsize = 3)
 
     plt.gca().set_prop_cycle(None)
     plt.plot(bench_time, 
@@ -885,22 +896,21 @@ def flow_rate_tru(out_files, inp_file):
     for i, v in enumerate(out_files):
         var = fuel_mass(v, inp_file, len(years))[['Pu']]
         if i == 0: plt.plot(var, label = 'No Mesh')
-        else:      plt.plot(var, label = f'Mesh {i}')
+        elif i == 1: 
+            plt.plot(var, label = f'Mesh {i}')
+            var1 = np.array(var.transpose())[0]
+        elif i == 2: 
+            plt.plot(var, label = f'Mesh {i}')
+            var2 = np.array(var.transpose())[0]
+        elif i == 3: 
+            plt.plot(var, label = f'Mesh {i}')
+            var3 = np.array(var.transpose())[0]
+        
+    err_bar = g.gci(var1, var2, var3, 1)
 
-    gci = gci_values('dep', 'Pu', 2).gci_var
-    gci = np.array(gci)
-    err_bar = gci
+    plt.gca().set_prop_cycle(color = ['tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 
-    plt.gca().set_prop_cycle(None)
-
-    for i, v in enumerate(out_files):
-        var = fuel_mass(v, inp_file, len(years))[['Pu']]
-        if i < 5:
-            y = var.transpose()
-            y = np.array(y)[0]
-            err_bar[i] = err_bar[i] * y
-            plt.errorbar(years, y, err_bar[i], 
-            linestyle = 'None', capsize = 3)
+    plt.errorbar(years, var1, err_bar, linestyle = 'None', capsize = 3)
 
     plt.gca().set_prop_cycle(None)
     plt.plot(bench_time, 
@@ -921,22 +931,21 @@ def flow_rate_tru(out_files, inp_file):
     for i, v in enumerate(out_files):
         var = fuel_mass(v, inp_file, len(years))[['Am']]
         if i == 0: plt.plot(var, label = 'No Mesh')
-        else:      plt.plot(var, label = f'Mesh {i}')
+        elif i == 1: 
+            plt.plot(var, label = f'Mesh {i}')
+            var1 = np.array(var.transpose())[0]
+        elif i == 2: 
+            plt.plot(var, label = f'Mesh {i}')
+            var2 = np.array(var.transpose())[0]
+        elif i == 3: 
+            plt.plot(var, label = f'Mesh {i}')
+            var3 = np.array(var.transpose())[0]
+        
+    err_bar = g.gci(var1, var2, var3, 1)
 
-    gci = gci_values('dep', 'Am', 2).gci_var
-    gci = np.array(gci)
-    err_bar = gci
+    plt.gca().set_prop_cycle(color = ['tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 
-    plt.gca().set_prop_cycle(None)
-
-    for i, v in enumerate(out_files):
-        var = fuel_mass(v, inp_file, len(years))[['Am']]
-        if i < 5:
-            y = var.transpose()
-            y = np.array(y)[0]
-            err_bar[i] = err_bar[i] * y
-            plt.errorbar(years, y, err_bar[i], 
-            linestyle = 'None', capsize = 3)
+    plt.errorbar(years, var1, err_bar, linestyle = 'None', capsize = 3)
 
     plt.gca().set_prop_cycle(None)
     plt.plot(bench_time, 
@@ -957,22 +966,21 @@ def flow_rate_tru(out_files, inp_file):
     for i, v in enumerate(out_files):
         var = fuel_mass(v, inp_file, len(years))[['Cm']]
         if i == 0: plt.plot(var, label = 'No Mesh')
-        else:      plt.plot(var, label = f'Mesh {i}')
+        elif i == 1: 
+            plt.plot(var, label = f'Mesh {i}')
+            var1 = np.array(var.transpose())[0]
+        elif i == 2: 
+            plt.plot(var, label = f'Mesh {i}')
+            var2 = np.array(var.transpose())[0]
+        elif i == 3: 
+            plt.plot(var, label = f'Mesh {i}')
+            var3 = np.array(var.transpose())[0]
+        
+    err_bar = g.gci(var1, var2, var3, 1)
 
-    gci = gci_values('dep', 'Cm', 2).gci_var
-    gci = np.array(gci)
-    err_bar = gci
+    plt.gca().set_prop_cycle(color = ['tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 
-    plt.gca().set_prop_cycle(None)
-
-    for i, v in enumerate(out_files):
-        var = fuel_mass(v, inp_file, len(years))[['Cm']]
-        if i < 5:
-            y = var.transpose()
-            y = np.array(y)[0]
-            err_bar[i] = err_bar[i] * y
-            plt.errorbar(years, y, err_bar[i], 
-            linestyle = 'None', capsize = 3)
+    plt.errorbar(years, var1, err_bar, linestyle = 'None', capsize = 3)
 
     plt.gca().set_prop_cycle(None)
     plt.plot(bench_time, 
@@ -1029,21 +1037,21 @@ def pu_tru_tru(out_files, inp_file):
     for i, v in enumerate(out_files):
         var = fuel_mass(v, inp_file, len(years))[['Pu']]
         if i == 0: plt.plot(var, label = 'No Mesh')
-        else:      plt.plot(var, label = f'Mesh {i}')
+        elif i == 1: 
+            plt.plot(var, label = f'Mesh {i}')
+            var1 = np.array(var.transpose())[0]
+        elif i == 2: 
+            plt.plot(var, label = f'Mesh {i}')
+            var2 = np.array(var.transpose())[0]
+        elif i == 3: 
+            plt.plot(var, label = f'Mesh {i}')
+            var3 = np.array(var.transpose())[0]
+        
+    err_bar = g.gci(var1, var2, var3, 1)
 
-    gci = gci_values('dep', 'Pu', 2).gci_var
-    gci = np.array(gci)
-    err_bar = gci
+    plt.gca().set_prop_cycle(color = ['tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 
-    plt.gca().set_prop_cycle(None)
-
-    for i, v in enumerate(out_files):
-        var = fuel_mass(v, inp_file, len(years))[['Pu']]
-        if i < 5:
-            y = var.transpose()
-            y = np.array(y)[0]
-            plt.errorbar(years, y, err_bar[i], 
-            linestyle = 'None', capsize = 3)
+    plt.errorbar(years, var1, err_bar, linestyle = 'None', capsize = 3)
 
     plt.plot(bench_time, 
             [10749.9, 10281.9, 9929.6, 9268.6, 7296.4, 5277, 2932, 707.73, 343.2], 
@@ -1104,18 +1112,6 @@ def u_tru(out_files, inp_file):
     plt.xscale('log')
     plt.yscale('log')
     plt.xlim(0.5, 60)
-
-    #if mass.to_numpy().max() > 8631:
-    #    ymax = mass.to_numpy().max()
-    #else:
-    #    ymax = 8631
-
-    #y_upper_lim = 1
-
-    #while ymax > y_upper_lim:
-    #    y_upper_lim *= 10
-
-    #plt.ylim(1e2, y_upper_lim)
     plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
     plt.xlabel('Operation Time (Years)')
     plt.ylabel('Fuel Salt Inventory (Kg)')
@@ -1126,21 +1122,21 @@ def u_tru(out_files, inp_file):
     for i, v in enumerate(out_files):
         var = fuel_mass(v, inp_file, len(years))[['U']]
         if i == 0: plt.plot(var, label = 'No Mesh')
-        else:      plt.plot(var, label = f'Mesh {i}')
+        elif i == 1: 
+            plt.plot(var, label = f'Mesh {i}')
+            var1 = np.array(var.transpose())[0]
+        elif i == 2: 
+            plt.plot(var, label = f'Mesh {i}')
+            var2 = np.array(var.transpose())[0]
+        elif i == 3: 
+            plt.plot(var, label = f'Mesh {i}')
+            var3 = np.array(var.transpose())[0]
+        
+    err_bar = g.gci(var1, var2, var3, 1)
 
-    gci = gci_values('dep', 'U', 2).gci_var
-    gci = np.array(gci)
-    err_bar = gci
+    plt.gca().set_prop_cycle(color = ['tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 
-    plt.gca().set_prop_cycle(None)
-
-    for i, v in enumerate(out_files):
-        var = fuel_mass(v, inp_file, len(years))[['U']]
-        if i < 5:
-            y = var.transpose()
-            y = np.array(y)[0]
-            plt.errorbar(years, y, err_bar[i], 
-            linestyle = 'None', capsize = 3)
+    plt.errorbar(years, var1, err_bar, linestyle = 'None', capsize = 3)
 
     plt.plot(bench_time, 
             [474.02, 896.22, 1590.9, 3007, 4511.2, 6135.2, 8110.9, 8631.1], 
@@ -1159,21 +1155,21 @@ def u_tru(out_files, inp_file):
     for i, v in enumerate(out_files):
         var = fuel_mass(v, inp_file, len(years))[['233U']]
         if i == 0: plt.plot(var, label = 'No Mesh')
-        else:      plt.plot(var, label = f'Mesh {i}')
+        elif i == 1: 
+            plt.plot(var, label = f'Mesh {i}')
+            var1 = np.array(var.transpose())[0]
+        elif i == 2: 
+            plt.plot(var, label = f'Mesh {i}')
+            var2 = np.array(var.transpose())[0]
+        elif i == 3: 
+            plt.plot(var, label = f'Mesh {i}')
+            var3 = np.array(var.transpose())[0]
+        
+    err_bar = g.gci(var1, var2, var3, 1)
 
-    gci = gci_values('dep', '233U', 2).gci_var
-    gci = np.array(gci)
-    err_bar = gci
+    plt.gca().set_prop_cycle(color = ['tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 
-    plt.gca().set_prop_cycle(None)
-
-    for i, v in enumerate(out_files):
-        var = fuel_mass(v, inp_file, len(years))[['233U']]
-        if i < 5:
-            y = var.transpose()
-            y = np.array(y)[0]
-            plt.errorbar(years, y, err_bar[i], 
-            linestyle = 'None', capsize = 3)
+    plt.errorbar(years, var1, err_bar, linestyle = 'None', capsize = 3)
 
     plt.plot(bench_time, 
             [456.77, 851, 1499.01, 2767.4, 3752.1, 4442.3, 4881.5, 4976.7], 
@@ -1212,11 +1208,11 @@ def keff(out_files_mix1, out_files_mix2 ,inp_file):
 
     #All meshes
     keff_gci = [0]
-    for item in range(1, 5):
-        var1 = neutronic_output(out_files_mix2[item]).keff
-        var2 = neutronic_output(out_files_mix2[item + 1]).keff
-        var3 = neutronic_output(out_files_mix2[item + 2]).keff
-        keff_gci.append(gci(var1, var2, var3, item)[0])
+    for item in range(1, len(out_files_mix1) - 2):
+        var1 = neutronic_output(out_files_mix1[item]).keff
+        var2 = neutronic_output(out_files_mix1[item + 1]).keff
+        var3 = neutronic_output(out_files_mix1[item + 2]).keff
+        keff_gci.append(g.gci(var1, var2, var3, item)[0])
 
     for i, v in enumerate(out_files_mix1):
         k = neutronic_output(v, inp_file)
@@ -1224,26 +1220,14 @@ def keff(out_files_mix1, out_files_mix2 ,inp_file):
         if i == 0: plt.plot(var, '.-', label = 'No Mesh')
         else:      plt.plot(var, '.-', label = f'Mesh {i}')
 
+        if i < 2: 
+            err = np.array(keff_gci[i]) + k.keff_sd
 
-
-        if i < 5: err = np.array(k.keff_sd) + (np.array(keff_gci[i]) * np.array(var.transpose()))
         else: err = 0
 
-        if i == 0:
-            plt.errorbar(years, k.keff, err, linestyle = 'None', 
-                        color = 'tab:blue', capsize = 3)
         if i == 1:
             plt.errorbar(years, k.keff, err, linestyle = 'None', 
                         color = 'tab:orange', capsize = 3)
-        if i == 2:
-            plt.errorbar(years, k.keff, err, linestyle = 'None', 
-                        color = 'tab:green', capsize = 3)
-        if i == 3:
-            plt.errorbar(years, k.keff, err, linestyle = 'None', 
-                        color = 'tab:red', capsize = 3)
-        if i == 4:
-            plt.errorbar(years, k.keff, err, linestyle = 'None', 
-                        color = 'tab:purple', capsize = 3)
 
     plt.xlim(0, 200)
     plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
@@ -1255,30 +1239,26 @@ def keff(out_files_mix1, out_files_mix2 ,inp_file):
     plt.savefig('keff_msh_amp.png', bbox_inches='tight')
     plt.clf()
 
+    keff_gci = [0]
+    for item in range(1, len(out_files_mix2) - 2):
+        var1 = neutronic_output(out_files_mix2[item]).keff
+        var2 = neutronic_output(out_files_mix2[item + 1]).keff
+        var3 = neutronic_output(out_files_mix2[item + 2]).keff
+        keff_gci.append(g.gci(var1, var2, var3, item)[0])
+
     for i, v in enumerate(out_files_mix2):
         k = neutronic_output(v, inp_file)
         var = k.plt_data[['keff']]
         if i == 0: plt.plot(var, '.-', label = 'No Mesh')
         else:      plt.plot(var, '.-', label = f'Mesh {i}')
 
-        if i < 5: err = np.array(k.keff_sd) + np.array(keff_gci[i])
+        if i < 2: 
+            err = np.array(keff_gci[i]) + k.keff_sd
         else: err = 0
 
-        if i == 0:
-            plt.errorbar(years, k.keff, err, linestyle = 'None', 
-                        color = 'tab:blue', capsize = 3)
         if i == 1:
             plt.errorbar(years, k.keff, err, linestyle = 'None', 
                         color = 'tab:orange', capsize = 3)
-        if i == 2:
-            plt.errorbar(years, k.keff, err, linestyle = 'None', 
-                        color = 'tab:green', capsize = 3)
-        if i == 3:
-            plt.errorbar(years, k.keff, err, linestyle = 'None', 
-                        color = 'tab:red', capsize = 3)
-        if i == 4:
-            plt.errorbar(years, k.keff, err, linestyle = 'None', 
-                        color = 'tab:purple', capsize = 3)
 
     plt.xlim(0, 200)
     plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
@@ -1311,22 +1291,22 @@ def fir(out_files_mix1, out_files_mix2, inp_file):
     #All meshes
     for i, v in enumerate(out_files_mix1):
         var = fir_values(v, inp_file, len(years))
-        if i == 0: plt.plot(var, '.-', label = 'No Mesh')
-        else:      plt.plot(var, '.-', label = f'Mesh {i}')
+        if i == 0: plt.plot(var, label = 'No Mesh')
+        elif i == 1: 
+            plt.plot(var, label = f'Mesh {i}')
+            var1 = np.array(var.transpose())[0]
+        elif i == 2: 
+            plt.plot(var, label = f'Mesh {i}')
+            var2 = np.array(var.transpose())[0]
+        elif i == 3: 
+            plt.plot(var, label = f'Mesh {i}')
+            var3 = np.array(var.transpose())[0]
+        
+    err_bar = g.gci(var1, var2, var3, 1)
 
-    gci = gci_values('dep', 'FIR', 1).gci_var
-    gci = np.array(gci)
-    err_bar = gci
+    plt.gca().set_prop_cycle(color = ['tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 
-    plt.gca().set_prop_cycle(None)
-
-    for i, v in enumerate(out_files_mix1):
-        var = fir_values(v, inp_file, len(years))[['FIR']]
-        if i < 5:
-            y = var.transpose()
-            y = np.array(y)[0]
-            plt.errorbar(years, y, err_bar[i], 
-            linestyle = 'None', capsize = 3)
+    plt.errorbar(years, var1, err_bar, linestyle = 'None', capsize = 3)
 
     plt.xlim(0, 200)
     plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
@@ -1337,22 +1317,22 @@ def fir(out_files_mix1, out_files_mix2, inp_file):
 
     for i, v in enumerate(out_files_mix2):
         var = fir_values(v, inp_file, len(years))
-        if i == 0: plt.plot(var, '.-', label = 'No Mesh')
-        else:      plt.plot(var, '.-', label = f'Mesh {i}')
+        if i == 0: plt.plot(var, label = 'No Mesh')
+        elif i == 1: 
+            plt.plot(var, label = f'Mesh {i}')
+            var1 = np.array(var.transpose())[0]
+        elif i == 2: 
+            plt.plot(var, label = f'Mesh {i}')
+            var2 = np.array(var.transpose())[0]
+        elif i == 3: 
+            plt.plot(var, label = f'Mesh {i}')
+            var3 = np.array(var.transpose())[0]
+        
+    err_bar = g.gci(var1, var2, var3, 1)
 
-    gci = gci_values('dep', 'FIR', 2).gci_var
-    gci = np.array(gci)
-    err_bar = gci
+    plt.gca().set_prop_cycle(color = ['tab:orange', 'tab:green', 'tab:red', 'tab:purple'])
 
-    plt.gca().set_prop_cycle(None)
-
-    for i, v in enumerate(out_files_mix2):
-        var = fir_values(v, inp_file, len(years))[['FIR']]
-        if i < 5:
-            y = var.transpose()
-            y = np.array(y)[0]
-            plt.errorbar(years, y, err_bar[i], 
-            linestyle = 'None', capsize = 3)
+    plt.errorbar(years, var1, err_bar, linestyle = 'None', capsize = 3)
 
     plt.xlim(0, 200)
     plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
@@ -1466,7 +1446,7 @@ def feedback(out_files_mix1, out_files_tmp_mix1, out_files_den_mix1,
     doppler_coef_mix1 = []
     density_coef_mix1 = []
 
-    for i in range(7):
+    for i in range(len(out_files_mix1)):
         keff_mix1 = neutronic_output(out_files_mix1[i], inp_file).plt_data[['keff']]
         keff_tmp_mix1 = neutronic_output(out_files_tmp_mix1[i], inp_file).plt_data[['keff']]
         keff_den_mix1 = neutronic_output(out_files_den_mix1[i], inp_file).plt_data[['keff']]
@@ -1479,6 +1459,22 @@ def feedback(out_files_mix1, out_files_tmp_mix1, out_files_den_mix1,
 
     res_mix1 = doppler_coef_mix1 + density_coef_mix1
 
+    doppler_coef_mix2 = []
+    density_coef_mix2 = []
+
+    for i in range(len(out_files_mix2)):
+        keff_mix2 = neutronic_output(out_files_mix2[i], inp_file).plt_data[['keff']]
+        keff_tmp_mix2 = neutronic_output(out_files_tmp_mix2[i], inp_file).plt_data[['keff']]
+        keff_den_mix2 = neutronic_output(out_files_den_mix2[i], inp_file).plt_data[['keff']]
+
+        doppler_coef_mix2.append(abs((keff_mix2 - keff_tmp_mix2)/300) * -1)
+        density_coef_mix2.append(abs((keff_mix2 - keff_den_mix2)/230) * -1)
+
+    doppler_coef_mix2 = np.array(doppler_coef_mix2)
+    density_coef_mix2 = np.array(density_coef_mix2)
+
+    res_mix2 = doppler_coef_mix2 + density_coef_mix2
+
     #Feedback coef.
     for i, v in enumerate(res_mix1):
         if i == 0: plt.plot(years, v, '.-', label = 'No Mesh')
@@ -1489,6 +1485,17 @@ def feedback(out_files_mix1, out_files_tmp_mix1, out_files_den_mix1,
     plt.xlabel('Operation Time (Years)')
     plt.ylabel('Feedback Coefficient (pcm/K)')
     plt.savefig('feedback_msh.png', bbox_inches='tight')
+    plt.clf()
+
+    for i, v in enumerate(res_mix2):
+        if i == 0: plt.plot(years, v, '.-', label = 'No Mesh')
+        else:      plt.plot(years, v, '.-', label = f'Mesh {i}')
+    
+    plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
+    plt.xscale('log')
+    plt.xlabel('Operation Time (Years)')
+    plt.ylabel('Feedback Coefficient (pcm/K)')
+    plt.savefig('feedback_msh_tru.png', bbox_inches='tight')
     plt.clf()
 
     #Doppler Msh
@@ -1504,6 +1511,18 @@ def feedback(out_files_mix1, out_files_tmp_mix1, out_files_den_mix1,
     plt.savefig('doppler_msh.png', bbox_inches='tight')
     plt.clf()
 
+    for i, v in enumerate(doppler_coef_mix2):
+        if i == 0: plt.plot(years, v, '.-', label = 'No Mesh')
+        else:      plt.plot(years, v, '.-', label = f'Mesh {i}')
+
+    plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
+    
+    plt.xscale('log')
+    plt.xlabel('Operation Time (Years)')
+    plt.ylabel('Doppler Coefficient (pcm/k)')
+    plt.savefig('doppler_msh_tru.png', bbox_inches='tight')
+    plt.clf()
+
     #Density Msh
     for i, v in enumerate(density_coef_mix1):
         if i == 0: plt.plot(years, v, '.-', label = 'No Mesh')
@@ -1515,6 +1534,18 @@ def feedback(out_files_mix1, out_files_tmp_mix1, out_files_den_mix1,
     plt.xlabel('Operation Time (Years)')
     plt.ylabel('Density Coefficient (pcm/k)')
     plt.savefig('density_msh.png', bbox_inches='tight')
+    plt.clf()
+
+    for i, v in enumerate(density_coef_mix2):
+        if i == 0: plt.plot(years, v, '.-', label = 'No Mesh')
+        else:      plt.plot(years, v, '.-', label = f'Mesh {i}')
+
+    plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
+    
+    plt.xscale('log')
+    plt.xlabel('Operation Time (Years)')
+    plt.ylabel('Density Coefficient (pcm/k)')
+    plt.savefig('density_msh_tru.png', bbox_inches='tight')
     plt.clf()
 
 
@@ -1531,21 +1562,24 @@ def h_index(out_files_mix1, out_files_tmp_mix1, out_files_den_mix1,
     plt.plot(h, keff, 'o-', label = 'Mix 1')
     
     keff_gci = [0]
-    for item in range(1, 5):
-        var1 = neutronic_output(out_files_mix1[item]).keff
-        var2 = neutronic_output(out_files_mix1[item + 1]).keff
-        var3 = neutronic_output(out_files_mix1[item + 2]).keff
-        keff_gci.append(gci(var1, var2, var3, item)[0])
+    for item in range(1, len(out_files_mix1)):
+        if item >= len(out_files_mix1) - 2:
+            keff_gci.append(0)
+        else:
+            var1 = neutronic_output(out_files_mix1[item]).keff
+            var2 = neutronic_output(out_files_mix1[item + 1]).keff
+            var3 = neutronic_output(out_files_mix1[item + 2]).keff
+            keff_gci.append(g.gci(var1, var2, var3, item)[0])
 
-    #keff_gci = np.array(keff_gci)
-    #keff_sd = np.array(keff_sd[0:5])
-    #err_bar = keff_sd
-    #plt.errorbar(h[0:5], keff[0:5], err_bar, linestyle = 'None', color = 'tab:blue', capsize = 3)
+    keff_gci = np.array(keff_gci)
+    keff_sd = np.array(keff_sd[0:5])
+    err_bar = keff_gci + keff_sd
+    plt.errorbar(h, keff[0:5], err_bar, linestyle = 'None', color = 'tab:blue', capsize = 3)
 
-    keff_gci = pd.DataFrame(keff_gci, ['0', '1', '2', '3', '4'], ['keff_gci_mix1'])
-    keff_sd = pd.DataFrame(keff_sd[0:5], ['0', '1', '2', '3', '4'], ['keff_sd_mix1'])
-    err.append(keff_gci.transpose())
-    err.append(keff_sd.transpose())
+    #keff_gci = pd.DataFrame(keff_gci, ['0', '1', '2', '3', '4'], ['keff_gci_mix1'])
+    #keff_sd = pd.DataFrame(keff_sd[0:5], ['0', '1', '2', '3', '4'], ['keff_sd_mix1'])
+    #err.append(keff_gci.transpose())
+    #err.append(keff_sd.transpose())
 
     keff = []
     keff_sd = []
@@ -1553,24 +1587,27 @@ def h_index(out_files_mix1, out_files_tmp_mix1, out_files_den_mix1,
         out = neutronic_output(item)
         keff.append(out.keff[0])
         keff_sd.append(out.keff_sd[0])
-    plt.plot(h, keff, 'o-', label = 'Mix 2')
+    plt.plot([h0, h1, h3, h5], keff, 'o-', label = 'Mix 2')
     
     keff_gci = [0]
-    for item in range(1, 5):
-        var1 = neutronic_output(out_files_mix2[item]).keff
-        var2 = neutronic_output(out_files_mix2[item + 1]).keff
-        var3 = neutronic_output(out_files_mix2[item + 2]).keff
-        keff_gci.append(gci(var1, var2, var3, item)[0])
+    for item in range(1, len(out_files_mix2)):
+        if item >= len(out_files_mix1) - 2:
+            keff_gci.append(0)
+        else:
+            var1 = neutronic_output(out_files_mix2[item]).keff
+            var2 = neutronic_output(out_files_mix2[item + 1]).keff
+            var3 = neutronic_output(out_files_mix2[item + 2]).keff
+            keff_gci.append(g.gci(var1, var2, var3, item)[0])
 
-    #keff_gci = np.array(keff_gci)
-    #keff_sd = np.array(keff_sd[0:5])
-    #err_bar = keff_sd
-    #plt.errorbar(h[0:5], keff[0:5], err_bar, linestyle = 'None', color = 'tab:orange', capsize = 3)
+    keff_gci = np.array(keff_gci)
+    keff_sd = np.array(keff_sd[0:5])
+    err_bar = keff_gci + keff_sd
+    plt.errorbar(h, keff[0:5], err_bar, linestyle = 'None', color = 'tab:orange', capsize = 3)
 
-    keff_gci = pd.DataFrame(keff_gci, ['0', '1', '2', '3', '4'], ['keff_gci_mix2'])
-    keff_sd = pd.DataFrame(keff_sd[0:5], ['0', '1', '2', '3', '4'], ['keff_sd_mix2'])
-    err.append(keff_gci.transpose())
-    err.append(keff_sd.transpose())
+    #keff_gci = pd.DataFrame(keff_gci, ['0', '1', '2', '3', '4'], ['keff_gci_mix2'])
+    #keff_sd = pd.DataFrame(keff_sd[0:5], ['0', '1', '2', '3', '4'], ['keff_sd_mix2'])
+    #err.append(keff_gci.transpose())
+    #err.append(keff_sd.transpose())
     
     plt.xlim(-0.01)
     plt.xlabel('h (m)')
@@ -1589,21 +1626,24 @@ def h_index(out_files_mix1, out_files_tmp_mix1, out_files_den_mix1,
     plt.plot(h, beta_zero, 'o-', label = 'Mix 1')
         
     beta_zero_gci = [0]
-    for item in range(1, 5):
-        var1 = neutronic_output(out_files_mix1[item]).beta_zero
-        var2 = neutronic_output(out_files_mix1[item + 1]).beta_zero
-        var3 = neutronic_output(out_files_mix1[item + 2]).beta_zero
-        beta_zero_gci.append(gci(var1, var2, var3, item)[0])
+    for item in range(1, len(out_files_mix1)):
+        if item >= len(out_files_mix1) - 2:
+            beta_zero_gci.append(0)
+        else:
+            var1 = neutronic_output(out_files_mix1[item]).beta_zero
+            var2 = neutronic_output(out_files_mix1[item + 1]).beta_zero
+            var3 = neutronic_output(out_files_mix1[item + 2]).beta_zero
+            beta_zero_gci.append(g.gci(var1, var2, var3, item)[0])
 
-    #beta_zero_gci = np.array(beta_zero_gci)
-    #beta_zero_sd = np.array(beta_zero_sd[0:5])
-    #err_bar = beta_zero_sd
-    #plt.errorbar(h[0:5], beta_zero[0:5], err_bar, linestyle = 'None', color = 'tab:blue', capsize = 3)
+    beta_zero_gci = np.array(beta_zero_gci)
+    beta_zero_sd = np.array(beta_zero_sd[0:5])
+    err_bar = beta_zero_sd
+    plt.errorbar(h, beta_zero[0:5], err_bar, linestyle = 'None', color = 'tab:blue', capsize = 3)
 
-    beta_zero_gci = pd.DataFrame(beta_zero_gci, ['0', '1', '2', '3', '4'], ['beta_zero_gci_mix1'])
-    beta_zero_sd = pd.DataFrame(beta_zero_sd[0:5], ['0', '1', '2', '3', '4'], ['beta_zero_sd_mix1'])
-    err.append(beta_zero_gci.transpose())
-    err.append(beta_zero_sd.transpose())
+    #beta_zero_gci = pd.DataFrame(beta_zero_gci, ['0', '1', '2', '3', '4'], ['beta_zero_gci_mix1'])
+    #beta_zero_sd = pd.DataFrame(beta_zero_sd[0:5], ['0', '1', '2', '3', '4'], ['beta_zero_sd_mix1'])
+    #err.append(beta_zero_gci.transpose())
+    #err.append(beta_zero_sd.transpose())
     
     beta_zero = []
     beta_zero_sd = []
@@ -1614,21 +1654,24 @@ def h_index(out_files_mix1, out_files_tmp_mix1, out_files_den_mix1,
     plt.plot(h, beta_zero, 'o-', label = 'Mix 2')
         
     beta_zero_gci = [0]
-    for item in range(1, 5):
-        var1 = neutronic_output(out_files_mix2[item]).beta_zero
-        var2 = neutronic_output(out_files_mix2[item + 1]).beta_zero
-        var3 = neutronic_output(out_files_mix2[item + 2]).beta_zero
-        beta_zero_gci.append(gci(var1, var2, var3, item)[0])
+    for item in range(1, len(out_files_mix2)):
+        if item >= len(out_files_mix1) - 2:
+            beta_zero_gci.append(0)
+        else:
+            var1 = neutronic_output(out_files_mix2[item]).beta_zero
+            var2 = neutronic_output(out_files_mix2[item + 1]).beta_zero
+            var3 = neutronic_output(out_files_mix2[item + 2]).beta_zero
+            beta_zero_gci.append(g.gci(var1, var2, var3, item)[0])
 
-    #beta_zero_gci = np.array(beta_zero_gci)
-    #beta_zero_sd = np.array(beta_zero_sd[0:5])
-    #err_bar = beta_zero_sd
-    #plt.errorbar(h[0:5], beta_zero[0:5], err_bar, linestyle = 'None', color = 'tab:orange', capsize = 3)
+    beta_zero_gci = np.array(beta_zero_gci)
+    beta_zero_sd = np.array(beta_zero_sd[0:5])
+    err_bar = beta_zero_sd
+    plt.errorbar(h, beta_zero[0:5], err_bar, linestyle = 'None', color = 'tab:orange', capsize = 3)
 
-    beta_zero_gci = pd.DataFrame(beta_zero_gci, ['0', '1', '2', '3', '4'], ['beta_zero_gci_mix2'])
-    beta_zero_sd = pd.DataFrame(beta_zero_sd[0:5], ['0', '1', '2', '3', '4'], ['beta_zero_sd_mix2'])
-    err.append(beta_zero_gci.transpose())
-    err.append(beta_zero_sd.transpose())
+    #beta_zero_gci = pd.DataFrame(beta_zero_gci, ['0', '1', '2', '3', '4'], ['beta_zero_gci_mix2'])
+    #beta_zero_sd = pd.DataFrame(beta_zero_sd[0:5], ['0', '1', '2', '3', '4'], ['beta_zero_sd_mix2'])
+    #err.append(beta_zero_gci.transpose())
+    #err.append(beta_zero_sd.transpose())
     
     plt.xlim(-0.01)
     plt.xlabel('h (m)')
@@ -1647,21 +1690,24 @@ def h_index(out_files_mix1, out_files_tmp_mix1, out_files_den_mix1,
     plt.plot(h, beta_eff, 'o-', label = 'Mix 1')
     
     beta_eff_gci = [0]
-    for item in range(1, 5):
-        var1 = neutronic_output(out_files_mix1[item]).beta_eff
-        var2 = neutronic_output(out_files_mix1[item + 1]).beta_eff
-        var3 = neutronic_output(out_files_mix1[item + 2]).beta_eff
-        beta_eff_gci.append(gci(var1, var2, var3, item)[0])
+    for item in range(1, len(out_files_mix1)):
+        if item >= len(out_files_mix1) - 2:
+            beta_eff_gci.append(0)
+        else:
+            var1 = neutronic_output(out_files_mix1[item]).beta_eff
+            var2 = neutronic_output(out_files_mix1[item + 1]).beta_eff
+            var3 = neutronic_output(out_files_mix1[item + 2]).beta_eff
+            beta_eff_gci.append(g.gci(var1, var2, var3, item)[0])
     
-    #beta_eff_gci = np.array(beta_eff_gci)
-    #beta_eff_sd = np.array(beta_eff_sd[0:5])
-    #err_bar = beta_eff_sd
-    #plt.errorbar(h[0:5], beta_eff[0:5], err_bar, linestyle = 'None', color = 'tab:blue', capsize = 3)
+    beta_eff_gci = np.array(beta_eff_gci)
+    beta_eff_sd = np.array(beta_eff_sd[0:5])
+    err_bar = beta_eff_sd
+    plt.errorbar(h, beta_eff[0:5], err_bar, linestyle = 'None', color = 'tab:blue', capsize = 3)
 
-    beta_eff_gci = pd.DataFrame(beta_eff_gci, ['0', '1', '2', '3', '4'], ['beta_eff_gci_mix1'])
-    beta_eff_sd = pd.DataFrame(beta_eff_sd[0:5], ['0', '1', '2', '3', '4'], ['beta_eff_sd_mix1'])
-    err.append(beta_eff_gci.transpose())
-    err.append(beta_eff_sd.transpose())
+    #beta_eff_gci = pd.DataFrame(beta_eff_gci, ['0', '1', '2', '3', '4'], ['beta_eff_gci_mix1'])
+    #beta_eff_sd = pd.DataFrame(beta_eff_sd[0:5], ['0', '1', '2', '3', '4'], ['beta_eff_sd_mix1'])
+    #err.append(beta_eff_gci.transpose())
+    #err.append(beta_eff_sd.transpose())
     
     beta_eff = []
     beta_eff_sd = []
@@ -1672,21 +1718,24 @@ def h_index(out_files_mix1, out_files_tmp_mix1, out_files_den_mix1,
     plt.plot(h, beta_eff, 'o-', label = 'Mix 2')
     
     beta_eff_gci = [0]
-    for item in range(1, 5):
-        var1 = neutronic_output(out_files_mix2[item]).beta_eff
-        var2 = neutronic_output(out_files_mix2[item + 1]).beta_eff
-        var3 = neutronic_output(out_files_mix2[item + 2]).beta_eff
-        beta_eff_gci.append(gci(var1, var2, var3, item)[0])
+    for item in range(1, len(out_files_mix2)):
+        if item >= len(out_files_mix1) - 2:
+            beta_eff_gci.append(0)
+        else:
+            var1 = neutronic_output(out_files_mix2[item]).beta_eff
+            var2 = neutronic_output(out_files_mix2[item + 1]).beta_eff
+            var3 = neutronic_output(out_files_mix2[item + 2]).beta_eff
+            beta_eff_gci.append(g.gci(var1, var2, var3, item)[0])
 
-    #beta_eff_gci = np.array(beta_eff_gci)
-    #beta_eff_sd = np.array(beta_eff_sd[0:5])
-    #err_bar = beta_eff_sd
-    #plt.errorbar(h[0:5], beta_eff[0:5], err_bar, linestyle = 'None', color = 'tab:orange', capsize = 3)
+    beta_eff_gci = np.array(beta_eff_gci)
+    beta_eff_sd = np.array(beta_eff_sd[0:5])
+    err_bar = beta_eff_sd
+    plt.errorbar(h, beta_eff[0:5], err_bar, linestyle = 'None', color = 'tab:orange', capsize = 3)
 
-    beta_eff_gci = pd.DataFrame(beta_eff_gci, ['0', '1', '2', '3', '4'], ['beta_eff_gci_mix2'])
-    beta_eff_sd = pd.DataFrame(beta_eff_sd[0:5], ['0', '1', '2', '3', '4'], ['beta_eff_sd_mix2'])
-    err.append(beta_eff_gci.transpose())
-    err.append(beta_eff_sd.transpose())
+    #beta_eff_gci = pd.DataFrame(beta_eff_gci, ['0', '1', '2', '3', '4'], ['beta_eff_gci_mix2'])
+    #beta_eff_sd = pd.DataFrame(beta_eff_sd[0:5], ['0', '1', '2', '3', '4'], ['beta_eff_sd_mix2'])
+    #err.append(beta_eff_gci.transpose())
+    #err.append(beta_eff_sd.transpose())
 
     plt.xlim(-0.01)
     plt.xlabel('h (m)')
@@ -1705,21 +1754,24 @@ def h_index(out_files_mix1, out_files_tmp_mix1, out_files_den_mix1,
     plt.plot(h, gen_time, 'o-', label = 'Mix 1')
     
     gen_time_gci = [0]
-    for item in range(1, 5):
-        var1 = neutronic_output(out_files_mix1[item]).gen_time
-        var2 = neutronic_output(out_files_mix1[item + 1]).gen_time
-        var3 = neutronic_output(out_files_mix1[item + 2]).gen_time
-        gen_time_gci.append(gci(var1, var2, var3, item)[0])
+    for item in range(1, len(out_files_mix1)):
+        if item >= len(out_files_mix1) - 2:
+            gen_time_gci.append(0)
+        else:
+            var1 = neutronic_output(out_files_mix1[item]).gen_time
+            var2 = neutronic_output(out_files_mix1[item + 1]).gen_time
+            var3 = neutronic_output(out_files_mix1[item + 2]).gen_time
+            gen_time_gci.append(g.gci(var1, var2, var3, item)[0])
 
-    #gen_time_gci = np.array(gen_time_gci)
-    #gen_time_sd = np.array(gen_time_sd[0:5])
-    #err_bar = gen_time_sd
-    #plt.errorbar(h[0:5], gen_time[0:5], err_bar, linestyle = 'None', color = 'tab:blue', capsize = 3)
+    gen_time_gci = np.array(gen_time_gci)
+    gen_time_sd = np.array(gen_time_sd[0:5])
+    err_bar = gen_time_sd
+    plt.errorbar(h, gen_time[0:5], err_bar, linestyle = 'None', color = 'tab:blue', capsize = 3)
 
-    gen_time_gci = pd.DataFrame(gen_time_gci, ['0', '1', '2', '3', '4'], ['gen_time_gci_mix1'])
-    gen_time_sd = pd.DataFrame(gen_time_sd[0:5], ['0', '1', '2', '3', '4'], ['gen_time_sd_mix1'])
-    err.append(gen_time_gci.transpose())
-    err.append(gen_time_sd.transpose())
+    #gen_time_gci = pd.DataFrame(gen_time_gci, ['0', '1', '2', '3', '4'], ['gen_time_gci_mix1'])
+    #gen_time_sd = pd.DataFrame(gen_time_sd[0:5], ['0', '1', '2', '3', '4'], ['gen_time_sd_mix1'])
+    #err.append(gen_time_gci.transpose())
+    #err.append(gen_time_sd.transpose())
     
     gen_time = []
     gen_time_sd = []
@@ -1730,25 +1782,28 @@ def h_index(out_files_mix1, out_files_tmp_mix1, out_files_den_mix1,
     plt.plot(h, gen_time, 'o-', label = 'Mix 2')
     
     gen_time_gci = [0]
-    for item in range(1, 5):
-        var1 = neutronic_output(out_files_mix2[item]).gen_time
-        var2 = neutronic_output(out_files_mix2[item + 1]).gen_time
-        var3 = neutronic_output(out_files_mix2[item + 2]).gen_time
-        gen_time_gci.append(gci(var1, var2, var3, item)[0])
+    for item in range(1, len(out_files_mix2)):
+        if item >= len(out_files_mix1) - 2:
+            gen_time_gci.append(0)
+        else:
+            var1 = neutronic_output(out_files_mix2[item]).gen_time
+            var2 = neutronic_output(out_files_mix2[item + 1]).gen_time
+            var3 = neutronic_output(out_files_mix2[item + 2]).gen_time
+            gen_time_gci.append(g.gci(var1, var2, var3, item)[0])
     
-    #gen_time_gci = np.array(gen_time_gci)
-    #gen_time_sd = np.array(gen_time_sd[0:5])
-    #err_bar = gen_time_sd
-    #plt.errorbar(h[0:5], gen_time[0:5], err_bar, linestyle = 'None', color = 'tab:orange', capsize = 3)
+    gen_time_gci = np.array(gen_time_gci)
+    gen_time_sd = np.array(gen_time_sd[0:5])
+    err_bar = gen_time_sd
+    plt.errorbar(h, gen_time[0:5], err_bar, linestyle = 'None', color = 'tab:orange', capsize = 3)
 
-    gen_time_gci = pd.DataFrame(gen_time_gci, ['0', '1', '2', '3', '4'], ['gen_time_gci_mix2'])
-    gen_time_sd = pd.DataFrame(gen_time_sd[0:5], ['0', '1', '2', '3', '4'], ['gen_time_sd_mix2'])
-    err.append(gen_time_gci.transpose())
-    err.append(gen_time_sd.transpose())
+    #gen_time_gci = pd.DataFrame(gen_time_gci, ['0', '1', '2', '3', '4'], ['gen_time_gci_mix2'])
+    #gen_time_sd = pd.DataFrame(gen_time_sd[0:5], ['0', '1', '2', '3', '4'], ['gen_time_sd_mix2'])
+    #err.append(gen_time_gci.transpose())
+    #err.append(gen_time_sd.transpose())
 
     plt.xlim(-0.01)
     plt.xlabel('h (m)')
-    plt.ylabel('Generation Time')
+    plt.ylabel('Generation Time (\u03BCs)')
     plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
     plt.savefig('gen_time_h.png', bbox_inches = 'tight')
     plt.clf()
@@ -1828,26 +1883,34 @@ def h_index(out_files_mix1, out_files_tmp_mix1, out_files_den_mix1,
     plt.plot(h, keff_doppler_mix2, 'o-', label = 'Mix 2')
     
     keff_doppler_gci = [0]
-    for item in range(1, 5):
-        var1 = neutronic_output(out_files_tmp_mix1[item]).keff
-        var2 = neutronic_output(out_files_tmp_mix1[item + 1]).keff
-        var3 = neutronic_output(out_files_tmp_mix1[item + 2]).keff
-        keff_doppler_gci.append(gci(var1, var2, var3, item)[0])
-    keff_doppler_gci = pd.DataFrame(keff_doppler_gci, ['0', '1', '2', '3', '4'], ['keff_doppler_gci_mix1'])
-    keff_doppler_sd = pd.DataFrame(keff_doppler_sd_mix1[0:5], ['0', '1', '2', '3', '4'], ['keff_doppler_sd_mix1'])
-    err.append(keff_doppler_gci.transpose())
-    err.append(keff_doppler_sd.transpose())
+    for item in range(1, len(out_files_tmp_mix1)):
+        if item >= len(out_files_tmp_mix1) - 2:
+            keff_doppler_gci.append(0)
+        else:
+            var1 = neutronic_output(out_files_tmp_mix1[item]).keff
+            var2 = neutronic_output(out_files_tmp_mix1[item + 1]).keff
+            var3 = neutronic_output(out_files_tmp_mix1[item + 2]).keff
+            keff_doppler_gci.append(g.gci(var1, var2, var3, item)[0])
+
+    #keff_doppler_gci = pd.DataFrame(keff_doppler_gci, ['0', '1', '2', '3', '4'], ['keff_doppler_gci_mix1'])
+    #keff_doppler_sd = pd.DataFrame(keff_doppler_sd_mix1[0:5], ['0', '1', '2', '3', '4'], ['keff_doppler_sd_mix1'])
+    #err.append(keff_doppler_gci.transpose())
+    #err.append(keff_doppler_sd.transpose())
 
     keff_doppler_gci = [0]
-    for item in range(1, 5):
-        var1 = neutronic_output(out_files_tmp_mix2[item]).keff
-        var2 = neutronic_output(out_files_tmp_mix2[item + 1]).keff
-        var3 = neutronic_output(out_files_tmp_mix2[item + 2]).keff
-        keff_doppler_gci.append(gci(var1, var2, var3, item)[0])
-    keff_doppler_gci = pd.DataFrame(keff_doppler_gci, ['0', '1', '2', '3', '4'], ['keff_doppler_gci_mix2'])
-    keff_doppler_sd = pd.DataFrame(keff_doppler_sd_mix2[0:5], ['0', '1', '2', '3', '4'], ['keff_doppler_sd_mix2'])
-    err.append(keff_doppler_gci.transpose())
-    err.append(keff_doppler_sd.transpose())
+    for item in range(1, len(out_files_tmp_mix2)):
+        if item >= len(out_files_tmp_mix1) - 2:
+            keff_doppler_gci.append(0)
+        else:
+            var1 = neutronic_output(out_files_tmp_mix2[item]).keff
+            var2 = neutronic_output(out_files_tmp_mix2[item + 1]).keff
+            var3 = neutronic_output(out_files_tmp_mix2[item + 2]).keff
+            keff_doppler_gci.append(g.gci(var1, var2, var3, item)[0])
+
+    #keff_doppler_gci = pd.DataFrame(keff_doppler_gci, ['0', '1', '2', '3', '4'], ['keff_doppler_gci_mix2'])
+    #keff_doppler_sd = pd.DataFrame(keff_doppler_sd_mix2[0:5], ['0', '1', '2', '3', '4'], ['keff_doppler_sd_mix2'])
+    #err.append(keff_doppler_gci.transpose())
+    #err.append(keff_doppler_sd.transpose())
     
     plt.xlim(0)
     plt.xlabel('h (m)')
@@ -1859,26 +1922,34 @@ def h_index(out_files_mix1, out_files_tmp_mix1, out_files_den_mix1,
     plt.plot(h, keff_rho_mix2, 'o-', label = 'Mix2')
     
     keff_rho_gci = [0]
-    for item in range(1, 5):
-        var1 = neutronic_output(out_files_den_mix1[item]).keff
-        var2 = neutronic_output(out_files_den_mix1[item + 1]).keff
-        var3 = neutronic_output(out_files_den_mix1[item + 2]).keff
-        keff_rho_gci.append(gci(var1, var2, var3, item)[0])
-    keff_rho_gci = pd.DataFrame(keff_rho_gci, ['0', '1', '2', '3', '4'], ['keff_rho_gci_mix1'])
-    keff_rho_sd = pd.DataFrame(keff_rho_sd_mix1[0:5], ['0', '1', '2', '3', '4'], ['keff_rho_sd_mix1'])
-    err.append(keff_rho_gci.transpose())
-    err.append(keff_rho_sd.transpose())
+    for item in range(1, len(out_files_den_mix1)):
+        if item >= len(out_files_den_mix1) - 2:
+            keff_rho_gci.append(0)
+        else:
+            var1 = neutronic_output(out_files_den_mix1[item]).keff
+            var2 = neutronic_output(out_files_den_mix1[item + 1]).keff
+            var3 = neutronic_output(out_files_den_mix1[item + 2]).keff
+            keff_rho_gci.append(g.gci(var1, var2, var3, item)[0])
+
+    #keff_rho_gci = pd.DataFrame(keff_rho_gci, ['0', '1', '2', '3', '4'], ['keff_rho_gci_mix1'])
+    #keff_rho_sd = pd.DataFrame(keff_rho_sd_mix1[0:5], ['0', '1', '2', '3', '4'], ['keff_rho_sd_mix1'])
+    #err.append(keff_rho_gci.transpose())
+    #err.append(keff_rho_sd.transpose())
 
     keff_rho_gci = [0]
-    for item in range(1, 5):
-        var1 = neutronic_output(out_files_den_mix2[item]).keff
-        var2 = neutronic_output(out_files_den_mix2[item + 1]).keff
-        var3 = neutronic_output(out_files_den_mix2[item + 2]).keff
-        keff_rho_gci.append(gci(var1, var2, var3, item)[0])
-    keff_rho_gci = pd.DataFrame(keff_rho_gci, ['0', '1', '2', '3', '4'], ['keff_rho_gci_mix2'])
-    keff_rho_sd = pd.DataFrame(keff_rho_sd_mix2[0:5], ['0', '1', '2', '3', '4'], ['keff_rho_sd_mix2'])
-    err.append(keff_rho_gci.transpose())
-    err.append(keff_rho_sd.transpose())
+    for item in range(1, len(out_files_den_mix2)):
+        if item >= len(out_files_den_mix1) - 2:
+            keff_rho_gci.append(0)
+        else:
+            var1 = neutronic_output(out_files_den_mix2[item]).keff
+            var2 = neutronic_output(out_files_den_mix2[item + 1]).keff
+            var3 = neutronic_output(out_files_den_mix2[item + 2]).keff
+            keff_rho_gci.append(g.gci(var1, var2, var3, item)[0])
+
+    #keff_rho_gci = pd.DataFrame(keff_rho_gci, ['0', '1', '2', '3', '4'], ['keff_rho_gci_mix2'])
+    #keff_rho_sd = pd.DataFrame(keff_rho_sd_mix2[0:5], ['0', '1', '2', '3', '4'], ['keff_rho_sd_mix2'])
+    #err.append(keff_rho_gci.transpose())
+    #err.append(keff_rho_sd.transpose())
     
     plt.xlim(0)
     plt.xlabel('h (m)')
@@ -1890,112 +1961,130 @@ def h_index(out_files_mix1, out_files_tmp_mix1, out_files_den_mix1,
     plt.plot(h, doppler_coef_mix2, 'D-', color = 'tab:orange', label = 'Doppler Coef. - Mix 2')
 
     doppler_coef_gci = [0]
-    for item in range(1, 5):
-        var1 = [doppler_coef_mix1[item]]
-        var2 = [doppler_coef_mix1[item + 1]]
-        var3 = [doppler_coef_mix1[item + 2]]
-        doppler_coef_gci.append(gci(var1, var2, var3, item)[0])
-    
-    #doppler_coef_gci = np.array(doppler_coef_gci)
-    #doppler_coef_sd_mix1 = np.array(doppler_coef_sd_mix1[0:5])
-    #err_bar = doppler_coef_gci
-    #plt.errorbar(h[0:5], doppler_coef_mix1[0:5], err_bar, linestyle = 'None', color = 'tab:blue', capsize = 3)
+    for item in range(1, len(doppler_coef_mix1)):
+        if item >= len(doppler_coef_mix1) - 2:
+            doppler_coef_gci.append(0)
+        else:
+            var1 = [doppler_coef_mix1[item]]
+            var2 = [doppler_coef_mix1[item + 1]]
+            var3 = [doppler_coef_mix1[item + 2]]
+            doppler_coef_gci.append(g.gci(var1, var2, var3, item)[0])
 
-    doppler_coef_gci = pd.DataFrame(doppler_coef_gci, ['0', '1', '2', '3', '4'], ['doppler_coef_gci_mix1'])
-    doppler_coef_sd = pd.DataFrame(doppler_coef_sd_mix1[0:5], ['0', '1', '2', '3', '4'], ['doppler_coef_sd_mix1'])
-    err.append(doppler_coef_gci.transpose())
-    err.append(doppler_coef_sd.transpose())
+    doppler_coef_gci = np.array(doppler_coef_gci)
+    doppler_coef_sd_mix1 = np.array(doppler_coef_sd_mix1[0:5])
+    err_bar = doppler_coef_gci + doppler_coef_sd_mix1
+    plt.errorbar(h, doppler_coef_mix1[0:5], err_bar, linestyle = 'None', color = 'tab:blue', capsize = 3)
+
+    #doppler_coef_gci = pd.DataFrame(doppler_coef_gci, ['0', '1', '2', '3', '4'], ['doppler_coef_gci_mix1'])
+    #doppler_coef_sd = pd.DataFrame(doppler_coef_sd_mix1[0:5], ['0', '1', '2', '3', '4'], ['doppler_coef_sd_mix1'])
+    #err.append(doppler_coef_gci.transpose())
+    #err.append(doppler_coef_sd.transpose())
 
     doppler_coef_gci = [0]
-    for item in range(1, 5):
-        var1 = [doppler_coef_mix2[item]]
-        var2 = [doppler_coef_mix2[item + 1]]
-        var3 = [doppler_coef_mix2[item + 2]]
-        doppler_coef_gci.append(gci(var1, var2, var3, item)[0])
+    for item in range(1, len(doppler_coef_mix2)):
+        if item >= len(doppler_coef_mix2) - 2:
+            doppler_coef_gci.append(0)
+        else:
+            var1 = [doppler_coef_mix2[item]]
+            var2 = [doppler_coef_mix2[item + 1]]
+            var3 = [doppler_coef_mix2[item + 2]]
+            doppler_coef_gci.append(g.gci(var1, var2, var3, item)[0])
 
-    #doppler_coef_gci = np.array(doppler_coef_gci)
-    #doppler_coef_sd_mix2 = np.array(doppler_coef_sd_mix2[0:5])
-    #err_bar = doppler_coef_gci
-    #plt.errorbar(h[0:5], doppler_coef_mix2[0:5], err_bar, linestyle = 'None', color = 'tab:orange', capsize = 3)
+    doppler_coef_gci = np.array(doppler_coef_gci)
+    doppler_coef_sd_mix2 = np.array(doppler_coef_sd_mix2[0:5])
+    err_bar = doppler_coef_gci + doppler_coef_sd_mix2
+    plt.errorbar(h, doppler_coef_mix2[0:5], err_bar, linestyle = 'None', color = 'tab:orange', capsize = 3)
 
-    doppler_coef_gci = pd.DataFrame(doppler_coef_gci, ['0', '1', '2', '3', '4'], ['doppler_coef_gci_mix2'])
-    doppler_coef_sd = pd.DataFrame(doppler_coef_sd_mix2[0:5], ['0', '1', '2', '3', '4'], ['doppler_coef_sd_mix2'])
-    err.append(doppler_coef_gci.transpose())
-    err.append(doppler_coef_sd.transpose())
+    #doppler_coef_gci = pd.DataFrame(doppler_coef_gci, ['0', '1', '2', '3', '4'], ['doppler_coef_gci_mix2'])
+    #doppler_coef_sd = pd.DataFrame(doppler_coef_sd_mix2[0:5], ['0', '1', '2', '3', '4'], ['doppler_coef_sd_mix2'])
+    #err.append(doppler_coef_gci.transpose())
+    #err.append(doppler_coef_sd.transpose())
 
     plt.plot(h, rho_coef_mix1, 'x-', color = 'tab:blue', label = 'Density Coef. - Mix 1')
     plt.plot(h, rho_coef_mix2, 'x-', color = 'tab:orange', label = 'Density Coef. - Mix 2')
     
     rho_coef_gci = [0]
-    for item in range(1, 5):
-        var1 = [rho_coef_mix1[item]]
-        var2 = [rho_coef_mix1[item + 1]]
-        var3 = [rho_coef_mix1[item + 2]]
-        rho_coef_gci.append(gci(var1, var2, var3, item)[0])
+    for item in range(1, len(rho_coef_mix1)):
+        if item >= len(rho_coef_mix1) - 2:
+            rho_coef_gci.append(0)
+        else:
+            var1 = [rho_coef_mix1[item]]
+            var2 = [rho_coef_mix1[item + 1]]
+            var3 = [rho_coef_mix1[item + 2]]
+            rho_coef_gci.append(g.gci(var1, var2, var3, item)[0])
 
-    #rho_coef_gci = np.array(rho_coef_gci)
-    #rho_coef_sd_mix1 = np.array(rho_coef_sd_mix1[0:5])
-    #err_bar = rho_coef_gci
-    #plt.errorbar(h[0:5], rho_coef_mix1[0:5], err_bar, linestyle = 'None', color = 'tab:blue', capsize = 3)
+    rho_coef_gci = np.array(rho_coef_gci)
+    rho_coef_sd_mix1 = np.array(rho_coef_sd_mix1[0:5])
+    err_bar = rho_coef_gci + rho_coef_sd_mix1
+    plt.errorbar(h, rho_coef_mix1[0:5], err_bar, linestyle = 'None', color = 'tab:blue', capsize = 3)
 
-    rho_coef_gci = pd.DataFrame(rho_coef_gci, ['0', '1', '2', '3', '4'], ['rho_coef_gci_mix1'])
-    rho_coef_sd = pd.DataFrame(rho_coef_sd_mix1[0:5], ['0', '1', '2', '3', '4'], ['rho_coef_sd_mix1'])
-    err.append(rho_coef_gci.transpose())
-    err.append(rho_coef_sd.transpose())
+    #rho_coef_gci = pd.DataFrame(rho_coef_gci, ['0', '1', '2', '3', '4'], ['rho_coef_gci_mix1'])
+    #rho_coef_sd = pd.DataFrame(rho_coef_sd_mix1[0:5], ['0', '1', '2', '3', '4'], ['rho_coef_sd_mix1'])
+    #err.append(rho_coef_gci.transpose())
+    #err.append(rho_coef_sd.transpose())
 
     rho_coef_gci = [0]
-    for item in range(1, 5):
-        var1 = [rho_coef_mix2[item]]
-        var2 = [rho_coef_mix2[item + 1]]
-        var3 = [rho_coef_mix2[item + 2]]
-        rho_coef_gci.append(gci(var1, var2, var3, item)[0])
+    for item in range(1, len(rho_coef_mix2)):
+        if item >= len(rho_coef_mix2) - 2:
+            rho_coef_gci.append(0)
+        else:
+            var1 = [rho_coef_mix2[item]]
+            var2 = [rho_coef_mix2[item + 1]]
+            var3 = [rho_coef_mix2[item + 2]]
+            rho_coef_gci.append(g.gci(var1, var2, var3, item)[0])
 
-    #rho_coef_gci = np.array(rho_coef_gci)
-    #rho_coef_sd_mix2 = np.array(rho_coef_sd_mix2[0:5])
-    #err_bar = rho_coef_gci
-    #plt.errorbar(h[0:5], rho_coef_mix2[0:5], err_bar, linestyle = 'None', color = 'tab:orange', capsize = 3)
+    rho_coef_gci = np.array(rho_coef_gci)
+    rho_coef_sd_mix2 = np.array(rho_coef_sd_mix2[0:5])
+    err_bar = rho_coef_gci + rho_coef_mix2
+    plt.errorbar(h, rho_coef_mix2[0:5], err_bar, linestyle = 'None', color = 'tab:orange', capsize = 3)
 
-    rho_coef_gci = pd.DataFrame(rho_coef_gci, ['0', '1', '2', '3', '4'], ['rho_coef_gci_mix2'])
-    rho_coef_sd = pd.DataFrame(rho_coef_sd_mix2[0:5], ['0', '1', '2', '3', '4'], ['rho_coef_sd_mix2'])
-    err.append(rho_coef_gci.transpose())
-    err.append(rho_coef_sd.transpose())
+    #rho_coef_gci = pd.DataFrame(rho_coef_gci, ['0', '1', '2', '3', '4'], ['rho_coef_gci_mix2'])
+    #rho_coef_sd = pd.DataFrame(rho_coef_sd_mix2[0:5], ['0', '1', '2', '3', '4'], ['rho_coef_sd_mix2'])
+    #err.append(rho_coef_gci.transpose())
+    #err.append(rho_coef_sd.transpose())
 
     plt.plot(h, feedback_coef_mix1, 'o-', color = 'tab:blue', label = 'Feedback Coef. - Mix 1')
     plt.plot(h, feedback_coef_mix2, 'o-', color = 'tab:orange', label = 'Feedback Coef. - Mix 2')
     
     feedback_coef_gci = [0]
-    for item in range(1, 5):
-        var1 = [feedback_coef_mix1[item]]
-        var2 = [feedback_coef_mix1[item + 1]]
-        var3 = [feedback_coef_mix1[item + 2]]
-        feedback_coef_gci.append(gci(var1, var2, var3, item)[0])
+    for item in range(1, len(feedback_coef_mix1)):
+        if item >= len(feedback_coef_mix1) - 2:
+            feedback_coef_gci.append(0)
+        else:
+            var1 = [feedback_coef_mix1[item]]
+            var2 = [feedback_coef_mix1[item + 1]]
+            var3 = [feedback_coef_mix1[item + 2]]
+            feedback_coef_gci.append(g.gci(var1, var2, var3, item)[0])
 
-    #feedback_coef_gci = np.array(feedback_coef_gci)
-    #feedback_coef_sd_mix1 = np.array(feedback_coef_sd_mix1[0:5])
-    #err_bar = (feedback_coef_gci) + feedback_coef_sd_mix1
-    #plt.errorbar(h[0:5], feedback_coef_mix1[0:5], err_bar, linestyle = 'None', color = 'tab:blue', capsize = 3)
+    feedback_coef_gci = np.array(feedback_coef_gci)
+    feedback_coef_sd_mix1 = np.array(feedback_coef_sd_mix1[0:5])
+    err_bar = (feedback_coef_gci) + feedback_coef_sd_mix1
+    plt.errorbar(h, feedback_coef_mix1[0:5], err_bar, linestyle = 'None', color = 'tab:blue', capsize = 3)
 
-    feedback_coef_gci = pd.DataFrame(feedback_coef_gci, ['0', '1', '2', '3', '4'], ['feedback_coef_gci_mix1'])
-    feedback_coef_sd = pd.DataFrame(feedback_coef_sd_mix1[0:5], ['0', '1', '2', '3', '4'], ['feedback_coef_sd_mix1'])
-    err.append(feedback_coef_gci.transpose())
-    err.append(feedback_coef_sd.transpose())
+    #feedback_coef_gci = pd.DataFrame(feedback_coef_gci, ['0', '1', '2', '3', '4'], ['feedback_coef_gci_mix1'])
+    #feedback_coef_sd = pd.DataFrame(feedback_coef_sd_mix1[0:5], ['0', '1', '2', '3', '4'], ['feedback_coef_sd_mix1'])
+    #err.append(feedback_coef_gci.transpose())
+    #err.append(feedback_coef_sd.transpose())
 
     feedback_coef_gci = [0]
-    for item in range(1, 5):
-        var1 = [feedback_coef_mix2[item]]
-        var2 = [feedback_coef_mix2[item + 1]]
-        var3 = [feedback_coef_mix2[item + 2]]
-        feedback_coef_gci.append(gci(var1, var2, var3, item)[0])
+    for item in range(1, len(feedback_coef_mix2)):
+        if item >= len(feedback_coef_mix2) - 2:
+            feedback_coef_gci.append(0)
+        else:
+            var1 = [feedback_coef_mix2[item]]
+            var2 = [feedback_coef_mix2[item + 1]]
+            var3 = [feedback_coef_mix2[item + 2]]
+            feedback_coef_gci.append(g.gci(var1, var2, var3, item)[0])
 
-    #feedback_coef_gci = np.array(feedback_coef_gci)
-    #feedback_coef_sd_mix2 = np.array(feedback_coef_sd_mix2[0:5])
-    #err_bar = (feedback_coef_gci) + feedback_coef_sd_mix2
-    #plt.errorbar(h[0:5], feedback_coef_mix2[0:5], err_bar, linestyle = 'None', color = 'tab:orange', capsize = 3)
+    feedback_coef_gci = np.array(feedback_coef_gci)
+    feedback_coef_sd_mix2 = np.array(feedback_coef_sd_mix2[0:5])
+    err_bar = (feedback_coef_gci) + feedback_coef_sd_mix2
+    plt.errorbar(h, feedback_coef_mix2[0:5], err_bar, linestyle = 'None', color = 'tab:orange', capsize = 3)
 
-    feedback_coef_gci = pd.DataFrame(feedback_coef_gci, ['0', '1', '2', '3', '4'], ['feedback_coef_gci_mix2'])
-    feedback_coef_sd = pd.DataFrame(feedback_coef_sd_mix2[0:5], ['0', '1', '2', '3', '4'], ['feedback_coef_sd_mix2'])
-    err.append(feedback_coef_gci.transpose())
-    err.append(feedback_coef_sd.transpose())
+    #feedback_coef_gci = pd.DataFrame(feedback_coef_gci, ['0', '1', '2', '3', '4'], ['feedback_coef_gci_mix2'])
+    #feedback_coef_sd = pd.DataFrame(feedback_coef_sd_mix2[0:5], ['0', '1', '2', '3', '4'], ['feedback_coef_sd_mix2'])
+    #err.append(feedback_coef_gci.transpose())
+    #err.append(feedback_coef_sd.transpose())
     
     plt.xlim(0)
     plt.xlabel('h (m)')
@@ -2007,15 +2096,15 @@ def h_index(out_files_mix1, out_files_tmp_mix1, out_files_den_mix1,
 
 def dep_values(out_files_mix1, out_files_mix2, inp_file):
 
-    flow_rate(out_files_mix1, inp_file)
-    flow_rate_tru(out_files_mix2, inp_file)
-    u233total(out_files_mix1, inp_file)
+    #flow_rate(out_files_mix1, inp_file)
+    #flow_rate_tru(out_files_mix2, inp_file)
+    #u233total(out_files_mix1, inp_file)
     u232pa231(out_files_mix1, inp_file)
-    u_tru(out_files_mix2, inp_file)
+    #u_tru(out_files_mix2, inp_file)
     pu(out_files_mix1, inp_file)
-    pu_tru_tru(out_files_mix2, inp_file)
-    fir(out_files_mix1, out_files_mix2, inp_file)
-    tox(out_files_mix1, out_files_mix2, inp_file)
+    #pu_tru_tru(out_files_mix2, inp_file)
+    #fir(out_files_mix1, out_files_mix2, inp_file)
+    #tox(out_files_mix1, out_files_mix2, inp_file)
 
 
 def main():
@@ -2025,152 +2114,152 @@ def main():
     dep_files_mix1 = [
         'dep/msfr_mix1_benchmark_burn_dep.m',
         'dep/m1_msfr_mix1_benchmark_burn_dep.m',
-        'dep/m2_msfr_mix1_benchmark_burn_dep.m',
+    #    'dep/m2_msfr_mix1_benchmark_burn_dep.m',
         'dep/m3_msfr_mix1_benchmark_burn_dep.m',
-        'dep/m4_msfr_mix1_benchmark_burn_dep.m',
+    #    'dep/m4_msfr_mix1_benchmark_burn_dep.m',
         'dep/m5_msfr_mix1_benchmark_burn_dep.m',
-        'dep/m6_msfr_mix1_benchmark_burn_dep.m',
+    #    'dep/m6_msfr_mix1_benchmark_burn_dep.m',
     ]
 
     dep_files_mix2 = [
         'dep/msfr_mix2_benchmark_burn_dep.m',
         'dep/m1_msfr_mix2_benchmark_burn_dep.m',
-        'dep/m2_msfr_mix2_benchmark_burn_dep.m',
+    #    'dep/m2_msfr_mix2_benchmark_burn_dep.m',
         'dep/m3_msfr_mix2_benchmark_burn_dep.m',
-        'dep/m4_msfr_mix2_benchmark_burn_dep.m',
+    #    'dep/m4_msfr_mix2_benchmark_burn_dep.m',
         'dep/m5_msfr_mix2_benchmark_burn_dep.m',
-        'dep/m6_msfr_mix2_benchmark_burn_dep.m',
+    #    'dep/m6_msfr_mix2_benchmark_burn_dep.m',
     ]
     
     res_files_mix1 = [
         'res/msfr_mix1_benchmark_keff1_res.m',
         'res/m1_msfr_mix1_benchmark_res.m',
-        'res/m2_msfr_mix1_benchmark_res.m',
+    #    'res/m2_msfr_mix1_benchmark_res.m',
         'res/m3_msfr_mix1_benchmark_res.m',
-        'res/m4_msfr_mix1_benchmark_res.m',
+    #    'res/m4_msfr_mix1_benchmark_res.m',
         'res/m5_msfr_mix1_benchmark_res.m',
-        'res/m6_msfr_mix1_benchmark_res.m',
+    #    'res/m6_msfr_mix1_benchmark_res.m',
     ]
 
     res_files_mix2 = [
         'res/msfr_mix2_benchmark_keff1_res.m',
         'res/m1_msfr_mix2_benchmark_res.m',
-        'res/m2_msfr_mix2_benchmark_res.m',
+    #    'res/m2_msfr_mix2_benchmark_res.m',
         'res/m3_msfr_mix2_benchmark_res.m',
-        'res/m4_msfr_mix2_benchmark_res.m',
+    #    'res/m4_msfr_mix2_benchmark_res.m',
         'res/m5_msfr_mix2_benchmark_res.m',
-        'res/m6_msfr_mix2_benchmark_res.m',
+    #    'res/m6_msfr_mix2_benchmark_res.m',
     ]
 
     res_files_mix1_burn = [
         'res/msfr_mix1_benchmark_burn_res.m',
         'res/m1_msfr_mix1_benchmark_burn_res.m',
-        'res/m2_msfr_mix1_benchmark_burn_res.m',
+    #    'res/m2_msfr_mix1_benchmark_burn_res.m',
         'res/m3_msfr_mix1_benchmark_burn_res.m',
-        'res/m4_msfr_mix1_benchmark_burn_res.m',
+    #    'res/m4_msfr_mix1_benchmark_burn_res.m',
         'res/m5_msfr_mix1_benchmark_burn_res.m',
-        'res/m6_msfr_mix1_benchmark_burn_res.m',
+    #    'res/m6_msfr_mix1_benchmark_burn_res.m',
     ]
 
     res_files_mix2_burn = [
         'res/msfr_mix2_benchmark_burn_res.m',
         'res/m1_msfr_mix2_benchmark_burn_res.m',
-        'res/m2_msfr_mix2_benchmark_burn_res.m',
+    #    'res/m2_msfr_mix2_benchmark_burn_res.m',
         'res/m3_msfr_mix2_benchmark_burn_res.m',
-        'res/m4_msfr_mix2_benchmark_burn_res.m',
+    #    'res/m4_msfr_mix2_benchmark_burn_res.m',
         'res/m5_msfr_mix2_benchmark_burn_res.m',
-        'res/m6_msfr_mix2_benchmark_burn_res.m',
+    #    'res/m6_msfr_mix2_benchmark_burn_res.m',
     ]
 
     res_files_mix1_tmp = [
         'res/msfr_mix1_benchmark_temperature_res.m',
         'res/m1_msfr_mix1_benchmark_temperature_res.m',
-        'res/m2_msfr_mix1_benchmark_temperature_res.m',
+    #    'res/m2_msfr_mix1_benchmark_temperature_res.m',
         'res/m3_msfr_mix1_benchmark_temperature_res.m',
-        'res/m4_msfr_mix1_benchmark_temperature_res.m',
+    #    'res/m4_msfr_mix1_benchmark_temperature_res.m',
         'res/m5_msfr_mix1_benchmark_temperature_res.m',
-        'res/m6_msfr_mix1_benchmark_temperature_res.m',
+    #    'res/m6_msfr_mix1_benchmark_temperature_res.m',
     ]
 
     res_files_mix1_den = [
         'res/msfr_mix1_benchmark_density_res.m',
         'res/m1_msfr_mix1_benchmark_density_res.m',
-        'res/m2_msfr_mix1_benchmark_density_res.m',
+    #    'res/m2_msfr_mix1_benchmark_density_res.m',
         'res/m3_msfr_mix1_benchmark_density_res.m',
-        'res/m4_msfr_mix1_benchmark_density_res.m',
+    #    'res/m4_msfr_mix1_benchmark_density_res.m',
         'res/m5_msfr_mix1_benchmark_density_res.m',
-        'res/m6_msfr_mix1_benchmark_density_res.m',
+    #    'res/m6_msfr_mix1_benchmark_density_res.m',
     ]
 
     res_files_mix2_tmp = [
         'res/msfr_mix2_benchmark_temperature_res.m',
         'res/m1_msfr_mix2_benchmark_temperature_res.m',
-        'res/m2_msfr_mix2_benchmark_temperature_res.m',
+    #    'res/m2_msfr_mix2_benchmark_temperature_res.m',
         'res/m3_msfr_mix2_benchmark_temperature_res.m',
-        'res/m4_msfr_mix2_benchmark_temperature_res.m',
+    #    'res/m4_msfr_mix2_benchmark_temperature_res.m',
         'res/m5_msfr_mix2_benchmark_temperature_res.m',
-        'res/m6_msfr_mix2_benchmark_temperature_res.m',
+    #    'res/m6_msfr_mix2_benchmark_temperature_res.m',
     ]
 
     res_files_mix2_den = [
         'res/msfr_mix2_benchmark_density_res.m',
         'res/m1_msfr_mix2_benchmark_density_res.m',
-        'res/m2_msfr_mix2_benchmark_density_res.m',
+    #    'res/m2_msfr_mix2_benchmark_density_res.m',
         'res/m3_msfr_mix2_benchmark_density_res.m',
-        'res/m4_msfr_mix2_benchmark_density_res.m',
+    #    'res/m4_msfr_mix2_benchmark_density_res.m',
         'res/m5_msfr_mix2_benchmark_density_res.m',
-        'res/m6_msfr_mix2_benchmark_density_res.m',
+    #    'res/m6_msfr_mix2_benchmark_density_res.m',
     ]
 
     res_files_mix1_tmp_burn = [
         'res/msfr_mix1_benchmark_burn_temperature_res.m',
         'res/m1_msfr_mix1_benchmark_burn_temperature_res.m',
-        'res/m2_msfr_mix1_benchmark_burn_temperature_res.m',
+    #    'res/m2_msfr_mix1_benchmark_burn_temperature_res.m',
         'res/m3_msfr_mix1_benchmark_burn_temperature_res.m',
-        'res/m4_msfr_mix1_benchmark_burn_temperature_res.m',
+    #    'res/m4_msfr_mix1_benchmark_burn_temperature_res.m',
         'res/m5_msfr_mix1_benchmark_burn_temperature_res.m',
-        'res/m6_msfr_mix1_benchmark_burn_temperature_res.m',
+    #    'res/m6_msfr_mix1_benchmark_burn_temperature_res.m',
     ]
 
     res_files_mix1_den_burn = [
         'res/msfr_mix1_benchmark_burn_density_res.m',
         'res/m1_msfr_mix1_benchmark_burn_density_res.m',
-        'res/m2_msfr_mix1_benchmark_burn_density_res.m',
+    #    'res/m2_msfr_mix1_benchmark_burn_density_res.m',
         'res/m3_msfr_mix1_benchmark_burn_density_res.m',
-        'res/m4_msfr_mix1_benchmark_burn_density_res.m',
+    #    'res/m4_msfr_mix1_benchmark_burn_density_res.m',
         'res/m5_msfr_mix1_benchmark_burn_density_res.m',
-        'res/m6_msfr_mix1_benchmark_burn_density_res.m',
+    #    'res/m6_msfr_mix1_benchmark_burn_density_res.m',
     ]
     
     res_files_mix2_tmp_burn = [
         'res/msfr_mix2_benchmark_burn_temperature_res.m',
         'res/m1_msfr_mix2_benchmark_burn_temperature_res.m',
-        'res/m2_msfr_mix2_benchmark_burn_temperature_res.m',
+    #    'res/m2_msfr_mix2_benchmark_burn_temperature_res.m',
         'res/m3_msfr_mix2_benchmark_burn_temperature_res.m',
-        'res/m4_msfr_mix2_benchmark_burn_temperature_res.m',
+    #    'res/m4_msfr_mix2_benchmark_burn_temperature_res.m',
         'res/m5_msfr_mix2_benchmark_burn_temperature_res.m',
-        'res/m6_msfr_mix2_benchmark_burn_temperature_res.m',
+    #    'res/m6_msfr_mix2_benchmark_burn_temperature_res.m',
     ]
 
     res_files_mix2_den_burn = [
         'res/msfr_mix2_benchmark_burn_density_res.m',
         'res/m1_msfr_mix2_benchmark_burn_density_res.m',
-        'res/m2_msfr_mix2_benchmark_burn_density_res.m',
+    #    'res/m2_msfr_mix2_benchmark_burn_density_res.m',
         'res/m3_msfr_mix2_benchmark_burn_density_res.m',
-        'res/m4_msfr_mix2_benchmark_burn_density_res.m',
+    #    'res/m4_msfr_mix2_benchmark_burn_density_res.m',
         'res/m5_msfr_mix2_benchmark_burn_density_res.m',
-        'res/m6_msfr_mix2_benchmark_burn_density_res.m',
+    #    'res/m6_msfr_mix2_benchmark_burn_density_res.m',
     ]
 
-    #dep_values(dep_files_mix1, dep_files_mix2, inp_file)
+    dep_values(dep_files_mix1, dep_files_mix2, inp_file)
 
     #keff(res_files_mix1_burn, res_files_mix2_burn, inp_file)
 
     #feedback(res_files_mix1_burn, res_files_mix1_tmp_burn, res_files_mix1_den_burn,
     #         res_files_mix2_burn, res_files_mix2_tmp_burn, res_files_mix2_den_burn, inp_file)
     
-    h_index(res_files_mix1, res_files_mix1_den, res_files_mix1_tmp,
-            res_files_mix2, res_files_mix2_den, res_files_mix2_tmp)
+    #h_index(res_files_mix1, res_files_mix1_den, res_files_mix1_tmp,
+    #        res_files_mix2, res_files_mix2_den, res_files_mix2_tmp)
 
 
 if __name__ == "__main__":

@@ -15,7 +15,7 @@ h3 = 1.07e-1
 h4 = 1.36e-1
 h5 = 1.84e-1
 h6 = 2.69e-1
-h = [h1, h2, h3, h4, h5, h6]
+h = [h1, h3, h5]
 
 def calculate_p(epsilon32, epsilon21, r32, r21, s, q, p_out):
 
